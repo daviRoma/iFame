@@ -30,7 +30,7 @@ const RootNavigator = () => {
             component={SignInPage}
             options={() => {
               return {
-                title: 'Sign In',
+                title: 'Sign Up',
               };
             }}
           />

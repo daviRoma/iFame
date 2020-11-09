@@ -1,23 +1,19 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import AccessForm from '../components/AccessForm';
 import * as Routes from '../routes';
 
-export default function LoginPage({ navigation }) {
+export default function LoginPage() {
   return (
-    <View>
-      <Text>LoginPage</Text>
-      <Button
-        title="Go to sign in"
-        onPress={() => {
-          navigation.navigate(Routes.SIGNIN);
-        }}
-      />
-      <Button
-        title="Go to home"
-        onPress={() => {
-          navigation.navigate(Routes.TAB_PAGES);
-        }}
+    <View style={{ flex: 1 }}>
+      <AccessForm
+        formTitle="iFame"
+        buttonTitle="Login"
+        navigationTitle="Create an Account"
+        navigationRoute={Routes.SIGNIN}
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({});
