@@ -1,0 +1,9 @@
+export const LOGIN = 'LOGIN';
+export const SIGNIN = 'SIGNIG';
+export const HOME = 'HOME';
+export const LIST = 'LIST';
+export const MY_EVENTS = 'MY_EVENTS';
+export const PROFILE = 'PROFILE';
+export const NEW_EVENT = 'NEW_EVENT';
+export const SINGLE_EVENT = 'SINGLE_EVENT';
+export const TAB_PAGES = 'TAB_PAGES';
