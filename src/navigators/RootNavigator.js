@@ -5,6 +5,7 @@ import LoginPage from '../pages/LoginPage';
 import NewEventPage from '../pages/NewEventPage';
 import SignInPage from '../pages/SignInPage';
 import SingleEventPage from '../pages/SingleEventPage';
+import UpdateEventPage from '../pages/UpdateEventPage';
 import * as Routes from '../routes';
 import TabPagesNavigator from './TabPagesNavigator';
 
@@ -29,7 +30,7 @@ const RootNavigator = () => {
             component={SignInPage}
             options={() => {
               return {
-                title: 'SignIn',
+                title: 'Sign In',
               };
             }}
           />
@@ -39,10 +40,32 @@ const RootNavigator = () => {
             name={Routes.TAB_PAGES}
             component={TabPagesNavigator}
           />
-          <RootStack.Screen name={Routes.NEW_EVENT} component={NewEventPage} />
+          <RootStack.Screen
+            name={Routes.NEW_EVENT}
+            component={NewEventPage}
+            options={() => {
+              return {
+                title: 'Create Event',
+              };
+            }}
+          />
           <RootStack.Screen
             name={Routes.SINGLE_EVENT}
             component={SingleEventPage}
+            options={() => {
+              return {
+                title: 'Event Detail',
+              };
+            }}
+          />
+          <RootStack.Screen
+            name={Routes.UPDATE_EVENT}
+            component={UpdateEventPage}
+            options={() => {
+              return {
+                title: 'Update Event',
+              };
+            }}
           />
         </>
       </RootStack.Navigator>

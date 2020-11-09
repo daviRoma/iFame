@@ -19,6 +19,12 @@ export default function HomePage({ navigation }) {
           navigation.navigate(Routes.SINGLE_EVENT);
         }}
       />
+      <Button
+        title="Go to update event"
+        onPress={() => {
+          navigation.navigate(Routes.UPDATE_EVENT);
+        }}
+      />
     </SafeAreaView>
   );
 }

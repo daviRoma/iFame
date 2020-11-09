@@ -7,3 +7,4 @@ export const PROFILE = 'PROFILE';
 export const NEW_EVENT = 'NEW_EVENT';
 export const SINGLE_EVENT = 'SINGLE_EVENT';
 export const TAB_PAGES = 'TAB_PAGES';
+export const UPDATE_EVENT = 'UPDATE_EVENT';
