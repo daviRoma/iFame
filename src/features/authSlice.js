@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import auth from '@react-native-firebase/auth';
 
 const initialState = {
-  user: null,
+  isLogged: false,
   loading: false,
   error: null,
 };
@@ -13,15 +14,33 @@ const authSlice = createSlice({
     loginStart(state) {
       state.loading = true;
     },
-    loginSuccess(state, { payload }) {
+    loginSuccess(state) {
       state.loading = false;
-      state.user = payload.user;
+      state.isLogged = true;
     },
-    loginFail(state, { payload }) {
+    loginFail(state, action) {
       state.loading = false;
-      state.user = payload.user;
+      state.error = action.payload.error;
     },
   },
 });
+
+export const { loginStart, loginSuccess, loginFail } = authSlice.actions;
+
+export const loginUser = ({ email, password }) => {
+  return async (dispatch) => {
+    try {
+      await auth().signInWithEmailAndPassword(email, password);
+      console.log(auth().currentUser);
+      dispatch(loginSuccess());
+    } catch (error) {
+      handleError(error, dispatch);
+    }
+  };
+};
+
+const handleError = (error, dispatch) => {
+  dispatch(loginFail(error.message));
+};
 
 export default authSlice.reducer;

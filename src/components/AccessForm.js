@@ -33,7 +33,7 @@ const AccessForm = ({
           value={password}
           onChangeText={setPassword}
         />
-        <Button title={buttonTitle} onPress={() => callback()} />
+        <Button title={buttonTitle} onPress={() => callback(email, password)} />
       </View>
       <TouchableOpacity onPress={() => navigation.navigate(navigationRoute)}>
         <Text>{navigationTitle}</Text>
