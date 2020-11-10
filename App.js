@@ -8,9 +8,15 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import RootNavigator from './src/navigators/RootNavigator';
+import { Provider } from 'react-redux';
+import store from './src/app/store';
 
 const App = () => {
-  return <RootNavigator />;
+  return (
+    <Provider store={store}>
+      <RootNavigator />
+    </Provider>
+  );
 };
 
 export default App;
