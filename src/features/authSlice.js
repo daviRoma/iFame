@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import auth from '@react-native-firebase/auth';
+import * as Routes from '../routes';
 
 const initialState = {
   isLogged: false,
   loading: false,
   error: null,
+  isRegistered: false,
 };
 
 const authSlice = createSlice({
@@ -22,17 +24,43 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    cleanErrors(state) {
+      state.error = null;
+    },
+    registrationSuccess(state) {
+      state.loading = false;
+      state.isRegistered = true;
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFail } = authSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFail,
+  cleanErrors,
+  registrationSuccess,
+} = authSlice.actions;
 
-export const loginUser = ({ email, password }) => {
+export const loginUser = (email, password) => {
   return async (dispatch) => {
     try {
       dispatch(loginStart());
       await auth().signInWithEmailAndPassword(email, password);
       dispatch(loginSuccess());
+    } catch (error) {
+      handleError(error, dispatch);
+    }
+  };
+};
+
+export const signUpUser = (email, password, navigation) => {
+  return async (dispatch) => {
+    try {
+      dispatch(loginStart());
+      await auth().createUserWithEmailAndPassword(email, password);
+      dispatch(registrationSuccess());
+      navigation.navigate(Routes.LOGIN);
     } catch (error) {
       handleError(error, dispatch);
     }

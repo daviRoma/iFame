@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { withNavigation } from '@react-navigation/compat';
+import { cleanErrors } from '../features/authSlice';
 
 const AccessForm = ({
+  email,
+  setEmail,
+  password,
+  setPassword,
   formTitle,
   buttonTitle,
   callback,
@@ -13,11 +18,11 @@ const AccessForm = ({
   navigationRoute,
   navigation,
 }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const { error, loading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
   const handleSubmit = () => {
     let valid = true;
     if (email === '') {
@@ -30,9 +35,13 @@ const AccessForm = ({
     }
     if (emailError === '' && passwordError === '' && valid) {
       console.log(passwordError);
-      callback(email, password);
+      callback();
     }
   };
+
+  useEffect(() => {
+    dispatch(cleanErrors());
+  }, [dispatch]);
 
   return (
     <View style={styles.container}>
