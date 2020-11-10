@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -14,6 +15,25 @@ const AccessForm = ({
 }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const { error, loading } = useSelector((state) => state.auth);
+  const handleSubmit = () => {
+    let valid = true;
+    if (email === '') {
+      setEmailError('This field is required');
+      valid = false;
+    }
+    if (password === '') {
+      setPasswordError('This field is required');
+      valid = false;
+    }
+    if (emailError === '' && passwordError === '' && valid) {
+      console.log(passwordError);
+      callback(email, password);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text h1 style={styles.title}>
@@ -24,17 +44,39 @@ const AccessForm = ({
           placeholder="Email"
           leftIcon={<MaterialIcons name="alternate-email" size={20} />}
           value={email}
-          onChangeText={setEmail}
+          autoCapitalize="none"
+          autoCorrect={false}
+          onChangeText={(text) => {
+            setEmailError('');
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!re.test(email)) {
+              setEmailError('This is not a valid email address');
+            }
+            setEmail(text);
+          }}
+          errorMessage={emailError}
         />
         <Input
           placeholder="Password"
           secureTextEntry={true}
           leftIcon={<MaterialIcons name="lock" size={20} />}
           value={password}
-          onChangeText={setPassword}
+          autoCapitalize="none"
+          autoCorrect={false}
+          errorMessage={passwordError}
+          onChangeText={(text) => {
+            setPasswordError('');
+            if (text.length < 6) {
+              setPasswordError('Password must be of at least 6 chars');
+            } else {
+              setPasswordError('');
+            }
+            setPassword(text);
+          }}
         />
-        <Button title={buttonTitle} onPress={() => callback(email, password)} />
+        <Button title={buttonTitle} onPress={handleSubmit} loading={loading} />
       </View>
+      {error ? <Text style={styles.errorMessage}>{error}</Text> : null}
       <TouchableOpacity onPress={() => navigation.navigate(navigationRoute)}>
         <Text>{navigationTitle}</Text>
       </TouchableOpacity>
@@ -51,6 +93,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  errorMessage: {
+    marginBottom: 10,
+    color: 'red',
+    fontSize: 18,
   },
 });
 

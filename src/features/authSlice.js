@@ -20,7 +20,7 @@ const authSlice = createSlice({
     },
     loginFail(state, action) {
       state.loading = false;
-      state.error = action.payload.error;
+      state.error = action.payload;
     },
   },
 });
@@ -30,8 +30,8 @@ export const { loginStart, loginSuccess, loginFail } = authSlice.actions;
 export const loginUser = ({ email, password }) => {
   return async (dispatch) => {
     try {
+      dispatch(loginStart());
       await auth().signInWithEmailAndPassword(email, password);
-      console.log(auth().currentUser);
       dispatch(loginSuccess());
     } catch (error) {
       handleError(error, dispatch);
@@ -40,7 +40,22 @@ export const loginUser = ({ email, password }) => {
 };
 
 const handleError = (error, dispatch) => {
-  dispatch(loginFail(error.message));
+  const code = error.code;
+  switch (code) {
+    case 'auth/email-already-in-use':
+      dispatch(loginFail('Email already in use'));
+      break;
+    case 'auth/invalid-email':
+      dispatch(loginFail('Email not valid'));
+      break;
+    case 'auth/weak-password':
+      dispatch(loginFail('The password is too weak'));
+      break;
+    default:
+      dispatch(loginFail('Wrong credentials'));
+      break;
+  }
+  console.log(error.message);
 };
 
 export default authSlice.reducer;
