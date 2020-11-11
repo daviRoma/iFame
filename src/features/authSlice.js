@@ -31,6 +31,9 @@ const authSlice = createSlice({
       state.loading = false;
       state.isRegistered = true;
     },
+    clearRegistrationMessage(state) {
+      state.isRegistered = false;
+    },
   },
 });
 
@@ -40,6 +43,7 @@ export const {
   loginFail,
   cleanErrors,
   registrationSuccess,
+  clearRegistrationMessage,
 } = authSlice.actions;
 
 export const loginUser = (email, password) => {

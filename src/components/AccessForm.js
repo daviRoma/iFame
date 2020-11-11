@@ -40,8 +40,10 @@ const AccessForm = ({
   };
 
   useEffect(() => {
-    dispatch(cleanErrors());
-  }, [dispatch]);
+    if (error !== null) {
+      dispatch(cleanErrors());
+    }
+  }, []);
 
   return (
     <View style={styles.container}>

@@ -1,18 +1,30 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import AccessForm from '../components/AccessForm';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Routes from '../routes';
-import { loginUser } from '../features/authSlice';
+import { loginUser, clearRegistrationMessage } from '../features/authSlice';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
   const { isRegistered } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  if (isRegistered) {
+    Alert.alert('Registration Success', 'You have correctly been registered', [
+      {
+        text: 'Ok',
+        onPress: () => {
+          dispatch(clearRegistrationMessage());
+        },
+        style: 'cancel',
+      },
+    ]);
+  }
+
   return (
     <View style={{ flex: 1 }}>
-      {isRegistered ? <Text>Registration Success!</Text> : null}
       <AccessForm
         formTitle="iFame"
         buttonTitle="Login"
