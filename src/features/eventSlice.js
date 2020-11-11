@@ -29,6 +29,18 @@ const eventSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    eventNew(state) {
+      state.loading = true;
+    },
+    eventNewSuccess(state, action) {
+      state.loading = false;
+      state.error = null;
+      state.events = state.events.push(action.payload);
+    },
+    eventNewFail(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
     cleanErrors(state) {
       state.error = null;
     },
