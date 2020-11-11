@@ -1,9 +1,19 @@
-import React from 'react';
-import { View, Text, Button } from 'react-native';
+import React, { useEffect } from 'react';
+import { Text, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Routes from '../routes';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadUserInfo } from '../features/userSlice';
 
 export default function HomePage({ navigation }) {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.loggedUser);
+
+  useEffect(() => {
+    dispatch(loadUserInfo());
+    console.log(user);
+  }, []);
+
   return (
     <SafeAreaView>
       <Text>HomePage</Text>

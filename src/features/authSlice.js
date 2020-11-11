@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
 import auth from '@react-native-firebase/auth';
+import { createSlice } from '@reduxjs/toolkit';
 import * as Routes from '../routes';
 
 const initialState = {
