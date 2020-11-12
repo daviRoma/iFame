@@ -4,7 +4,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { withNavigation } from '@react-navigation/compat';
-import { cleanErrors } from '../features/authSlice';
+import { cleanErrors } from './authSlice';
 
 const AccessForm = ({
   email,

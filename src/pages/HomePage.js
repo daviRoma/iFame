@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, Button, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
-import FoodPrefsModal from '../components/FoodPrefsModal';
+import FoodPrefsModal from '../features/foodCategories/FoodPrefsModal';
 import * as Routes from '../routes';
 
 export default function HomePage({ navigation }) {
@@ -14,7 +14,9 @@ export default function HomePage({ navigation }) {
         <ActivityIndicator size={30} />
       ) : (
         <SafeAreaView>
-          {user && !user.preferences ? <FoodPrefsModal visible={true} /> : null}
+          {user && !user.preferencies ? (
+            <FoodPrefsModal visible={true} />
+          ) : null}
           <Text>HomePage</Text>
           <Button
             title="Go to new event"

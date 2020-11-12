@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import { createSlice } from '@reduxjs/toolkit';
-import { users } from '../common/firestore';
-import * as Routes from '../routes';
+import { users } from '../../common/firestore';
+import * as Routes from '../../routes';
 
 const initialState = {
   loading: false,

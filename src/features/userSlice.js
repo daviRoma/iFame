@@ -25,11 +25,6 @@ const userSlice = createSlice({
       state.errors = payload;
       state.loading = false;
     },
-    storeFoodPreferencies(state, { payload }) {
-      state.errors = null;
-      state.loading = false;
-      state.foodPreferencies = payload;
-    },
     clearUserInfo(state) {
       state.user = null;
       state.loading = false;
@@ -51,15 +46,22 @@ export const getUserInfo = (navigator) => {
       navigator.navigate(Routes.LOGIN);
     }
     dispatch(storeInformationStart());
-    const userInfo = (await users.doc(user.email).get()).data();
-    dispatch(storeInformation(userInfo));
+    const unsubscribe = users.doc(user.email).onSnapshot({
+      error: (e) => dispatch(storeInformationFail(e.message)),
+      next: (snapshot) => {
+        dispatch(storeInformation(snapshot.data()));
+      },
+    });
+    return unsubscribe;
   };
 };
 
 export const loadFoodPref = (foodPref) => {
-  return async (dispatch, getState) => {
-    const { user } = getState();
-    console.log(user);
+  return async (dispatch) => {
+    if (foodPref.length > 0) {
+      dispatch(storeInformationStart);
+      await users.doc(auth().currentUser.email).set({ preferencies: foodPref });
+    }
   };
 };
 

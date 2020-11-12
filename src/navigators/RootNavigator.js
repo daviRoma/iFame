@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import LoginPage from '../pages/LoginPage';
 import NewEventPage from '../pages/NewEventPage';
 import SignInPage from '../pages/SignInPage';
@@ -11,7 +11,7 @@ import TabPagesNavigator from './TabPagesNavigator';
 import { useDispatch, useSelector } from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import { clearUserInfo, getUserInfo } from '../features/userSlice';
-import { ActivityIndicator } from 'react-native';
+import CustomActivityIndicator from '../components/CustomActivityIndicator';
 
 const RootStack = createStackNavigator();
 
@@ -19,12 +19,17 @@ const RootNavigator = () => {
   const { user, loading } = useSelector((state) => state.loggedUser);
   const dispatch = useDispatch();
   useEffect(() => {
+    let firstCall = true;
     const sub = auth().onAuthStateChanged((loggedUser) => {
-      if (loggedUser) {
-        dispatch(getUserInfo());
-      } else {
-        dispatch(clearUserInfo());
+      if (!firstCall) {
+        if (loggedUser) {
+          const unsubscribe = dispatch(getUserInfo());
+          return unsubscribe;
+        } else {
+          dispatch(clearUserInfo());
+        }
       }
+      firstCall = false;
     });
     return sub;
   }, []);
@@ -32,7 +37,7 @@ const RootNavigator = () => {
   return (
     <NavigationContainer>
       {loading ? (
-        <ActivityIndicator color="black" />
+        <CustomActivityIndicator />
       ) : (
         <RootStack.Navigator>
           {!user ? (

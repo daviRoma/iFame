@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Button } from 'react-native-elements';
-import { logoutUser } from '../features/authSlice';
+import { logoutUser } from '../features/auth/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function ProfilePage() {

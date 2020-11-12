@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import AccessForm from '../components/AccessForm';
+import AccessForm from '../features/auth/AccessForm';
 import * as Routes from '../routes';
 import { useDispatch } from 'react-redux';
-import { signUpUser } from '../features/authSlice';
+import { signUpUser } from '../features/auth/authSlice';
 
 export default function SignInPage({ navigation }) {
   const dispatch = useDispatch();

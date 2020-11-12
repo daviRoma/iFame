@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
-import AccessForm from '../components/AccessForm';
+import AccessForm from '../features/auth/AccessForm';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Routes from '../routes';
-import { loginUser, clearRegistrationMessage } from '../features/authSlice';
+import {
+  loginUser,
+  clearRegistrationMessage,
+} from '../features/auth/authSlice';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
