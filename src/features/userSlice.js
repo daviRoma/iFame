@@ -8,7 +8,7 @@ const initialState = {
   name: null,
   email: null,
   avatar: null,
-  foodPreferencies: [],
+  foodPref: [],
   loading: false,
   errors: null,
 };
@@ -25,6 +25,9 @@ const userSlice = createSlice({
       state.name = payload.firstname;
       state.email = payload.email;
       state.avatar = payload.avatar;
+      if (payload.foodPref) {
+        state.foodPref = payload.foodPref;
+      }
       state.loading = false;
       state.errors = null;
     },
@@ -52,14 +55,15 @@ export const loadUserInfo = (navigator) => {
     if (!user) {
       navigator.navigate(Routes.LOGIN);
     }
-    dispatch(storeInformationStart);
-    const foodPrefs = await userPrefs.where('id', '==', user.uid).get();
+    dispatch(storeInformationStart());
+    const foodPref = await userPrefs.doc(user.uid).get();
     dispatch(
       storeInformation({
         id: user.uid,
         name: user.displayName,
         email: user.email,
         avatar: user.phoneNumber,
+        foodPref: foodPref.data(),
       }),
     );
   };
