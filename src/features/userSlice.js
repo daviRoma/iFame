@@ -1,14 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import auth from '@react-native-firebase/auth';
 import * as Routes from '../routes';
-import { userPrefs } from '../common/firestore';
+import { users } from '../common/firestore';
 
 const initialState = {
-  id: null,
-  name: null,
-  email: null,
-  avatar: null,
-  foodPref: [],
+  user: null,
   loading: false,
   errors: null,
 };
@@ -21,13 +17,7 @@ const userSlice = createSlice({
       state.loading = true;
     },
     storeInformation(state, { payload }) {
-      state.id = payload.id;
-      state.name = payload.firstname;
-      state.email = payload.email;
-      state.avatar = payload.avatar;
-      if (payload.foodPref) {
-        state.foodPref = payload.foodPref;
-      }
+      state.user = payload;
       state.loading = false;
       state.errors = null;
     },
@@ -41,11 +31,7 @@ const userSlice = createSlice({
       state.foodPreferencies = payload;
     },
     clearUserInfo(state) {
-      state.id = null;
-      state.avatar = null;
-      state.email = null;
-      state.errors = null;
-      state.foodPref = [];
+      state.user = null;
       state.loading = false;
     },
   },
@@ -65,16 +51,15 @@ export const getUserInfo = (navigator) => {
       navigator.navigate(Routes.LOGIN);
     }
     dispatch(storeInformationStart());
-    const foodPref = await userPrefs.doc(user.uid).get();
-    dispatch(
-      storeInformation({
-        id: user.uid,
-        name: user.displayName,
-        email: user.email,
-        avatar: user.phoneNumber,
-        foodPref: foodPref.data(),
-      }),
-    );
+    const userInfo = (await users.doc(user.email).get()).data();
+    dispatch(storeInformation(userInfo));
+  };
+};
+
+export const loadFoodPref = (foodPref) => {
+  return async (dispatch, getState) => {
+    const { user } = getState();
+    console.log(user);
   };
 };
 

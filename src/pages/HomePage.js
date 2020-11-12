@@ -1,19 +1,20 @@
-import React, { useEffect } from 'react';
-import { Text, Button, ActivityIndicator } from 'react-native';
+import React from 'react';
+import { ActivityIndicator, Button, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
+import FoodPrefsModal from '../components/FoodPrefsModal';
 import * as Routes from '../routes';
-import { useDispatch, useSelector } from 'react-redux';
 
 export default function HomePage({ navigation }) {
-  const { loading, foodPref } = useSelector((state) => state.loggedUser);
+  const { loading, user } = useSelector((state) => state.loggedUser);
 
   return (
     <>
       {loading ? (
-        <ActivityIndicator />
+        <ActivityIndicator size={30} />
       ) : (
         <SafeAreaView>
-          {foodPref.length === 0 ? <Text>No prefs</Text> : null}
+          {user && !user.preferences ? <FoodPrefsModal visible={true} /> : null}
           <Text>HomePage</Text>
           <Button
             title="Go to new event"

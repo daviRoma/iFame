@@ -11,15 +11,16 @@ import TabPagesNavigator from './TabPagesNavigator';
 import { useDispatch, useSelector } from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import { clearUserInfo, getUserInfo } from '../features/userSlice';
+import { ActivityIndicator } from 'react-native';
 
 const RootStack = createStackNavigator();
 
 const RootNavigator = () => {
-  const { isLogged } = useSelector((state) => state.auth);
+  const { user, loading } = useSelector((state) => state.loggedUser);
   const dispatch = useDispatch();
   useEffect(() => {
-    const sub = auth().onAuthStateChanged((user) => {
-      if (user) {
+    const sub = auth().onAuthStateChanged((loggedUser) => {
+      if (loggedUser) {
         dispatch(getUserInfo());
       } else {
         dispatch(clearUserInfo());
@@ -27,66 +28,71 @@ const RootNavigator = () => {
     });
     return sub;
   }, []);
+
   return (
     <NavigationContainer>
-      <RootStack.Navigator>
-        {!isLogged ? (
-          <>
-            <RootStack.Screen
-              name={Routes.LOGIN}
-              component={LoginPage}
-              options={() => {
-                return {
-                  title: 'Login',
-                };
-              }}
-            />
-            <RootStack.Screen
-              name={Routes.SIGNIN}
-              component={SignInPage}
-              options={() => {
-                return {
-                  title: 'Sign Up',
-                };
-              }}
-            />
-          </>
-        ) : (
-          <>
-            <RootStack.Screen
-              name={Routes.TAB_PAGES}
-              component={TabPagesNavigator}
-            />
-            <RootStack.Screen
-              name={Routes.NEW_EVENT}
-              component={NewEventPage}
-              options={() => {
-                return {
-                  title: 'Create Event',
-                };
-              }}
-            />
-            <RootStack.Screen
-              name={Routes.SINGLE_EVENT}
-              component={SingleEventPage}
-              options={() => {
-                return {
-                  title: 'Event Detail',
-                };
-              }}
-            />
-            <RootStack.Screen
-              name={Routes.UPDATE_EVENT}
-              component={UpdateEventPage}
-              options={() => {
-                return {
-                  title: 'Update Event',
-                };
-              }}
-            />
-          </>
-        )}
-      </RootStack.Navigator>
+      {loading ? (
+        <ActivityIndicator color="black" />
+      ) : (
+        <RootStack.Navigator>
+          {!user ? (
+            <>
+              <RootStack.Screen
+                name={Routes.LOGIN}
+                component={LoginPage}
+                options={() => {
+                  return {
+                    title: 'Login',
+                  };
+                }}
+              />
+              <RootStack.Screen
+                name={Routes.SIGNIN}
+                component={SignInPage}
+                options={() => {
+                  return {
+                    title: 'Sign Up',
+                  };
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <RootStack.Screen
+                name={Routes.TAB_PAGES}
+                component={TabPagesNavigator}
+              />
+              <RootStack.Screen
+                name={Routes.NEW_EVENT}
+                component={NewEventPage}
+                options={() => {
+                  return {
+                    title: 'Create Event',
+                  };
+                }}
+              />
+              <RootStack.Screen
+                name={Routes.SINGLE_EVENT}
+                component={SingleEventPage}
+                options={() => {
+                  return {
+                    title: 'Event Detail',
+                  };
+                }}
+              />
+              <RootStack.Screen
+                name={Routes.UPDATE_EVENT}
+                component={UpdateEventPage}
+                options={() => {
+                  return {
+                    title: 'Update Event',
+                  };
+                }}
+              />
+            </>
+          )}
+        </RootStack.Navigator>
+      )}
     </NavigationContainer>
   );
 };

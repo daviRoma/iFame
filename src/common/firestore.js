@@ -1,3 +1,4 @@
 import firestore from '@react-native-firebase/firestore';
 
-export const userPrefs = firestore().collection('user-prefs');
+export const users = firestore().collection('users');
+export const foodCats = firestore().collection('food-categories');
