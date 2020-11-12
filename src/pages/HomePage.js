@@ -3,17 +3,9 @@ import { Text, Button, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Routes from '../routes';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadUserInfo } from '../features/userSlice';
 
 export default function HomePage({ navigation }) {
-  const dispatch = useDispatch();
-  const { id, loading, foodPref } = useSelector((state) => state.loggedUser);
-
-  useEffect(() => {
-    if (!id) {
-      dispatch(loadUserInfo());
-    }
-  }, []);
+  const { loading, foodPref } = useSelector((state) => state.loggedUser);
 
   return (
     <>
@@ -21,7 +13,7 @@ export default function HomePage({ navigation }) {
         <ActivityIndicator />
       ) : (
         <SafeAreaView>
-          {!id ? <Text>Nope</Text> : null}
+          {foodPref.length === 0 ? <Text>No prefs</Text> : null}
           <Text>HomePage</Text>
           <Button
             title="Go to new event"

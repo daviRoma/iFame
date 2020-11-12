@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import React, { useEffect } from 'react';
 import LoginPage from '../pages/LoginPage';
 import NewEventPage from '../pages/NewEventPage';
 import SignInPage from '../pages/SignInPage';
@@ -8,12 +8,25 @@ import SingleEventPage from '../pages/SingleEventPage';
 import UpdateEventPage from '../pages/UpdateEventPage';
 import * as Routes from '../routes';
 import TabPagesNavigator from './TabPagesNavigator';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import auth from '@react-native-firebase/auth';
+import { clearUserInfo, getUserInfo } from '../features/userSlice';
 
 const RootStack = createStackNavigator();
 
 const RootNavigator = () => {
   const { isLogged } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const sub = auth().onAuthStateChanged((user) => {
+      if (user) {
+        dispatch(getUserInfo());
+      } else {
+        dispatch(clearUserInfo());
+      }
+    });
+    return sub;
+  }, []);
   return (
     <NavigationContainer>
       <RootStack.Navigator>

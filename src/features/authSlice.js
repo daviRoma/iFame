@@ -13,7 +13,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    loginStart(state) {
+    loadingStart(state) {
       state.loading = true;
     },
     loginSuccess(state) {
@@ -34,22 +34,28 @@ const authSlice = createSlice({
     clearRegistrationMessage(state) {
       state.isRegistered = false;
     },
+    logout(state) {
+      state.loading = false;
+      state.isLogged = false;
+      state.error = null;
+    },
   },
 });
 
 export const {
-  loginStart,
+  loadingStart,
   loginSuccess,
   loginFail,
   cleanErrors,
   registrationSuccess,
   clearRegistrationMessage,
+  logout,
 } = authSlice.actions;
 
 export const loginUser = (email, password) => {
   return async (dispatch) => {
     try {
-      dispatch(loginStart());
+      dispatch(loadingStart());
       await auth().signInWithEmailAndPassword(email, password);
       dispatch(loginSuccess());
     } catch (error) {
@@ -61,10 +67,22 @@ export const loginUser = (email, password) => {
 export const signUpUser = (email, password, navigation) => {
   return async (dispatch) => {
     try {
-      dispatch(loginStart());
+      dispatch(loadingStart());
       await auth().createUserWithEmailAndPassword(email, password);
       dispatch(registrationSuccess());
       navigation.navigate(Routes.LOGIN);
+    } catch (error) {
+      handleError(error, dispatch);
+    }
+  };
+};
+
+export const logoutUser = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(loadingStart());
+      await auth().signOut();
+      dispatch(logout());
     } catch (error) {
       handleError(error, dispatch);
     }

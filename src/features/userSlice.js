@@ -40,6 +40,14 @@ const userSlice = createSlice({
       state.loading = false;
       state.foodPreferencies = payload;
     },
+    clearUserInfo(state) {
+      state.id = null;
+      state.avatar = null;
+      state.email = null;
+      state.errors = null;
+      state.foodPref = [];
+      state.loading = false;
+    },
   },
 });
 
@@ -47,9 +55,10 @@ export const {
   storeInformationStart,
   storeInformation,
   storeInformationFail,
+  clearUserInfo,
 } = userSlice.actions;
 
-export const loadUserInfo = (navigator) => {
+export const getUserInfo = (navigator) => {
   return async (dispatch) => {
     const user = auth().currentUser;
     if (!user) {
