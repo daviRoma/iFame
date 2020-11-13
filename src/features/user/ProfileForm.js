@@ -3,8 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Input, Avatar, Accessory } from 'react-native-elements';
 import { updateUser } from './userSlice';
-import { emailValidator } from '../../utils';
-import ImagePicker from 'react-native-image-picker';
+import { emailValidator, selectImage } from '../../utils';
 
 export default function ProfileForm() {
   const dispatch = useDispatch();
@@ -20,22 +19,11 @@ export default function ProfileForm() {
         {avatar ? (
           <Avatar
             rounded
-            size="medium"
+            size="large"
             source={{
               uri: avatar,
             }}
-            onPress={() => {
-              ImagePicker.launchImageLibrary(
-                {
-                  mediaType: 'photo',
-                  maxWidth: 300,
-                  maxHeight: 300,
-                },
-                (image) => {
-                  image.uri;
-                },
-              );
-            }}>
+            onPress={() => selectImage(setAvatar)}>
             <Accessory />
           </Avatar>
         ) : (
@@ -45,18 +33,7 @@ export default function ProfileForm() {
             icon={{ name: 'user', type: 'font-awesome' }}
             activeOpacity={0.7}
             containerStyle={{ backgroundColor: 'rgb(119, 119, 119)' }}
-            onPress={() => {
-              ImagePicker.launchImageLibrary(
-                {
-                  mediaType: 'photo',
-                  maxWidth: 300,
-                  maxHeight: 300,
-                },
-                (image) => {
-                  console.log(image.uri);
-                },
-              );
-            }}>
+            onPress={() => selectImage(setAvatar)}>
             <Accessory />
           </Avatar>
         )}
@@ -85,7 +62,7 @@ export default function ProfileForm() {
         title="Aggiorna profilo"
         onPress={() => {
           if (emailError === '') {
-            dispatch(updateUser({ name, username, email }));
+            dispatch(updateUser({ name, username, email, avatar }));
           }
         }}
         loading={loading}
