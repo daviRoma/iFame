@@ -10,7 +10,7 @@ import * as Routes from '../routes';
 import TabPagesNavigator from './TabPagesNavigator';
 import { useDispatch, useSelector } from 'react-redux';
 import auth from '@react-native-firebase/auth';
-import { clearUserInfo, getUserInfo } from '../features/userSlice';
+import { clearUserInfo, getUserInfo } from '../features/user/userSlice';
 import CustomActivityIndicator from '../components/CustomActivityIndicator';
 
 const RootStack = createStackNavigator();
@@ -18,9 +18,10 @@ const RootStack = createStackNavigator();
 const RootNavigator = () => {
   const { user, loading } = useSelector((state) => state.loggedUser);
   const dispatch = useDispatch();
+
   useEffect(() => {
     let firstCall = true;
-    const sub = auth().onAuthStateChanged((loggedUser) => {
+    const sub = auth().onIdTokenChanged((loggedUser) => {
       if (!firstCall) {
         if (loggedUser) {
           const unsubscribe = dispatch(getUserInfo());

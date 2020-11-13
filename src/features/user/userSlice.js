@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import auth from '@react-native-firebase/auth';
-import * as Routes from '../routes';
-import { users } from '../common/firestore';
+import * as Routes from '../../routes';
+import { users } from '../../common/firestore';
 
 const initialState = {
   user: null,
@@ -29,6 +29,9 @@ const userSlice = createSlice({
       state.user = null;
       state.loading = false;
     },
+    stopLoading(state) {
+      state.loading = false;
+    },
   },
 });
 
@@ -37,6 +40,7 @@ export const {
   storeInformation,
   storeInformationFail,
   clearUserInfo,
+  stopLoading,
 } = userSlice.actions;
 
 export const getUserInfo = (navigator) => {
@@ -46,7 +50,7 @@ export const getUserInfo = (navigator) => {
       navigator.navigate(Routes.LOGIN);
     }
     dispatch(storeInformationStart());
-    const unsubscribe = users.doc(user.email).onSnapshot({
+    const unsubscribe = users.doc(user.uid).onSnapshot({
       error: (e) => dispatch(storeInformationFail(e.message)),
       next: (snapshot) => {
         dispatch(storeInformation(snapshot.data()));
@@ -58,10 +62,24 @@ export const getUserInfo = (navigator) => {
 
 export const loadFoodPref = (foodPref) => {
   return async (dispatch) => {
-    if (foodPref.length > 0) {
-      dispatch(storeInformationStart);
-      await users.doc(auth().currentUser.email).set({ preferencies: foodPref });
+    dispatch(storeInformationStart());
+    await users.doc(auth().currentUser.uid).update({ preferencies: foodPref });
+    dispatch(stopLoading());
+  };
+};
+
+export const updateUser = (userData) => {
+  return async (dispatch) => {
+    dispatch(storeInformationStart());
+    if (userData.email !== auth().currentUser.email) {
+      try {
+        await auth().currentUser.updateEmail(userData.email);
+      } catch (error) {
+        dispatch(storeInformationFail(error.message));
+      }
     }
+    await users.doc(auth().currentUser.uid).update(userData);
+    dispatch(stopLoading());
   };
 };
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Modal, FlatList } from 'react-native';
 import { Button, CheckBox, Text } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadFoodPref } from '../userSlice';
+import { loadFoodPref } from '../user/userSlice';
 import { loadCategories } from './foodCategoriesSlice';
 import CustomActivityIndicator from '../../components/CustomActivityIndicator';
 

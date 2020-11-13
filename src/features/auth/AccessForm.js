@@ -5,6 +5,7 @@ import { Button, Input, Text } from 'react-native-elements';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { withNavigation } from '@react-navigation/compat';
 import { cleanErrors } from './authSlice';
+import { emailValidator } from '../../utils';
 
 const AccessForm = ({
   email,
@@ -57,14 +58,9 @@ const AccessForm = ({
           value={email}
           autoCapitalize="none"
           autoCorrect={false}
-          onChangeText={(text) => {
-            setEmailError('');
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!re.test(email)) {
-              setEmailError('This is not a valid email address');
-            }
-            setEmail(text);
-          }}
+          onChangeText={(text) =>
+            emailValidator(text, email, setEmail, setEmailError)
+          }
           errorMessage={emailError}
         />
         <Input

@@ -73,9 +73,8 @@ export const signUpUser = (email, password, navigation) => {
         email,
         password,
       );
-      await users.doc(newUser.user.email).set({
-        name: newUser.user.displayName,
-        avatar: newUser.user.photoURL,
+      await users.doc(newUser.user.uid).set({
+        email: newUser.user.email,
       });
       dispatch(registrationSuccess());
     } catch (error) {
