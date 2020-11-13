@@ -1,8 +1,11 @@
 import auth from '@react-native-firebase/auth';
 import { createSlice } from '@reduxjs/toolkit';
 import { users } from '../../common/firestore';
+import * as Routes from '../../routes';
+import { clearUserInfo } from '../user/userSlice';
 
 const initialState = {
+  isLogged: false,
   loading: false,
   error: null,
   isRegistered: false,
@@ -19,6 +22,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.isRegistered = false;
+      state.isLogged = true;
     },
     loginFail(state, action) {
       state.loading = false;
@@ -75,8 +79,10 @@ export const signUpUser = (email, password, navigation) => {
       );
       await users.doc(newUser.user.uid).set({
         email: newUser.user.email,
+        preferencies: [],
       });
       dispatch(registrationSuccess());
+      navigation.navigate(Routes.LOGIN);
     } catch (error) {
       handleError(error, dispatch);
     }
@@ -89,6 +95,7 @@ export const logoutUser = () => {
       dispatch(loadingStart());
       await auth().signOut();
       dispatch(logout());
+      dispatch(clearUserInfo());
     } catch (error) {
       handleError(error, dispatch);
     }

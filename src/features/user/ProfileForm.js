@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button, Input, Avatar, Accessory } from 'react-native-elements';
 import { updateUser } from './userSlice';
 import { emailValidator, selectImage } from '../../utils';
+import FoodPrefsModal from '../foodCategories/FoodPrefsModal';
 
 export default function ProfileForm() {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ export default function ProfileForm() {
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] = useState(user.email);
   const [emailError, setEmailError] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.container}>
       <View style={styles.avatarContainer}>
@@ -56,6 +58,15 @@ export default function ProfileForm() {
           errorMessage={emailError}
           autoCapitalize="none"
           autoCorrect={false}
+        />
+      </View>
+      <View>
+        <FoodPrefsModal visible={true} />
+        <Button
+          title="Aggiorna preferenze cibo"
+          onPress={() => {
+            setModalVisible(true);
+          }}
         />
       </View>
       <Button

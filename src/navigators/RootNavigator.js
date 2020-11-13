@@ -16,7 +16,8 @@ import CustomActivityIndicator from '../components/CustomActivityIndicator';
 const RootStack = createStackNavigator();
 
 const RootNavigator = () => {
-  const { user, loading } = useSelector((state) => state.loggedUser);
+  const { loading } = useSelector((state) => state.loggedUser);
+  const { isLogged } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,8 +27,6 @@ const RootNavigator = () => {
         if (loggedUser) {
           const unsubscribe = dispatch(getUserInfo());
           return unsubscribe;
-        } else {
-          dispatch(clearUserInfo());
         }
       }
       firstCall = false;
@@ -41,7 +40,7 @@ const RootNavigator = () => {
         <CustomActivityIndicator />
       ) : (
         <RootStack.Navigator>
-          {!user ? (
+          {!isLogged ? (
             <>
               <RootStack.Screen
                 name={Routes.LOGIN}
