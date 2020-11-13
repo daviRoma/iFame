@@ -1,7 +1,6 @@
 import auth from '@react-native-firebase/auth';
 import { createSlice } from '@reduxjs/toolkit';
 import { users } from '../../common/firestore';
-import * as Routes from '../../routes';
 
 const initialState = {
   loading: false,
@@ -31,6 +30,7 @@ const authSlice = createSlice({
     registrationSuccess(state) {
       state.loading = false;
       state.isRegistered = true;
+      state.error = null;
     },
     clearRegistrationMessage(state) {
       state.isRegistered = false;
@@ -78,7 +78,6 @@ export const signUpUser = (email, password, navigation) => {
         avatar: newUser.user.photoURL,
       });
       dispatch(registrationSuccess());
-      navigation.navigate(Routes.LOGIN);
     } catch (error) {
       handleError(error, dispatch);
     }

@@ -66,6 +66,9 @@ const RootNavigator = () => {
               <RootStack.Screen
                 name={Routes.TAB_PAGES}
                 component={TabPagesNavigator}
+                options={{
+                  headerShown: false,
+                }}
               />
               <RootStack.Screen
                 name={Routes.NEW_EVENT}

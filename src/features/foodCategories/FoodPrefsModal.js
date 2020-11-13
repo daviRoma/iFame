@@ -34,12 +34,12 @@ export default function FoodPrefsModal({ visible }) {
           <Text h3>Cosa ti piace mangiare?</Text>
           <FlatList
             data={foodCategories}
-            keyExtractor={(item) => item}
+            keyExtractor={(item) => item.title}
             style={styles.checkListStyle}
             renderItem={({ item }) => {
               return (
                 <CheckBox
-                  title={item}
+                  title={item.title}
                   checked={foodPref.includes(item)}
                   onPress={() => {
                     foodPref.includes(item)

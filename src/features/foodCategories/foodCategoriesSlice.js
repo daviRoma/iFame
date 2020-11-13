@@ -36,7 +36,10 @@ export const loadCategories = () => {
   return async (dispatch) => {
     dispatch(storeCategoriesStart());
     try {
-      const foodCats = (await foodCat.get()).docs[0].get('categories');
+      let foodCats = [];
+      (await foodCat.get()).forEach((doc) => {
+        foodCats.push(doc.data());
+      });
       dispatch(storeCategoriesSuccess(foodCats));
     } catch (error) {
       console.log(error);
