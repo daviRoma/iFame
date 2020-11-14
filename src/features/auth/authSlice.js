@@ -82,7 +82,6 @@ export const signUpUser = (email, password, navigation) => {
         preferencies: [],
       });
       dispatch(registrationSuccess());
-      navigation.navigate(Routes.LOGIN);
     } catch (error) {
       handleError(error, dispatch);
     }
@@ -95,7 +94,6 @@ export const logoutUser = () => {
       dispatch(loadingStart());
       await auth().signOut();
       dispatch(logout());
-      dispatch(clearUserInfo());
     } catch (error) {
       handleError(error, dispatch);
     }

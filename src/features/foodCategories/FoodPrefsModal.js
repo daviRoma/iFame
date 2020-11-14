@@ -6,21 +6,26 @@ import CustomActivityIndicator from '../../components/CustomActivityIndicator';
 import FoodCategoriesList from '../../components/FoodCategoriesList';
 import { useFoodCategories } from '../../hooks/useFoodCategories';
 
-export default function FoodPrefsModal({ visible, onClose }) {
-  const [isVisible, setIsVisible] = useState(visible);
-  const { loadingUpdate, user } = useSelector((state) => state.loggedUser);
-  const [foodPref, setFoodPref] = useState(user.preferencies);
+export default function FoodPrefsModal({
+  visible,
+  onClose,
+  setVisible,
+  foodPref,
+  setFoodPref,
+}) {
+  const { loadingUpdate } = useSelector((state) => state.loggedUser);
   const { foodCategories, loading } = useFoodCategories();
   const onCloseFunction = () => {
     if (onClose) {
       onClose(foodPref);
     }
-    setIsVisible(!isVisible);
+    setVisible(!visible);
   };
+
   return (
     <Modal
       animationType="slide"
-      visible={isVisible}
+      visible={visible}
       onRequestClose={() => {
         onCloseFunction();
       }}>

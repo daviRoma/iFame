@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ActivityIndicator, Button, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,6 +9,8 @@ import { loadFoodPref } from '../features/user/userSlice';
 export default function HomePage({ navigation }) {
   const { loading, user } = useSelector((state) => state.loggedUser);
   const dispatch = useDispatch();
+  const [visible, setVisible] = useState(true);
+  const [preferencies, setPreferencies] = useState([]);
   return (
     <>
       {loading ? (
@@ -17,10 +19,13 @@ export default function HomePage({ navigation }) {
         <SafeAreaView>
           {user && user.preferencies.length === 0 ? (
             <FoodPrefsModal
-              visible={true}
-              onClose={(foodPref) => {
-                dispatch(loadFoodPref(foodPref));
+              visible={visible}
+              onClose={() => {
+                dispatch(loadFoodPref(preferencies));
               }}
+              setVisible={setVisible}
+              foodPref={preferencies}
+              setFoodPref={setPreferencies}
             />
           ) : null}
           <Text>HomePage</Text>

@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Input, Avatar, Accessory } from 'react-native-elements';
 import { updateUser } from './userSlice';
 import { emailValidator, selectImage } from '../../utils';
 import FoodPrefsModal from '../foodCategories/FoodPrefsModal';
 
-export default function ProfileForm() {
+export default function ProfileForm({ user }) {
   const dispatch = useDispatch();
-  const { user, loading, errors } = useSelector((state) => state.loggedUser);
+  const { loading, errors } = useSelector((state) => state.loggedUser);
   const [avatar, setAvatar] = useState(user.avatar);
   const [name, setName] = useState(user.name);
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] = useState(user.email);
   const [emailError, setEmailError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [preferencies, setPreferencies] = useState(user.preferencies);
   return (
     <View style={styles.container}>
       <View style={styles.avatarContainer}>
@@ -61,7 +62,12 @@ export default function ProfileForm() {
         />
       </View>
       <View>
-        <FoodPrefsModal visible={true} />
+        <FoodPrefsModal
+          visible={modalVisible}
+          setVisible={setModalVisible}
+          foodPref={preferencies}
+          setFoodPref={setPreferencies}
+        />
         <Button
           title="Aggiorna preferenze cibo"
           onPress={() => {
@@ -73,7 +79,9 @@ export default function ProfileForm() {
         title="Aggiorna profilo"
         onPress={() => {
           if (emailError === '') {
-            dispatch(updateUser({ name, username, email, avatar }));
+            dispatch(
+              updateUser({ name, username, email, avatar, preferencies }),
+            );
           }
         }}
         loading={loading}

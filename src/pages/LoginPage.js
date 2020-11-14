@@ -12,19 +12,19 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const { isRegistered } = useSelector((state) => state.auth);
+  // const { isRegistered } = useSelector((state) => state.auth);
 
-  if (isRegistered) {
-    Alert.alert('Registration Success', 'You have correctly been registered', [
-      {
-        text: 'Ok',
-        onPress: () => {
-          dispatch(clearRegistrationMessage());
-        },
-        style: 'cancel',
-      },
-    ]);
-  }
+  // if (isRegistered) {
+  //   Alert.alert('Registration Success', 'You have correctly been registered', [
+  //     {
+  //       text: 'Ok',
+  //       onPress: () => {
+  //         dispatch(clearRegistrationMessage());
+  //       },
+  //       style: 'cancel',
+  //     },
+  //   ]);
+  // }
 
   return (
     <View style={{ flex: 1 }}>

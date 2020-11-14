@@ -16,10 +16,14 @@ export default function FoodCategoriesList({
         return (
           <CheckBox
             title={item.title}
-            checked={foodPref.includes(item)}
+            checked={
+              foodPref.filter((el) => el.title === item.title).length > 0
+            }
             onPress={() => {
-              foodPref.includes(item)
-                ? setFoodPref(foodPref.filter((value) => value !== item))
+              foodPref.filter((el) => el.title === item.title).length > 0
+                ? setFoodPref(
+                    foodPref.filter((value) => value.title !== item.title),
+                  )
                 : setFoodPref(foodPref.concat(item));
             }}
           />
