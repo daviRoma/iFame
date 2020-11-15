@@ -42,16 +42,18 @@ export const {
   cleanErrors,
 } = restaurantSlice.actions;
 
-export const getAllRestaurant = (lat, lon) => {
+export const getAllRestaurant = (params) => {
   log.info('[RestaurantSlice]::[getAllRestaurants]');
-  return async (dispatch) => {
-    try {
-      dispatch(restaurantGet());
-      await getRestaurants(lat, lon);
-      dispatch(restaurantGetSuccess());
-    } catch (error) {
-      handleError(error, dispatch);
-    }
+  return (dispatch) => {
+    dispatch(restaurantGet());
+    getRestaurants(params)
+      .then((json) => {
+        dispatch(restaurantGetSuccess(json.businesses));
+        return json.businesses;
+      })
+      .catch((error) => {
+        handleError(error, dispatch);
+      });
   };
 };
 

@@ -7,9 +7,15 @@ import { logger } from 'react-native-logs';
 
 const log = logger.createLogger();
 
+const selectEventState = (state) => state.event;
+export const selectAllEvents = (state) => selectEventState(state).events;
+export const selectEventById = (state, eventId) => selectAllEvents(state).find((id) => id === eventId);
+export const selectEventLoading = (state) => selectEventState(state).loading;
+export const selectEventError = (state) => selectEventState(state).error;
+
 const initialState = {
-  events: null,
-  loading: false,
+  events: [],
+  loading: true,
   error: null,
 };
 
@@ -23,7 +29,7 @@ const eventSlice = createSlice({
     eventGetSuccess(state, action) {
       state.loading = false;
       state.error = null;
-      state.events = action.payload;
+      state.events = [...action.payload];
     },
     eventGetFail(state, action) {
       state.loading = false;
@@ -54,26 +60,26 @@ export const {
   cleanErrors,
 } = eventSlice.actions;
 
-export const getAllEvents = (lat, lon) => {
+export const getAllEvents = (params) => {
   log.info('[EventSlice]::[getAllEvents]');
   return async (dispatch) => {
     try {
       dispatch(eventGet());
-      await getEvents(lat, lon);
-      dispatch(eventGetSuccess());
+      const events = await getEvents(params);
+      dispatch(eventGetSuccess(events));
     } catch (error) {
       handleError(error, dispatch);
     }
   };
 };
 
-export const getAllUserEvents = (user) => {
+export const getAllUserEvents = (userId) => {
   log.info('[EventSlice]::[getAllUserEvents]');
   return async (dispatch) => {
     try {
       dispatch(eventGet());
-      await getUserEvents(user.Id);
-      dispatch(eventGetSuccess());
+      const events = await getUserEvents(userId);
+      dispatch(eventGetSuccess(events));
     } catch (error) {
       handleError(error, dispatch);
     }
