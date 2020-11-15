@@ -1,13 +1,19 @@
+import storage from '@react-native-firebase/storage';
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { Button, Input, Avatar, Accessory } from 'react-native-elements';
-import { updateUser } from './userSlice';
-import { emailValidator, selectImage } from '../../utils';
+import { StyleSheet, View } from 'react-native';
+import { Accessory, Avatar, Button, Input, Text } from 'react-native-elements';
+import ImagePicker from 'react-native-image-picker';
+import { useDispatch, useSelector } from 'react-redux';
+import ErrorMessage from '../../components/ErrorMessage';
+import { emailValidator } from '../../utils';
 import FoodPrefsModal from '../foodCategories/FoodPrefsModal';
+import { updateUser } from './userSlice';
+import Spacer from '../../components/Spacer';
+import { logoutUser } from '../auth/authSlice';
 
 export default function ProfileForm({ user }) {
   const dispatch = useDispatch();
+
   const { loading, errors } = useSelector((state) => state.loggedUser);
   const [avatar, setAvatar] = useState(user.avatar);
   const [name, setName] = useState(user.name);
@@ -16,13 +22,31 @@ export default function ProfileForm({ user }) {
   const [emailError, setEmailError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [preferencies, setPreferencies] = useState(user.preferencies);
+
+  const selectImage = () => {
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        maxWidth: 300,
+        maxHeight: 300,
+      },
+      async (image) => {
+        if (image.data) {
+          const ref = storage().ref(image.fileName);
+          await ref.putFile(image.path);
+          const url = await ref.getDownloadURL();
+          setAvatar(url);
+        }
+      },
+    );
+  };
+
   return (
     <View style={styles.container}>
+      <Text style={styles.avatarLabel}>Aggiorna l'immagine del profilo</Text>
       <View style={styles.avatarContainer}>
         {avatar ? (
           <Avatar
-            rounded
-            size="large"
             source={{
               uri: avatar,
             }}
@@ -31,11 +55,7 @@ export default function ProfileForm({ user }) {
           </Avatar>
         ) : (
           <Avatar
-            rounded
-            size="large"
             icon={{ name: 'user', type: 'font-awesome' }}
-            activeOpacity={0.7}
-            containerStyle={{ backgroundColor: 'rgb(119, 119, 119)' }}
             onPress={() => selectImage(setAvatar)}>
             <Accessory />
           </Avatar>
@@ -61,7 +81,7 @@ export default function ProfileForm({ user }) {
           autoCorrect={false}
         />
       </View>
-      <View>
+      <View style={styles.modalButtonContainer}>
         <FoodPrefsModal
           visible={modalVisible}
           setVisible={setModalVisible}
@@ -69,7 +89,8 @@ export default function ProfileForm({ user }) {
           setFoodPref={setPreferencies}
         />
         <Button
-          title="Aggiorna preferenze cibo"
+          title="Preferenze di cibo"
+          type="clear"
           onPress={() => {
             setModalVisible(true);
           }}
@@ -77,6 +98,10 @@ export default function ProfileForm({ user }) {
       </View>
       <Button
         title="Aggiorna profilo"
+        type="clear"
+        titleStyle={{
+          color: 'green',
+        }}
         onPress={() => {
           if (emailError === '') {
             dispatch(
@@ -86,6 +111,17 @@ export default function ProfileForm({ user }) {
         }}
         loading={loading}
       />
+      {errors ? <ErrorMessage>{errors}</ErrorMessage> : null}
+      <Spacer />
+      <View style={styles.logoutButtonContainer}>
+        <Button
+          title="Logout"
+          onPress={() => dispatch(logoutUser())}
+          loading={loading}
+          containerStyle={styles.buttonStyle}
+          buttonStyle={{ backgroundColor: 'red' }}
+        />
+      </View>
     </View>
   );
 }
@@ -97,9 +133,28 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     alignContent: 'center',
-    margin: 10,
   },
   container: {
     margin: 20,
+    alignContent: 'center',
+  },
+  avatarLabel: {
+    fontWeight: 'bold',
+    color: 'grey',
+    fontSize: 15,
+    textAlign: 'center',
+  },
+  modalButtonContainer: {
+    marginBottom: 10,
+    alignItems: 'flex-start',
+  },
+  buttonStyle: {
+    flex: 1,
+    width: 100,
+    backgroundColor: 'red',
+  },
+  logoutButtonContainer: {
+    flex: 1,
+    alignItems: 'center',
   },
 });

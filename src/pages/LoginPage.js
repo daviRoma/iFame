@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Alert } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { StyleSheet, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import AccessForm from '../features/auth/AccessForm';
-import {
-  loginUser,
-  clearRegistrationMessage,
-} from '../features/auth/authSlice';
+import { loginUser } from '../features/auth/authSlice';
 import * as Routes from '../routes';
 
 export default function LoginPage() {

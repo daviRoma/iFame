@@ -6,6 +6,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { withNavigation } from '@react-navigation/compat';
 import { cleanErrors } from './authSlice';
 import { emailValidator } from '../../utils';
+import ErrorMessage from '../../components/ErrorMessage';
 
 const AccessForm = ({
   email,
@@ -83,7 +84,7 @@ const AccessForm = ({
         />
         <Button title={buttonTitle} onPress={handleSubmit} loading={loading} />
       </View>
-      {error ? <Text style={styles.errorMessage}>{error}</Text> : null}
+      {error ? <ErrorMessage>{error}</ErrorMessage> : null}
       <TouchableOpacity onPress={() => navigation.navigate(navigationRoute)}>
         <Text>{navigationTitle}</Text>
       </TouchableOpacity>
@@ -100,11 +101,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  errorMessage: {
-    marginBottom: 10,
-    color: 'red',
-    fontSize: 18,
   },
 });
 
