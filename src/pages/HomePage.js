@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import FoodPrefsModal from '../features/foodCategories/FoodPrefsModal';
 import * as Routes from '../routes';
 import { loadFoodPref } from '../features/user/userSlice';
+import FloatingButton from '../components/FloatingButton';
 
 export default function HomePage({ navigation }) {
   const { loading, user } = useSelector((state) => state.loggedUser);
@@ -16,7 +17,7 @@ export default function HomePage({ navigation }) {
       {loading ? (
         <ActivityIndicator size={30} />
       ) : (
-        <SafeAreaView>
+        <SafeAreaView style={{ flex: 1 }}>
           {user && user.preferencies.length === 0 ? (
             <FoodPrefsModal
               visible={visible}
@@ -30,12 +31,6 @@ export default function HomePage({ navigation }) {
           ) : null}
           <Text>HomePage</Text>
           <Button
-            title="Go to new event"
-            onPress={() => {
-              navigation.navigate(Routes.NEW_EVENT);
-            }}
-          />
-          <Button
             title="Go to single event"
             onPress={() => {
               navigation.navigate(Routes.SINGLE_EVENT);
@@ -45,6 +40,11 @@ export default function HomePage({ navigation }) {
             title="Go to update event"
             onPress={() => {
               navigation.navigate(Routes.UPDATE_EVENT);
+            }}
+          />
+          <FloatingButton
+            clickHandler={() => {
+              navigation.navigate(Routes.NEW_EVENT);
             }}
           />
         </SafeAreaView>

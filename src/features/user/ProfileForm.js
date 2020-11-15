@@ -96,24 +96,25 @@ export default function ProfileForm({ user }) {
           }}
         />
       </View>
-      <Button
-        title="Aggiorna profilo"
-        type="clear"
-        titleStyle={{
-          color: 'green',
-        }}
-        onPress={() => {
-          if (emailError === '') {
-            dispatch(
-              updateUser({ name, username, email, avatar, preferencies }),
-            );
-          }
-        }}
-        loading={loading}
-      />
-      {errors ? <ErrorMessage>{errors}</ErrorMessage> : null}
-      <Spacer />
-      <View style={styles.logoutButtonContainer}>
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Aggiorna profilo"
+          type="clear"
+          titleStyle={{
+            color: 'green',
+          }}
+          containerStyle={styles.buttonStyle}
+          onPress={() => {
+            if (emailError === '') {
+              dispatch(
+                updateUser({ name, username, email, avatar, preferencies }),
+              );
+            }
+          }}
+          loading={loading}
+        />
+        {errors ? <ErrorMessage>{errors}</ErrorMessage> : null}
+        <Spacer />
         <Button
           title="Logout"
           onPress={() => dispatch(logoutUser())}
@@ -137,6 +138,7 @@ const styles = StyleSheet.create({
   container: {
     margin: 20,
     alignContent: 'center',
+    flex: 1,
   },
   avatarLabel: {
     fontWeight: 'bold',
@@ -151,9 +153,8 @@ const styles = StyleSheet.create({
   buttonStyle: {
     flex: 1,
     width: 100,
-    backgroundColor: 'red',
   },
-  logoutButtonContainer: {
+  buttonContainer: {
     flex: 1,
     alignItems: 'center',
   },
