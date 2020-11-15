@@ -4,7 +4,9 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { withNavigation } from '@react-navigation/compat';
-import { cleanErrors } from '../features/authSlice';
+import { cleanErrors } from './authSlice';
+import { emailValidator } from '../../utils';
+import ErrorMessage from '../../components/ErrorMessage';
 
 const AccessForm = ({
   email,
@@ -57,14 +59,9 @@ const AccessForm = ({
           value={email}
           autoCapitalize="none"
           autoCorrect={false}
-          onChangeText={(text) => {
-            setEmailError('');
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!re.test(email)) {
-              setEmailError('This is not a valid email address');
-            }
-            setEmail(text);
-          }}
+          onChangeText={(text) =>
+            emailValidator(text, email, setEmail, setEmailError)
+          }
           errorMessage={emailError}
         />
         <Input
@@ -87,7 +84,7 @@ const AccessForm = ({
         />
         <Button title={buttonTitle} onPress={handleSubmit} loading={loading} />
       </View>
-      {error ? <Text style={styles.errorMessage}>{error}</Text> : null}
+      {error ? <ErrorMessage>{error}</ErrorMessage> : null}
       <TouchableOpacity onPress={() => navigation.navigate(navigationRoute)}>
         <Text>{navigationTitle}</Text>
       </TouchableOpacity>
@@ -104,11 +101,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  errorMessage: {
-    marginBottom: 10,
-    color: 'red',
-    fontSize: 18,
   },
 });
 

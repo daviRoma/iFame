@@ -1,10 +1,17 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux';
+import ProfileForm from '../features/user/ProfileForm';
 
 export default function ProfilePage() {
+  const { user } = useSelector((state) => state.loggedUser);
   return (
-    <View>
-      <Text>ProfilePage</Text>
-    </View>
+    <>
+      {user ? (
+        <ScrollView>
+          <ProfileForm user={user} />
+        </ScrollView>
+      ) : null}
+    </>
   );
 }

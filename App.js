@@ -11,11 +11,15 @@ import React from 'react';
 import RootNavigator from './src/navigators/RootNavigator';
 import { Provider } from 'react-redux';
 import store from './src/app/store';
+import { ThemeProvider } from 'react-native-elements';
+import theme from './src/common/theme';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <RootNavigator />
+      <ThemeProvider theme={theme}>
+        <RootNavigator />
+      </ThemeProvider>
     </Provider>
   );
 };
