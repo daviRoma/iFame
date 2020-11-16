@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
-import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card } from 'react-native-elements';
 import * as Routes from '../routes';
 
-import { EventItem } from '../components';
+import EventItem from '../components/EventItem';
 
 import {
   getAllEvents,
   selectAllEvents,
   selectEventLoading,
 } from '../features/eventSlice';
+import { FlatList } from 'react-native-gesture-handler';
 
 export default function EventListPage({ navigation }) {
   const eventList = useSelector(selectAllEvents);
@@ -38,16 +39,21 @@ export default function EventListPage({ navigation }) {
   // if events found
   return (
     <View style={[styles.pageContainer, { paddingBottom: 10 }]}>
-      <ScrollView style={styles.sectionOne}>
-        {eventList.map((item, i) => (
-          <EventItem
-            item={item}
-            onPress={() => {
-              navigation.navigate(Routes.SINGLE_EVENT, { id: item.id });
-            }}
-          />
-        ))}
-      </ScrollView>
+      <FlatList
+        style={styles.sectionOne}
+        data={eventList}
+        renderItem={({ item }) => {
+          return (
+            <EventItem
+              item={item}
+              onPress={() => {
+                navigation.navigate(Routes.SINGLE_EVENT, { id: item.id });
+              }}
+            />
+          );
+        }}
+        keyExtractor={(item) => item.id}
+      />
 
       <View style={styles.sectionTwo}>
         <Card containerStyle={{ margin: 0 }}>

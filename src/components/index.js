@@ -1,10 +1,11 @@
-const { SearchBar } = require("react-native-elements");
-const { default: EventItem } = require("./EventItem");
-
 /**
  * Index
  * Export all modules in components folder.
  */
-export EventItem from './EventItem';
-export SearchBarItem from './SearchBarItem';
-
+export { default as EventItem } from './EventItem';
+export { default as SearchBarItem } from './SearchBarItem';
+export { default as CustomActivityIndicator } from './CustomActivityIndicator';
+export { default as ErrorMessage } from './ErrorMessage';
+export { default as FloatingButton } from './FloatingButton';
+export { default as FoodCategoriesList } from './FoodCategoriesList';
+export { default as Spacer } from './Spacer';

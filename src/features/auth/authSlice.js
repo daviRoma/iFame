@@ -1,8 +1,6 @@
 import auth from '@react-native-firebase/auth';
 import { createSlice } from '@reduxjs/toolkit';
-import { users } from '../../common/firestore';
-import * as Routes from '../../routes';
-import { clearUserInfo } from '../user/userSlice';
+import { createUserDoc } from '../../api/FirebaseApi';
 
 const initialState = {
   isLogged: false,
@@ -77,7 +75,7 @@ export const signUpUser = (email, password, navigation) => {
         email,
         password,
       );
-      await users.doc(newUser.user.uid).set({
+      await createUserDoc(newUser.user.uid, {
         email: newUser.user.email,
         preferencies: [],
       });

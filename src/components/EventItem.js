@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Icon, ListItem, Avatar } from 'react-native-elements';
+import { StyleSheet } from 'react-native';
+import { Icon, ListItem } from 'react-native-elements';
 
 export default function ({ item, onPress }) {
   return (

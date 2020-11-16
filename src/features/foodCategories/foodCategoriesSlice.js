@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { foodCat } from '../../common/firestore';
+import { getFoodCat } from '../../api/FirebaseApi';
 
 const initialState = {
   foodCategories: null,
@@ -36,10 +36,7 @@ export const loadCategories = () => {
   return async (dispatch) => {
     dispatch(storeCategoriesStart());
     try {
-      let foodCats = [];
-      (await foodCat.get()).forEach((doc) => {
-        foodCats.push(doc.data());
-      });
+      const foodCats = await getFoodCat();
       dispatch(storeCategoriesSuccess(foodCats));
     } catch (error) {
       console.log(error);

@@ -1,18 +1,15 @@
-import React, { useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
+import React, { useEffect } from 'react';
+import { ActivityIndicator, Text, View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
-import { Card } from 'react-native-elements';
-import * as Routes from '../routes';
-
 import { EventItem } from '../components';
-
 import {
   getAllUserEvents,
   selectAllEvents,
   selectEventLoading,
 } from '../features/eventSlice';
+import * as Routes from '../routes';
 
 export default function MyEventsPage({ navigation }) {
   const userEventList = useSelector(selectAllEvents);
@@ -22,7 +19,6 @@ export default function MyEventsPage({ navigation }) {
   useEffect(() => {
     dispatch(getAllUserEvents(auth().currentUser.uid));
   }, []);
-
 
   if (isLoading || userEventList === null) {
     return (
@@ -40,19 +36,23 @@ export default function MyEventsPage({ navigation }) {
 
   return (
     <View style={[styles.pageContainer, { paddingBottom: 10 }]}>
-      <ScrollView style={styles.sectionOne}>
-        {userEventList.map((item, i) => (
-          <EventItem
-            item={item}
-            onPress={() => {
-              navigation.navigate(Routes.SINGLE_EVENT, { id: item.id });
-            }}
-          />
-        ))}
-      </ScrollView>
+      <FlatList
+        style={styles.sectionOne}
+        data={userEventList}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => {
+          return (
+            <EventItem
+              item={item}
+              onPress={() => {
+                navigation.navigate(Routes.SINGLE_EVENT, { id: item.id });
+              }}
+            />
+          );
+        }}
+      />
     </View>
   );
-  
 }
 
 const styles = {

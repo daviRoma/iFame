@@ -9,7 +9,8 @@ const log = logger.createLogger();
 
 const selectEventState = (state) => state.event;
 export const selectAllEvents = (state) => selectEventState(state).events;
-export const selectEventById = (state, eventId) => selectAllEvents(state).find((id) => id === eventId);
+export const selectEventById = (state, eventId) =>
+  selectAllEvents(state).find((id) => id === eventId);
 export const selectEventLoading = (state) => selectEventState(state).loading;
 export const selectEventError = (state) => selectEventState(state).error;
 

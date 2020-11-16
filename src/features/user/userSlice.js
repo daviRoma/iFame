@@ -1,7 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import auth from '@react-native-firebase/auth';
 import * as Routes from '../../routes';
-import { users } from '../../common/firestore';
+import {
+  updateFoodPreferencies,
+  getUser,
+  updateUserInfo,
+} from '../../api/FirebaseApi';
 
 const initialState = {
   user: null,
@@ -50,12 +54,11 @@ export const getUserInfo = (navigator) => {
       navigator.navigate(Routes.LOGIN);
     }
     dispatch(storeInformationStart());
-    const unsubscribe = users.doc(user.uid).onSnapshot({
-      error: (e) => dispatch(storeInformationFail(e.message)),
-      next: (snapshot) => {
-        dispatch(storeInformation(snapshot.data()));
-      },
-    });
+    const unsubscribe = getUser(
+      user.uid,
+      (message) => dispatch(storeInformationFail(message)),
+      (data) => dispatch(storeInformation(data)),
+    );
     return unsubscribe;
   };
 };
@@ -63,7 +66,7 @@ export const getUserInfo = (navigator) => {
 export const loadFoodPref = (foodPref) => {
   return async (dispatch) => {
     dispatch(storeInformationStart());
-    await users.doc(auth().currentUser.uid).update({ preferencies: foodPref });
+    await updateFoodPreferencies(auth().currentUser.uid, foodPref);
     dispatch(stopLoading());
   };
 };
@@ -78,7 +81,7 @@ export const updateUser = (userData) => {
         dispatch(storeInformationFail(error.message));
       }
     }
-    await users.doc(auth().currentUser.uid).update(userData);
+    await updateUserInfo(auth().currentUser.uid, userData);
     dispatch(stopLoading());
   };
 };
