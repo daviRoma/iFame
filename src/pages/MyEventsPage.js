@@ -9,7 +9,7 @@ import {
   getAllUserEvents,
   selectAllEvents,
   selectEventLoading,
-} from '../features/eventSlice';
+} from '../features/events/eventSlice';
 import * as Routes from '../routes';
 
 export default function MyEventsPage({ navigation }) {

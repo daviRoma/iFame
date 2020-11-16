@@ -2,7 +2,7 @@
  * Restaurant slice - Redux
  */
 import { createSlice } from '@reduxjs/toolkit';
-import { getRestaurants } from '../api/YelpApi';
+import { getRestaurants } from '../../api/YelpApi';
 import { logger } from 'react-native-logs';
 
 const log = logger.createLogger();

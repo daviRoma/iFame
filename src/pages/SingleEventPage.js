@@ -4,7 +4,10 @@ import { Card, ListItem, Button, Icon, Avatar } from 'react-native-elements';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectEventById, selectAllEvents } from '../features/eventSlice';
+import {
+  selectEventById,
+  selectAllEvents,
+} from '../features/events/eventSlice';
 
 export default function SingleEventPage({ route, navigation }) {
   const { id } = route.params;
@@ -43,5 +46,5 @@ const styles = {
   },
   participantsContainer: {
     paddingTop: 10,
-  }
+  },
 };

@@ -2,7 +2,7 @@
  * Event slice - Redux
  */
 import { createSlice } from '@reduxjs/toolkit';
-import { getEvents, getUserEvents } from '../api/FirebaseApi';
+import { getEvents, getUserEvents } from '../../api/FirebaseApi';
 import { logger } from 'react-native-logs';
 
 const log = logger.createLogger();

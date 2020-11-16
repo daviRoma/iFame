@@ -3,7 +3,6 @@ import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card } from 'react-native-elements';
 import * as Routes from '../routes';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { useFocusEffect } from '@react-navigation/native';
 
 import EventItem from '../components/EventItem';
@@ -12,7 +11,7 @@ import {
   getAllEvents,
   selectAllEvents,
   selectEventLoading,
-} from '../features/eventSlice';
+} from '../features/events/eventSlice';
 import { FlatList } from 'react-native-gesture-handler';
 
 export default function EventListPage({ navigation }) {
@@ -63,16 +62,6 @@ export default function EventListPage({ navigation }) {
         <Card containerStyle={{ margin: 0 }}>
           <Card.Title>MAP</Card.Title>
           <Card.Divider />
-          <MapView
-            provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-            style={styles.map}
-            region={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-              latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
-            }}
-          />
         </Card>
       </View>
     </View>

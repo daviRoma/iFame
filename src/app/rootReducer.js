@@ -2,8 +2,8 @@ import { combineReducers } from '@reduxjs/toolkit';
 import authReducer from '../features/auth/authSlice';
 import userReducer from '../features/user/userSlice';
 import foodCatReducer from '../features/foodCategories/foodCategoriesSlice';
-import restaurantReducer from '../features/restaurantSlice';
-import eventREducer from '../features/eventSlice';
+import restaurantReducer from '../features/restaurants/restaurantSlice';
+import eventREducer from '../features/events/eventSlice';
 
 const appReducer = combineReducers({
   loggedUser: userReducer,
