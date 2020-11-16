@@ -1,10 +1,10 @@
 import auth from '@react-native-firebase/auth';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { StyleSheet, ActivityIndicator, SafeAreaView, Text, View} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-import { EventItem } from '../components';
+import { EventItem, FilterBar } from '../components';
 import {
   getAllUserEvents,
   selectAllEvents,
@@ -25,20 +25,20 @@ export default function MyEventsPage({ navigation }) {
 
   if (isLoading || userEventList === null) {
     return (
-      <View style={[styles.activityContainer, styles.horizontal]}>
+      <SafeAreaView style={[styles.activityContainer, styles.horizontal]}>
         <ActivityIndicator size="large" />
-      </View>
+      </SafeAreaView>
     );
   } else if (!userEventList.length) {
     return (
-      <View style={styles.pageContainer}>
-        <Text>No event found</Text>
-      </View>
+      <SafeAreaView style={styles.pageContainer}>
+        <Text style={styles.noElemContainer}>No event found</Text>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={[styles.pageContainer, { paddingBottom: 10 }]}>
+    <SafeAreaView style={[styles.pageContainer, { paddingBottom: 10 }]}>
       <FlatList
         style={styles.sectionOne}
         data={userEventList}
@@ -54,19 +54,19 @@ export default function MyEventsPage({ navigation }) {
           );
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
   },
   noElemContainer: {
-    text: {
-      align: 'center',
-      fontSize: 17,
-    },
+    textAlign: 'center',
+    fontSize: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   sectionOne: {
     flex: 1,
@@ -80,4 +80,4 @@ const styles = {
     justifyContent: 'space-around',
     padding: 10,
   },
-};
+});

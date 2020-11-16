@@ -1,23 +1,43 @@
-import React, { useEffect } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { Card } from 'react-native-elements';
-import * as Routes from '../routes';
+import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+  Platform,
+  StatusBar,
+} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { Card, Overlay, Input, Slider } from 'react-native-elements';
+import { FlatList } from 'react-native-gesture-handler';
 
-import EventItem from '../components/EventItem';
+import * as Routes from '../routes';
+
+import { EventItem, FilterBar } from '../components';
 
 import {
   getAllEvents,
   selectAllEvents,
   selectEventLoading,
 } from '../features/events/eventSlice';
-import { FlatList } from 'react-native-gesture-handler';
 
 export default function EventListPage({ navigation }) {
   const eventList = useSelector(selectAllEvents);
   const isLoading = useSelector(selectEventLoading);
   const dispatch = useDispatch();
+
+  const [visible, setVisible] = useState(false);
+  const [ rangeValue, setRangeValue ] = useState('');
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
+
+  const rangeValueChange = (val) => {
+    setRangeValue(val);
+  };
 
   useFocusEffect(
     React.useCallback(() => {
@@ -27,21 +47,22 @@ export default function EventListPage({ navigation }) {
 
   if (isLoading || eventList === null) {
     return (
-      <View style={[styles.activityContainer, styles.horizontal]}>
+      <SafeAreaView style={[styles.activityContainer, styles.horizontal]}>
         <ActivityIndicator size="large" />
-      </View>
+      </SafeAreaView>
     );
   } else if (!eventList.length) {
     return (
-      <View style={styles.pageContainer}>
+      <SafeAreaView style={styles.pageContainer}>
         <Text>No event found</Text>
-      </View>
+      </SafeAreaView>
     );
   }
 
   // if events found
   return (
-    <View style={[styles.pageContainer, { paddingBottom: 10 }]}>
+    <SafeAreaView style={[styles.pageContainer, { paddingBottom: 10 }]}>
+      <FilterBar onPressFiler={toggleOverlay} />
       <FlatList
         style={styles.sectionOne}
         data={eventList}
@@ -64,13 +85,34 @@ export default function EventListPage({ navigation }) {
           <Card.Divider />
         </Card>
       </View>
-    </View>
+
+      <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+        <View style={{ alignItems: 'stretch', justifyContent: 'center' }}>
+          <Slider
+            style={styles.overlayContainer}
+            value={rangeValue}
+            maximumValue={30}
+            minimumValue={0}
+            step={5}
+            onValueChange={rangeValueChange}
+            trackStyle={{ height: 10, backgroundColor: 'transparent' }}
+            thumbStyle={{
+              height: 20,
+              width: 20,
+              backgroundColor: 'transparent',
+            }}
+          />
+          <Text>Value: {rangeValue}</Text>
+        </View>
+      </Overlay>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   sectionOne: {
     flex: 1,
@@ -86,6 +128,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10,
+  },
+  overlayContainer: {
+    height: 150,
+    width: 150,
   },
   map: {
     ...StyleSheet.absoluteFillObject,
