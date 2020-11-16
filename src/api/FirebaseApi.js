@@ -6,6 +6,7 @@ import firestore from '@react-native-firebase/firestore';
 export const users = firestore().collection('users');
 export const foodCat = firestore().collection('food-categories');
 export const events = firestore().collection('events');
+export const cities = firestore().collection('cities');
 
 /**
  * Events Api
@@ -82,4 +83,16 @@ export async function getFoodCat() {
     foodCats.push(doc.data());
   });
   return foodCats;
+}
+
+/**
+ * Cities API
+ */
+
+export async function getAllCities() {
+  let ris = [];
+  (await cities.get()).forEach((doc) => {
+    ris.push(doc.data());
+  });
+  return ris;
 }

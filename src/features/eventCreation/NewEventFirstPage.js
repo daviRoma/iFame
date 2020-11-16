@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import { Input, Text } from 'react-native-elements';
+import { Button, Input, Text } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomActivityIndicator, DateTimeSelector } from '../../components';
-import { useFoodCategories } from '../../hooks/useFoodCategories';
-import { selectState } from './eventCreationSlice';
+import { useFoodCategories, useCities } from '../../hooks';
+import { addInformations, selectState } from './eventCreationSlice';
 import { Picker } from '@react-native-picker/picker';
+import * as Routes from '../../routes';
 
 export default function NewEventFirstPage({ navigation }) {
   const {
@@ -17,6 +18,7 @@ export default function NewEventFirstPage({ navigation }) {
     descriptionState,
   } = useSelector(selectState);
   const { loading, foodCategories } = useFoodCategories();
+  const { cities, citiesLoading } = useCities();
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState(titleState);
@@ -26,9 +28,25 @@ export default function NewEventFirstPage({ navigation }) {
   const [numPart, setNumPart] = useState(numPartState);
   const [description, setDescription] = useState(descriptionState);
 
+  const [titleError, setTitleError] = useState('');
+
+  const onSubmit = () => {
+    dispatch(
+      addInformations({
+        title,
+        date: date.toLocaleString(),
+        location,
+        category,
+        numPart,
+        description,
+      }),
+    );
+    navigation.navigate(Routes.NEW_EVENT_SECOND);
+  };
+
   return (
     <>
-      {loading || !foodCategories ? (
+      {loading || !foodCategories || !cities || citiesLoading ? (
         <CustomActivityIndicator />
       ) : (
         <ScrollView>
@@ -41,7 +59,7 @@ export default function NewEventFirstPage({ navigation }) {
               onChangeText={setTitle}
             />
             <Input
-              label="Descrizione"
+              label="Descrizione (opzionale)"
               placeholder="Descrizione nuovo evento"
               multiline={true}
               numberOfLines={2}
@@ -59,11 +77,7 @@ export default function NewEventFirstPage({ navigation }) {
               }}
               value={date || new Date()}
             />
-            {date && (
-              <Text>
-                {date.toDateString()} {date.toLocaleTimeString()}
-              </Text>
-            )}
+            {date && <Text>{date.toLocaleString()}</Text>}
           </View>
           <View>
             <Input
@@ -93,6 +107,28 @@ export default function NewEventFirstPage({ navigation }) {
           </View>
           <View>
             <Text>Seleziona una città:</Text>
+            <Picker
+              selectedValue={location}
+              onValueChange={(value) => {
+                setLocation(value);
+              }}>
+              {cities.map((value) => {
+                return (
+                  <Picker.Item
+                    label={value.name_it}
+                    value={value.name}
+                    key={value.name}
+                  />
+                );
+              })}
+            </Picker>
+          </View>
+          <View>
+            <Button
+              title="Vai avanti"
+              onPress={onSubmit}
+              disabled={!(title && location && date && numPart && category)}
+            />
           </View>
         </ScrollView>
       )}
