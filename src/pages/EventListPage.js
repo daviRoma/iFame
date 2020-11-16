@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card } from 'react-native-elements';
 import * as Routes from '../routes';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 import EventItem from '../components/EventItem';
 
@@ -59,21 +60,25 @@ export default function EventListPage({ navigation }) {
         <Card containerStyle={{ margin: 0 }}>
           <Card.Title>MAP</Card.Title>
           <Card.Divider />
+          <MapView
+            provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+            style={styles.map}
+            region={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+              latitudeDelta: 0.015,
+              longitudeDelta: 0.0121,
+            }}
+          />
         </Card>
       </View>
     </View>
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
-  },
-  noElemContainer: {
-    text: {
-      align: 'center',
-      fontSize: 17,
-    },
   },
   sectionOne: {
     flex: 1,
@@ -90,4 +95,7 @@ const styles = {
     justifyContent: 'space-around',
     padding: 10,
   },
-};
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+});
