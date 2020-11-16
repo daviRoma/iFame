@@ -22,7 +22,7 @@ const RootNavigator = () => {
 
   useEffect(() => {
     let firstCall = true;
-    const sub = auth().onAuthStateChanged((loggedUser) => {
+    const sub = auth().onIdTokenChanged((loggedUser) => {
       if (!firstCall) {
         if (loggedUser) {
           const unsubscribe = dispatch(getUserInfo());
