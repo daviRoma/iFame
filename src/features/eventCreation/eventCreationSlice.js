@@ -2,14 +2,15 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   title: '',
-  day: '',
-  hour: '',
+  date: '',
   location: '',
   category: '',
   numPart: 0,
   restaurant: null,
   description: '',
 };
+
+export const selectState = (state) => state.eventCreation;
 
 const eventCreationSlice = createSlice({
   name: 'eventCreation',
