@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Card } from 'react-native-elements';
 import * as Routes from '../routes';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { useFocusEffect } from '@react-navigation/native';
 
 import EventItem from '../components/EventItem';
 
@@ -19,9 +20,11 @@ export default function EventListPage({ navigation }) {
   const isLoading = useSelector(selectEventLoading);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getAllEvents({ location: 'Roma' }));
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(getAllEvents({ location: 'Roma' }));
+    }, [dispatch]),
+  );
 
   if (isLoading || eventList === null) {
     return (

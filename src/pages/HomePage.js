@@ -12,6 +12,7 @@ export default function HomePage({ navigation }) {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(true);
   const [preferencies, setPreferencies] = useState([]);
+
   return (
     <>
       {loading ? (

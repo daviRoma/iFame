@@ -1,4 +1,5 @@
 import auth from '@react-native-firebase/auth';
+import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
@@ -16,9 +17,11 @@ export default function MyEventsPage({ navigation }) {
   const isLoading = useSelector(selectEventLoading);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getAllUserEvents(auth().currentUser.uid));
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(getAllUserEvents(auth().currentUser.uid));
+    }, []),
+  );
 
   if (isLoading || userEventList === null) {
     return (
