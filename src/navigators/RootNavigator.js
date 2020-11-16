@@ -1,8 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import LoginPage from '../pages/LoginPage';
-import NewEventPage from '../pages/NewEventPage';
+import NewEventFirstPage from '../features/eventCreation/NewEventFirstPage';
+import NewEventRestaurantPage from '../features/eventCreation/NewEventRestaurantPage';
 import SignInPage from '../pages/SignInPage';
 import SingleEventPage from '../pages/SingleEventPage';
 import UpdateEventPage from '../pages/UpdateEventPage';
@@ -72,8 +73,17 @@ const RootNavigator = () => {
                 }}
               />
               <RootStack.Screen
-                name={Routes.NEW_EVENT}
-                component={NewEventPage}
+                name={Routes.NEW_EVENT_FIRST}
+                component={NewEventFirstPage}
+                options={() => {
+                  return {
+                    title: 'Create Event',
+                  };
+                }}
+              />
+              <RootStack.Screen
+                name={Routes.NEW_EVENT_SECOND}
+                component={NewEventRestaurantPage}
                 options={() => {
                   return {
                     title: 'Create Event',

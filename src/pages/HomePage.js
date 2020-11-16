@@ -45,7 +45,7 @@ export default function HomePage({ navigation }) {
           />
           <FloatingButton
             clickHandler={() => {
-              navigation.navigate(Routes.NEW_EVENT);
+              navigation.navigate(Routes.NEW_EVENT_FIRST);
             }}
           />
         </SafeAreaView>
