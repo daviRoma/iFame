@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const SearchBarItem = ({ term, setTerm, onTermSubmit }) => {
   return (
@@ -21,11 +21,12 @@ const SearchBarItem = ({ term, setTerm, onTermSubmit }) => {
 
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: '#F0EEEE',
+    backgroundColor: 'white',
     height: 50,
     borderRadius: 5,
     marginVertical: 10,
     flexDirection: 'row',
+    marginHorizontal: 10,
   },
   inputStyle: {
     flex: 1,

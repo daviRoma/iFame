@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import {
@@ -16,13 +16,27 @@ const NewEventRestaurantPage = () => {
     location,
     categories: category,
   });
+
+  const [search, setSearch] = useState('');
+  const [restList, setRestList] = useState(restaurants);
+  const onSearch = () => {
+    if (search) {
+      setRestList(
+        restList.filter(
+          (item) => item.name.toLowerCase() === search.toLowerCase(),
+        ),
+      );
+    } else {
+      setRestList(restaurants);
+    }
+  };
   return (
     <>
       {loading ? (
         <CustomActivityIndicator />
       ) : (
         <>
-          {!restaurants ? (
+          {!restList ? (
             <>
               {error ? (
                 <ErrorMessage>{error}</ErrorMessage>
@@ -32,9 +46,13 @@ const NewEventRestaurantPage = () => {
             </>
           ) : (
             <>
-              <SearchBarItem />
+              <SearchBarItem
+                term={search}
+                setTerm={setSearch}
+                onTermSubmit={onSearch}
+              />
               <FlatList
-                data={restaurants}
+                data={restList}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => <RestaurantCard item={item} />}
               />
