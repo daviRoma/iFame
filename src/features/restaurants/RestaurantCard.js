@@ -1,16 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Image } from 'react-native-elements';
+import { Card, Image } from 'react-native-elements';
 
 const RestaurantCard = ({ item }) => {
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: item.image_url }} style={styles.image} />
-      <Text style={styles.title}>{item.name}</Text>
-      <Text>
-        {item.rating} Stars, {item.review_count} Reviews
-      </Text>
-    </View>
+    <Card>
+      <Card.Title style={styles.title}>{item.name}</Card.Title>
+      <Card.Image source={{ uri: item.image_url }} />
+      <Card.Divider />
+      <Text>Fascia di prezzo: {item.price}</Text>
+      <Text>Rating: {item.rating} Stelle</Text>
+      <Text>Numero recensioni: {item.review_count}</Text>
+    </Card>
   );
 };
 
@@ -28,5 +29,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: 'bold',
+    fontSize: 20,
   },
 });

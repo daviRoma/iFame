@@ -3,7 +3,7 @@ import authReducer from '../features/auth/authSlice';
 import userReducer from '../features/user/userSlice';
 import foodCatReducer from '../features/foodCategories/foodCategoriesSlice';
 import restaurantReducer from '../features/restaurants/restaurantSlice';
-import eventReducer from '../features/eventSlice';
+import eventReducer from '../features/events/eventSlice';
 import eventCreationReducer from '../features/eventCreation/eventCreationSlice';
 import citiesReducer from '../features/citiesSlice';
 

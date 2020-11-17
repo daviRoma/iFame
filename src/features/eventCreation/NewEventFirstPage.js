@@ -1,18 +1,17 @@
+import { Picker } from '@react-native-picker/picker';
 import React, { useState } from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   CustomActivityIndicator,
   DateTimeSelector,
-  ErrorMessage,
   Spacer,
 } from '../../components';
-import { useFoodCategories, useCities } from '../../hooks';
-import { addInformations, selectState } from './eventCreationSlice';
-import { Picker } from '@react-native-picker/picker';
+import { useCities, useFoodCategories } from '../../hooks';
 import * as Routes from '../../routes';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { addInformations, selectState } from './eventCreationSlice';
 
 export default function NewEventFirstPage({ navigation }) {
   const {
