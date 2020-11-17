@@ -58,7 +58,7 @@ const RootNavigator = () => {
                 component={SignInPage}
                 options={() => {
                   return {
-                    title: 'Sign Up',
+                    title: 'Registrazione',
                   };
                 }}
               />
@@ -77,7 +77,7 @@ const RootNavigator = () => {
                 component={NewEventFirstPage}
                 options={() => {
                   return {
-                    title: 'Create Event',
+                    title: 'Nuovo Evento',
                   };
                 }}
               />
@@ -86,7 +86,7 @@ const RootNavigator = () => {
                 component={NewEventRestaurantPage}
                 options={() => {
                   return {
-                    title: 'Create Event',
+                    title: 'Seleziona ristorante',
                   };
                 }}
               />
@@ -95,7 +95,7 @@ const RootNavigator = () => {
                 component={SingleEventPage}
                 options={() => {
                   return {
-                    title: 'Event Detail',
+                    title: 'Dettaglio Evento',
                   };
                 }}
               />
@@ -104,7 +104,7 @@ const RootNavigator = () => {
                 component={UpdateEventPage}
                 options={() => {
                   return {
-                    title: 'Update Event',
+                    title: 'Aggiorna Evento',
                   };
                 }}
               />
