@@ -80,7 +80,9 @@ export async function updateUserInfo(id, userData) {
 export async function getFoodCat() {
   let foodCats = [];
   (await foodCat.get()).forEach((doc) => {
-    foodCats.push(doc.data());
+    let data = doc.data();
+    data.key = doc.id;
+    foodCats.push(data);
   });
   return foodCats;
 }
@@ -92,7 +94,9 @@ export async function getFoodCat() {
 export async function getAllCities() {
   let ris = [];
   (await cities.get()).forEach((doc) => {
-    ris.push(doc.data());
+    let data = doc.data();
+    data.key = doc.id;
+    ris.push(data);
   });
   return ris;
 }

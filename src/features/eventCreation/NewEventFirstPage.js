@@ -105,9 +105,9 @@ export default function NewEventFirstPage({ navigation }) {
                 {foodCategories.map((value) => {
                   return (
                     <Picker.Item
-                      label={value.title}
-                      value={value.title}
-                      key={value.title}
+                      label={value.title_it}
+                      value={value.key}
+                      key={value.key}
                     />
                   );
                 })}
@@ -125,8 +125,8 @@ export default function NewEventFirstPage({ navigation }) {
                   return (
                     <Picker.Item
                       label={value.name_it}
-                      value={value.name}
-                      key={value.name}
+                      value={value.key}
+                      key={value.key}
                     />
                   );
                 })}
