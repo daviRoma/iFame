@@ -1,14 +1,18 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
-import { CustomActivityIndicator } from '../../components';
+import {
+  CustomActivityIndicator,
+  ErrorMessage,
+  SearchBarItem,
+} from '../../components';
 import { useRestaurants } from '../../hooks';
 import { selectState } from './eventCreationSlice';
 import RestaurantCard from '../restaurants/RestaurantCard';
 
 const NewEventRestaurantPage = () => {
   const { category, location } = useSelector(selectState);
-  const { loading, restaurants } = useRestaurants({
+  const { loading, restaurants, error } = useRestaurants({
     location,
     categories: category,
   });
@@ -19,13 +23,22 @@ const NewEventRestaurantPage = () => {
       ) : (
         <>
           {!restaurants ? (
-            <Text>No data found</Text>
+            <>
+              {error ? (
+                <ErrorMessage>{error}</ErrorMessage>
+              ) : (
+                <ErrorMessage>No data found</ErrorMessage>
+              )}
+            </>
           ) : (
-            <FlatList
-              data={restaurants}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => <RestaurantCard item={item} />}
-            />
+            <>
+              <SearchBarItem />
+              <FlatList
+                data={restaurants}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => <RestaurantCard item={item} />}
+              />
+            </>
           )}
         </>
       )}

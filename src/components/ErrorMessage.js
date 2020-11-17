@@ -1,18 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function ErrorMessage({ message }) {
+export default function ErrorMessage({ children }) {
   return (
-    <View>
-      <Text style={styles.errorMessage}>{message}</Text>
+    <View style={styles.container}>
+      <Text style={styles.errorMessage}>{children}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   errorMessage: {
-    marginBottom: 10,
     color: 'red',
     fontSize: 16,
+  },
+  container: {
+    justifyContent: 'center',
   },
 });

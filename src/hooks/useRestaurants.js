@@ -4,7 +4,9 @@ import { getAllRestaurant } from '../features/restaurants/restaurantSlice';
 import { useFocusEffect } from '@react-navigation/native';
 
 export const useRestaurants = (search) => {
-  const { restaurants, loading } = useSelector((state) => state.restaurant);
+  const { restaurants, loading, error } = useSelector(
+    (state) => state.restaurant,
+  );
   const dispatch = useDispatch();
 
   useFocusEffect(
@@ -13,5 +15,5 @@ export const useRestaurants = (search) => {
     }, []),
   );
 
-  return { restaurants, loading };
+  return { restaurants, loading, error };
 };
