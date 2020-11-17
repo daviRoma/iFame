@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import {
   CustomActivityIndicator,
@@ -9,16 +9,17 @@ import {
 import { useRestaurants } from '../../hooks';
 import { selectState } from './eventCreationSlice';
 import RestaurantCard from '../restaurants/RestaurantCard';
+import * as Routes from '../../routes';
 
-const NewEventRestaurantPage = () => {
+const NewEventRestaurantPage = ({ navigation }) => {
   const { category, location } = useSelector(selectState);
+  const [search, setSearch] = useState('');
   const { loading, restaurants, error } = useRestaurants({
     location,
     categories: category,
   });
+  const [restList, setRestList] = useState([]);
 
-  const [search, setSearch] = useState('');
-  const [restList, setRestList] = useState(restaurants);
   const onSearch = () => {
     if (search) {
       setRestList(
@@ -30,13 +31,18 @@ const NewEventRestaurantPage = () => {
       setRestList(restaurants);
     }
   };
+
+  useEffect(() => {
+    setRestList(restaurants);
+  }, [restaurants]);
+
   return (
     <>
       {loading ? (
         <CustomActivityIndicator />
       ) : (
         <>
-          {!restList ? (
+          {!restaurants ? (
             <>
               {error ? (
                 <ErrorMessage>{error}</ErrorMessage>
@@ -54,7 +60,16 @@ const NewEventRestaurantPage = () => {
               <FlatList
                 data={restList}
                 keyExtractor={(item) => item.id}
-                renderItem={({ item }) => <RestaurantCard item={item} />}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate(Routes.RESTAURANT_DETAIL, {
+                        id: item.id,
+                      })
+                    }>
+                    <RestaurantCard item={item} />
+                  </TouchableOpacity>
+                )}
               />
             </>
           )}

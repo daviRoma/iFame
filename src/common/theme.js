@@ -1,7 +1,7 @@
 export default {
   Button: {
     buttonStyle: {
-      borderRadius: 10,
+      borderRadius: 5,
     },
     containerStyle: {
       margin: 5,

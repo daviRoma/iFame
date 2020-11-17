@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import { clearUserInfo, getUserInfo } from '../features/user/userSlice';
 import CustomActivityIndicator from '../components/CustomActivityIndicator';
+import RestaurantDetail from '../features/restaurants/RestaurantDetail';
 
 const RootStack = createStackNavigator();
 
@@ -87,6 +88,15 @@ const RootNavigator = () => {
                 options={() => {
                   return {
                     title: 'Seleziona ristorante',
+                  };
+                }}
+              />
+              <RootStack.Screen
+                name={Routes.RESTAURANT_DETAIL}
+                component={RestaurantDetail}
+                options={() => {
+                  return {
+                    title: 'Dettaglio ristorante',
                   };
                 }}
               />
