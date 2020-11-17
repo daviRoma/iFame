@@ -21,7 +21,7 @@ export default function ProfileForm({ user }) {
   const [email, setEmail] = useState(user.email);
   const [emailError, setEmailError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const [preferencies, setPreferencies] = useState(user.preferencies);
+  const [preferences, setPreferencies] = useState(user.preferences);
 
   const selectImage = () => {
     ImagePicker.launchImageLibrary(
@@ -85,7 +85,7 @@ export default function ProfileForm({ user }) {
         <FoodPrefsModal
           visible={modalVisible}
           setVisible={setModalVisible}
-          foodPref={preferencies}
+          foodPref={preferences}
           setFoodPref={setPreferencies}
         />
         <Button
@@ -107,7 +107,7 @@ export default function ProfileForm({ user }) {
           onPress={() => {
             if (emailError === '') {
               dispatch(
-                updateUser({ name, username, email, avatar, preferencies }),
+                updateUser({ name, username, email, avatar, preferences }),
               );
             }
           }}

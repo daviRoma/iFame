@@ -55,7 +55,7 @@ export async function createUserDoc(id, data) {
 }
 
 export async function updateFoodPreferencies(id, foodPref) {
-  await users.doc(id).update({ preferencies: foodPref });
+  await users.doc(id).update({ preferences: foodPref });
 }
 
 export async function getUser(id, onError, onSuccess) {

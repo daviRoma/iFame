@@ -11,7 +11,7 @@ export default function HomePage({ navigation }) {
   const { loading, user } = useSelector((state) => state.loggedUser);
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(true);
-  const [preferencies, setPreferencies] = useState([]);
+  const [preferences, setPreferencies] = useState([]);
 
   return (
     <>
@@ -19,14 +19,14 @@ export default function HomePage({ navigation }) {
         <ActivityIndicator size={30} />
       ) : (
         <SafeAreaView style={{ flex: 1 }}>
-          {user && user.preferencies.length === 0 ? (
+          {user && user.preferences.length === 0 ? (
             <FoodPrefsModal
               visible={visible}
               onClose={() => {
-                dispatch(loadFoodPref(preferencies));
+                dispatch(loadFoodPref(preferences));
               }}
               setVisible={setVisible}
-              foodPref={preferencies}
+              foodPref={preferences}
               setFoodPref={setPreferencies}
             />
           ) : null}

@@ -77,7 +77,7 @@ export const signUpUser = (email, password, navigation) => {
       );
       await createUserDoc(newUser.user.uid, {
         email: newUser.user.email,
-        preferencies: [],
+        preferences: [],
       });
       dispatch(registrationSuccess());
     } catch (error) {
