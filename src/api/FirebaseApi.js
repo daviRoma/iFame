@@ -27,17 +27,21 @@ export function getUserEvents(userId) {
 }
 
 export function getEvents(params) {
+  let collectionRef = events;
   if (params && params.location) {
-    events.where('location', '==', params.location);
+    collectionRef = events.where('location', '==', params.location);
   } else {
     if (params && params.latitude && params.longitude) {
-      events
+      collectionRef = events
         .where('latitude', '==', params.latitude)
         .where('longitude', '==', params.longitude);
     }
+    if (params && params.date) {
+      collectionRef = events.where('day', '==', params.date);
+    }
   }
 
-  return events.get().then((querySnapshot) => {
+  return collectionRef.get().then((querySnapshot) => {
     let data = [];
     querySnapshot.forEach((documentSnapshot) =>
       data.push({ ...documentSnapshot.data(), id: documentSnapshot.id }),

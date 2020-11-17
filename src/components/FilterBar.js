@@ -2,8 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Icon, Card } from 'react-native-elements';
 
-export default function FilterBar({ onPressFiler, onPressDate }) {
-  const position = 'Roma';
+export default function FilterBar({ location, onPressFiler, onPressDate }) {
 
   return (
     <View style={styles.barContainer}>
@@ -11,7 +10,7 @@ export default function FilterBar({ onPressFiler, onPressDate }) {
         <View style={styles.cardContainer}>
           <View style={{ flexDirection: 'row' }}>
             <Icon name="map-marker" type="font-awesome" color="#a11405" />
-            <Text style={styles.positionContainer}>{position}</Text>
+            <Text style={styles.positionContainer}>{location}</Text>
           </View>
           <View style={styles.filterContainer}>
             <Icon

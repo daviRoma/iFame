@@ -62,7 +62,7 @@ export const {
 } = eventSlice.actions;
 
 export const getAllEvents = (params) => {
-  log.info('[EventSlice]::[getAllEvents]');
+  log.info('[EventSlice]::[getAllEvents]', params);
   return async (dispatch) => {
     try {
       dispatch(eventGet());
