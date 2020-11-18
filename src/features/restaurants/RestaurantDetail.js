@@ -1,14 +1,30 @@
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
-import { Text, Image } from 'react-native-elements';
+import { StyleSheet, View } from 'react-native';
+import { Button } from 'react-native-elements';
+import { useDispatch } from 'react-redux';
+import {
+  CustomActivityIndicator,
+  ErrorMessage,
+  RestaurantDetailComponent,
+  Spacer,
+} from '../../components';
 import { useRestaurantDetail } from '../../hooks';
-import { CustomActivityIndicator, ErrorMessage } from '../../components';
-import MapView from 'react-native-maps';
+import {
+  addInformations,
+  createEvent as createEventAction,
+} from '../eventCreation/eventCreationSlice';
 
 const RestaurantDetail = ({ navigation, route }) => {
   const { restaurant, error } = useRestaurantDetail(route.params.id);
+  const dispatch = useDispatch();
+
+  const createEvent = () => {
+    dispatch(addInformations({ restaurant: restaurant.id }));
+    dispatch(createEventAction(navigation));
+  };
+
   return (
-    <View>
+    <View style={styles.container}>
       {!restaurant ? (
         <CustomActivityIndicator />
       ) : (
@@ -17,18 +33,10 @@ const RestaurantDetail = ({ navigation, route }) => {
             <ErrorMessage>{error.message}</ErrorMessage>
           ) : (
             <View>
-              <Text h2>{restaurant.name}</Text>
-              <FlatList
-                data={restaurant.photos}
-                keyExtractor={(item) => item}
-                renderItem={({ item }) => (
-                  <Image style={styles.list} source={{ uri: item }} />
-                )}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              />
-              <Text>Telefono: {restaurant.display_phone}</Text>
-              <MapView provider="google" />
+              <RestaurantDetailComponent restaurant={restaurant} />
+              <Spacer />
+              <Spacer />
+              <Button title="Crea evento" onPress={createEvent} />
             </View>
           )}
         </>
@@ -40,9 +48,8 @@ const RestaurantDetail = ({ navigation, route }) => {
 export default RestaurantDetail;
 
 const styles = StyleSheet.create({
-  list: {
-    height: 150,
-    width: 250,
+  container: {
+    flex: 1,
     margin: 10,
   },
 });

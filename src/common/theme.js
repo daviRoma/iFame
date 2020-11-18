@@ -16,4 +16,9 @@ export default {
     size: 'large',
     rounded: true,
   },
+  Text: {
+    style: {
+      fontSize: 16,
+    },
+  },
 };
