@@ -2,7 +2,7 @@
  * Restaurant slice - Redux
  */
 import { createSlice } from '@reduxjs/toolkit';
-import { getRestaurants } from '../../api/YelpApi';
+import { searchRestaurants } from '../../api/YelpApi';
 import { logger } from 'react-native-logs';
 
 const log = logger.createLogger();
@@ -46,10 +46,10 @@ export const getAllRestaurant = (params) => {
   log.info('[RestaurantSlice]::[getAllRestaurants]');
   return (dispatch) => {
     dispatch(restaurantGet());
-    getRestaurants(params)
-      .then((json) => {
-        dispatch(restaurantGetSuccess(json.businesses));
-        return json.businesses;
+    searchRestaurants(params)
+      .then((data) => {
+        dispatch(restaurantGetSuccess(data));
+        return data;
       })
       .catch((error) => {
         handleError(error, dispatch);

@@ -63,6 +63,7 @@ const AccessForm = ({
             emailValidator(text, email, setEmail, setEmailError)
           }
           errorMessage={emailError}
+          keyboardType="email-address"
         />
         <Input
           placeholder="Password"

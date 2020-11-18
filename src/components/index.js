@@ -9,3 +9,6 @@ export { default as ErrorMessage } from './ErrorMessage';
 export { default as FloatingButton } from './FloatingButton';
 export { default as FoodCategoriesList } from './FoodCategoriesList';
 export { default as Spacer } from './Spacer';
+export { default as DateTimeSelector } from './DateTimeSelector';
+export { default as RestaurantDetailComponent } from './RestaurantDetailComponent';
+export { default as Link } from './Link';

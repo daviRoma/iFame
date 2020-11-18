@@ -1,24 +1,42 @@
 import React from 'react';
-import { SearchBar } from 'react-native-elements';
+import { StyleSheet, TextInput, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default class SearchBarItem extends React.Component {
-  state = {
-    search: '',
-  };
-
-  updateSearch = (search) => {
-    this.setState({ search });
-  };
-
-  render() {
-    const { search } = this.state;
-
-    return (
-      <SearchBar
-        placeholder="Type Here..."
-        onChangeText={this.updateSearch}
-        value={search}
+const SearchBarItem = ({ term, setTerm, onTermSubmit }) => {
+  return (
+    <View style={styles.background}>
+      <Icon name="search" style={styles.iconSize} />
+      <TextInput
+        placeholder="Search"
+        style={styles.inputStyle}
+        value={term}
+        onChangeText={setTerm}
+        autoCapitalize="none"
+        autoCorrect={false}
+        onEndEditing={onTermSubmit}
       />
-    );
-  }
-}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  background: {
+    backgroundColor: 'white',
+    height: 50,
+    borderRadius: 5,
+    marginVertical: 10,
+    flexDirection: 'row',
+    marginHorizontal: 10,
+  },
+  inputStyle: {
+    flex: 1,
+    fontSize: 18,
+  },
+  iconSize: {
+    fontSize: 35,
+    alignSelf: 'center',
+    marginHorizontal: 10,
+  },
+});
+
+export default SearchBarItem;

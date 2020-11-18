@@ -43,9 +43,15 @@ export default function HomePage({ navigation }) {
               navigation.navigate(Routes.UPDATE_EVENT);
             }}
           />
+          <Button
+            title="Go to restaurant list"
+            onPress={() => {
+              navigation.navigate(Routes.NEW_EVENT_SECOND);
+            }}
+          />
           <FloatingButton
             clickHandler={() => {
-              navigation.navigate(Routes.NEW_EVENT);
+              navigation.navigate(Routes.NEW_EVENT_FIRST);
             }}
           />
         </SafeAreaView>

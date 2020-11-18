@@ -25,16 +25,18 @@ export default function SingleEventPage({ route, navigation }) {
         </Text>
         <Text>{event.location}</Text>
         <Text>{event.participants}</Text>
-        <View style={styles.participantsContainer}>
-          {event.currentPartecipants.map((p, i) => (
-            <ListItem key={i} bottomDivider>
-              {/* <Avatar source={{ uri: p.avatar_url }} /> */}
-              <ListItem.Content>
-                <ListItem.Title>{p.name}</ListItem.Title>
-              </ListItem.Content>
-            </ListItem>
-          ))}
-        </View>
+        {event.currentPartecipants && (
+          <View style={styles.participantsContainer}>
+            {event.currentPartecipants.map((p, i) => (
+              <ListItem key={i} bottomDivider>
+                {/* <Avatar source={{ uri: p.avatar_url }} /> */}
+                <ListItem.Content>
+                  <ListItem.Title>{p.name}</ListItem.Title>
+                </ListItem.Content>
+              </ListItem>
+            ))}
+          </View>
+        )}
       </Card>
     </View>
   );

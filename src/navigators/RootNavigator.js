@@ -1,8 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import LoginPage from '../pages/LoginPage';
-import NewEventPage from '../pages/NewEventPage';
+import NewEventFirstPage from '../features/eventCreation/NewEventFirstPage';
+import NewEventRestaurantPage from '../features/eventCreation/NewEventRestaurantPage';
 import SignInPage from '../pages/SignInPage';
 import SingleEventPage from '../pages/SingleEventPage';
 import UpdateEventPage from '../pages/UpdateEventPage';
@@ -12,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import { clearUserInfo, getUserInfo } from '../features/user/userSlice';
 import CustomActivityIndicator from '../components/CustomActivityIndicator';
+import RestaurantDetail from '../features/restaurants/RestaurantDetail';
 
 const RootStack = createStackNavigator();
 
@@ -21,7 +23,7 @@ const RootNavigator = () => {
 
   useEffect(() => {
     let firstCall = true;
-    const sub = auth().onAuthStateChanged((loggedUser) => {
+    const sub = auth().onIdTokenChanged((loggedUser) => {
       if (!firstCall) {
         if (loggedUser) {
           const unsubscribe = dispatch(getUserInfo());
@@ -57,7 +59,7 @@ const RootNavigator = () => {
                 component={SignInPage}
                 options={() => {
                   return {
-                    title: 'Sign Up',
+                    title: 'Registrazione',
                   };
                 }}
               />
@@ -72,11 +74,29 @@ const RootNavigator = () => {
                 }}
               />
               <RootStack.Screen
-                name={Routes.NEW_EVENT}
-                component={NewEventPage}
+                name={Routes.NEW_EVENT_FIRST}
+                component={NewEventFirstPage}
                 options={() => {
                   return {
-                    title: 'Create Event',
+                    title: 'Nuovo Evento',
+                  };
+                }}
+              />
+              <RootStack.Screen
+                name={Routes.NEW_EVENT_SECOND}
+                component={NewEventRestaurantPage}
+                options={() => {
+                  return {
+                    title: 'Seleziona ristorante',
+                  };
+                }}
+              />
+              <RootStack.Screen
+                name={Routes.RESTAURANT_DETAIL}
+                component={RestaurantDetail}
+                options={() => {
+                  return {
+                    title: 'Dettaglio ristorante',
                   };
                 }}
               />
@@ -85,7 +105,7 @@ const RootNavigator = () => {
                 component={SingleEventPage}
                 options={() => {
                   return {
-                    title: 'Event Detail',
+                    title: 'Dettaglio Evento',
                   };
                 }}
               />
@@ -94,7 +114,7 @@ const RootNavigator = () => {
                 component={UpdateEventPage}
                 options={() => {
                   return {
-                    title: 'Update Event',
+                    title: 'Aggiorna Evento',
                   };
                 }}
               />

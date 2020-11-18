@@ -1,7 +1,7 @@
 export default {
   Button: {
     buttonStyle: {
-      borderRadius: 10,
+      borderRadius: 5,
     },
     containerStyle: {
       margin: 5,
@@ -15,5 +15,10 @@ export default {
     showAccessory: true,
     size: 'large',
     rounded: true,
+  },
+  Text: {
+    style: {
+      fontSize: 16,
+    },
   },
 };

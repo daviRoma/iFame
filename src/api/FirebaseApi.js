@@ -6,6 +6,7 @@ import firestore from '@react-native-firebase/firestore';
 export const users = firestore().collection('users');
 export const foodCat = firestore().collection('food-categories');
 export const events = firestore().collection('events');
+export const cities = firestore().collection('cities');
 
 /**
  * Events Api
@@ -46,6 +47,10 @@ export function getEvents(params) {
   });
 }
 
+export async function createEvent(event) {
+  await events.add(event);
+}
+
 /**
  * User api
  */
@@ -79,7 +84,28 @@ export async function updateUserInfo(id, userData) {
 export async function getFoodCat() {
   let foodCats = [];
   (await foodCat.get()).forEach((doc) => {
-    foodCats.push(doc.data());
+    let data = doc.data();
+    data.key = doc.id;
+    foodCats.push(data);
   });
   return foodCats;
+}
+
+/**
+ * Cities API
+ */
+
+export async function getAllCities() {
+  let ris = [];
+  (await cities.get()).forEach((doc) => {
+    let data = doc.data();
+    data.key = doc.id;
+    ris.push(data);
+  });
+  return ris;
+}
+
+export async function getCityById(id) {
+  const data = await cities.doc(id).get();
+  return data.data;
 }
