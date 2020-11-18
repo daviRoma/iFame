@@ -82,6 +82,7 @@ export function createEvent(navigation) {
         description,
         restaurant,
         author: auth().currentUser.uid,
+        isFull: false,
       });
       dispatch(createEventSuccess());
       navigation.navigate(Routes.MY_EVENTS);

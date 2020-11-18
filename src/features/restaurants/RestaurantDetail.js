@@ -19,7 +19,7 @@ const RestaurantDetail = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
   const createEvent = () => {
-    dispatch(addInformations({ restaurant: restaurant.id }));
+    dispatch(addInformations({ restaurant: restaurant }));
     dispatch(createEventAction(navigation));
   };
 
