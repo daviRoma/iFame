@@ -6,6 +6,7 @@ import restaurantReducer from '../features/restaurants/restaurantSlice';
 import eventReducer from '../features/events/eventSlice';
 import eventCreationReducer from '../features/eventCreation/eventCreationSlice';
 import citiesReducer from '../features/citiesSlice';
+import myEventsReducer from '../features/myEvents/myEventsSlice';
 
 const appReducer = combineReducers({
   loggedUser: userReducer,
@@ -15,6 +16,7 @@ const appReducer = combineReducers({
   event: eventReducer,
   eventCreation: eventCreationReducer,
   cities: citiesReducer,
+  myEvents: myEventsReducer,
 });
 
 export default appReducer;
