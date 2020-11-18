@@ -14,30 +14,17 @@ import * as Routes from '../../routes';
 import { addInformations, selectState } from './eventCreationSlice';
 
 export default function NewEventFirstPage({ navigation }) {
-  const {
-    titleState,
-    dateState,
-    locationState,
-    categoryState,
-    numPartState,
-    descriptionState,
-  } = useSelector(selectState);
+  const state = useSelector(selectState);
   const { loading, foodCategories } = useFoodCategories();
   const { cities, citiesLoading } = useCities();
   const dispatch = useDispatch();
 
-  const [title, setTitle] = useState(titleState);
-  const [date, setDate] = useState(dateState);
-  const [location, setLocation] = useState(locationState);
-  const [category, setCategory] = useState(categoryState);
-  const [numPart, setNumPart] = useState(numPartState);
-  const [description, setDescription] = useState(descriptionState);
-
-  // const [titleError, setTitleError] = useState('');
-  // const [numError, setNumError] = useState('');
-  // const [dataError, setDataError] = useState('');
-  // const [categoryError, setCategoryError] = useState('');
-  // const [locationError, setLocationError] = useState('');
+  const [title, setTitle] = useState(state.title);
+  const [date, setDate] = useState(state.date);
+  const [location, setLocation] = useState(state.location);
+  const [category, setCategory] = useState(state.category);
+  const [numPart, setNumPart] = useState(state.partecipants);
+  const [description, setDescription] = useState(state.description);
 
   const onSubmit = () => {
     dispatch(
@@ -80,6 +67,7 @@ export default function NewEventFirstPage({ navigation }) {
                 value={numPart}
                 onChangeText={setNumPart}
                 containerStyle={styles.inputNumber}
+                placeholder="0"
               />
             </View>
             <View>

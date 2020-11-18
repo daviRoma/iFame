@@ -1,12 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
-import { Text, Image } from 'react-native-elements';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { Image, Text } from 'react-native-elements';
 import MapView, { Marker } from 'react-native-maps';
 import Link from './Link';
-import Spacer from './Spacer';
 
 const RestaurantDetailComponent = ({ restaurant }) => {
-  console.log(restaurant);
   return (
     <View style={styles.container}>
       <Text h3>{restaurant.name}</Text>

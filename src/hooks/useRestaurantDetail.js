@@ -10,7 +10,6 @@ export const useRestaurantDetail = (id) => {
     try {
       setLoading(true);
       const ris = await getRestaurantDetail(id);
-      console.log(ris);
       setRestaurant(ris);
       setLoading(false);
     } catch (e) {

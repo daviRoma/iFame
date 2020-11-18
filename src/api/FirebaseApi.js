@@ -47,6 +47,10 @@ export function getEvents(params) {
   });
 }
 
+export async function createEvent(event) {
+  await events.add(event);
+}
+
 /**
  * User api
  */
@@ -99,4 +103,9 @@ export async function getAllCities() {
     ris.push(data);
   });
   return ris;
+}
+
+export async function getCityById(id) {
+  const data = await cities.doc(id).get();
+  return data.data;
 }

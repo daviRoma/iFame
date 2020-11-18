@@ -1,13 +1,18 @@
+import auth from '@react-native-firebase/auth';
 import { createSlice } from '@reduxjs/toolkit';
+import { createEvent as createEventApi } from '../../api/FirebaseApi';
+import * as Routes from '../../routes';
 
 const initialState = {
   title: '',
   date: '',
   location: '',
   category: '',
-  numPart: 0,
+  partecipants: '',
   restaurant: null,
   description: '',
+  loading: false,
+  error: null,
 };
 
 export const selectState = (state) => state.eventCreation;
@@ -27,12 +32,56 @@ const eventCreationSlice = createSlice({
         state[key] = initialState[key];
       });
     },
+    createEventStart(state) {
+      state.loading = true;
+    },
+    createEventSuccess(state) {
+      state.loading = false;
+    },
+    createEventError(state, { payload }) {
+      state.loading = false;
+      state.error = payload;
+    },
   },
 });
 
 export const {
   addInformations,
   clearInformations,
+  createEventStart,
+  createEventSuccess,
+  createEventError,
 } = eventCreationSlice.actions;
 
 export default eventCreationSlice.reducer;
+
+export function createEvent(navigation) {
+  return async (dispatch, getState) => {
+    dispatch(createEventStart);
+    const {
+      title,
+      date,
+      location,
+      category,
+      partecipants,
+      description,
+      restaurant,
+    } = getState().eventCreation;
+    try {
+      await createEventApi({
+        title,
+        date,
+        location,
+        category,
+        partecipants,
+        description,
+        restaurant,
+        author: auth().currentUser.uid,
+      });
+      dispatch(createEventSuccess());
+      navigation.navigate(Routes.MY_EVENTS);
+    } catch (error) {
+      dispatch(createEventError(error));
+    }
+  };
+}
