@@ -19,7 +19,7 @@ export default function HomePage({ navigation }) {
         <ActivityIndicator size={30} />
       ) : (
         <SafeAreaView style={{ flex: 1 }}>
-          {user && user.preferences.length === 0 ? (
+          {user && !user.preferences ? (
             <FoodPrefsModal
               visible={visible}
               onClose={() => {
