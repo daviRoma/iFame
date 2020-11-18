@@ -1,6 +1,6 @@
 import auth from '@react-native-firebase/auth';
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, SafeAreaView, StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -24,9 +24,9 @@ export default function MyEventsPage({ navigation }) {
     return <CustomActivityIndicator />;
   } else if (!myEvents.length) {
     return (
-      <View style={styles.pageContainer}>
-        <Text>No event found</Text>
-      </View>
+      <SafeAreaView style={styles.pageContainer}>
+        <Text style={styles.noElemContainer}>No event found</Text>
+      </SafeAreaView>
     );
   }
 
@@ -35,7 +35,7 @@ export default function MyEventsPage({ navigation }) {
   }
 
   return (
-    <View style={[styles.pageContainer, { paddingBottom: 10 }]}>
+    <SafeAreaView style={[styles.pageContainer, { paddingBottom: 10 }]}>
       <FlatList
         style={styles.sectionOne}
         data={myEvents}
@@ -51,19 +51,19 @@ export default function MyEventsPage({ navigation }) {
           );
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
   },
   noElemContainer: {
-    text: {
-      align: 'center',
-      fontSize: 17,
-    },
+    textAlign: 'center',
+    fontSize: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   sectionOne: {
     flex: 1,
@@ -77,4 +77,4 @@ const styles = {
     justifyContent: 'space-around',
     padding: 10,
   },
-};
+});

@@ -12,3 +12,4 @@ export { default as Spacer } from './Spacer';
 export { default as DateTimeSelector } from './DateTimeSelector';
 export { default as RestaurantDetailComponent } from './RestaurantDetailComponent';
 export { default as Link } from './Link';
+export { default as FilterBar } from './FilterBar';

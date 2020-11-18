@@ -1,19 +1,28 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import * as Routes from '../routes';
-import HomePage from '../pages/HomePage';
-import EventListPage from '../pages/EventListPage';
-import MyEventsPage from '../pages/MyEventsPage';
-import ProfilePage from '../pages/ProfilePage';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
+import { StyleSheet, StatusBar, Platform } from 'react-native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
+import HomePage from '../pages/HomePage';
+import EventListPage from '../pages/EventListPage';
+import MyEventsPage from '../pages/MyEventsPage';
+import ProfilePage from '../pages/ProfilePage';
+import * as Routes from '../routes';
+
 const TabPagesNavigator = () => {
-  const TabNavigator = createMaterialBottomTabNavigator();
+  const TabNavigator =
+    Platform.OS === 'android'
+      ? createMaterialBottomTabNavigator()
+      : createMaterialTopTabNavigator();
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={styles.pageContainer}>
       <TabNavigator.Navigator>
         <TabNavigator.Screen
           name={Routes.HOME}
@@ -59,5 +68,11 @@ const TabPagesNavigator = () => {
     </SafeAreaProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  pageContainer: {
+    paddingTop: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
+  },
+});
 
 export default TabPagesNavigator;

@@ -23,18 +23,21 @@ export function getUserEvents(userId, onSuccess, onError) {
 }
 
 export function getEvents(params, onSuccess, onError) {
-  let query = events;
+  let collectionRef = events;
   if (params && params.location) {
-    query = events.where('location', '==', params.location);
+    collectionRef = events.where('location', '==', params.location);
   } else {
     if (params && params.latitude && params.longitude) {
-      query = events
+      collectionRef = events
         .where('latitude', '==', params.latitude)
         .where('longitude', '==', params.longitude);
     }
+    if (params && params.date) {
+      collectionRef = events.where('day', '==', params.date);
+    }
   }
 
-  return query.onSnapshot({
+  return collectionRef.onSnapshot({
     next: (snapshot) => {
       let data = [];
       snapshot.forEach((documentSnapshot) =>
