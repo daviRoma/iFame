@@ -29,10 +29,7 @@ export default function NewEventFirstPage({ navigation }) {
 
   useEffect(() => {
     if (state.day && state.hour) {
-      const newDate = moment(
-        state.day + ' ' + state.hour,
-        'DD-MM-YYYY hh:mm:ss',
-      );
+      const newDate = moment(state.day + ' ' + state.hour, 'DD-MM-YYYY hh:mm');
       setDate(newDate.toDate());
     }
   }, [state.day, state.hour]);
@@ -42,7 +39,9 @@ export default function NewEventFirstPage({ navigation }) {
       addInformations({
         title,
         day: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
-        hour: `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+        hour: `${(date.getHours() < 10 ? '0' : '') + date.getHours()}:${
+          (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
+        }`,
         location,
         category,
         partecipants: numPart,

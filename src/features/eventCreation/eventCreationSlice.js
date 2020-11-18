@@ -37,7 +37,9 @@ const eventCreationSlice = createSlice({
       state.loading = true;
     },
     createEventSuccess(state) {
-      state.loading = false;
+      Object.keys(state).forEach((key) => {
+        state[key] = initialState[key];
+      });
     },
     createEventError(state, { payload }) {
       state.loading = false;
