@@ -1,5 +1,5 @@
 import { Picker } from '@react-native-picker/picker';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,6 +12,7 @@ import {
 import { useCities, useFoodCategories } from '../../hooks';
 import * as Routes from '../../routes';
 import { addInformations, selectState } from './eventCreationSlice';
+import moment from 'moment';
 
 export default function NewEventFirstPage({ navigation }) {
   const state = useSelector(selectState);
@@ -20,20 +21,31 @@ export default function NewEventFirstPage({ navigation }) {
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState(state.title);
-  const [date, setDate] = useState(state.date);
   const [location, setLocation] = useState(state.location);
   const [category, setCategory] = useState(state.category);
   const [numPart, setNumPart] = useState(state.partecipants);
   const [description, setDescription] = useState(state.description);
+  const [date, setDate] = useState(new Date());
+
+  useEffect(() => {
+    if (state.day && state.hour) {
+      const newDate = moment(
+        state.day + ' ' + state.hour,
+        'DD-MM-YYYY hh:mm:ss',
+      );
+      setDate(newDate.toDate());
+    }
+  }, [state.day, state.hour]);
 
   const onSubmit = () => {
     dispatch(
       addInformations({
         title,
-        date: date.toLocaleString(),
+        day: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
+        hour: `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
         location,
         category,
-        numPart,
+        partecipants: numPart,
         description,
       }),
     );
@@ -78,7 +90,7 @@ export default function NewEventFirstPage({ navigation }) {
                   const currentDate = selectedDate || date;
                   setDate(currentDate);
                 }}
-                value={date || new Date()}
+                value={date}
               />
             </View>
             <View style={styles.select}>

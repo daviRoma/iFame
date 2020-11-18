@@ -5,7 +5,8 @@ import * as Routes from '../../routes';
 
 const initialState = {
   title: '',
-  date: '',
+  day: '',
+  hour: '',
   location: '',
   category: '',
   partecipants: '',
@@ -60,7 +61,8 @@ export function createEvent(navigation) {
     dispatch(createEventStart);
     const {
       title,
-      date,
+      day,
+      hour,
       location,
       category,
       partecipants,
@@ -70,7 +72,8 @@ export function createEvent(navigation) {
     try {
       await createEventApi({
         title,
-        date,
+        day,
+        hour,
         location,
         category,
         partecipants,
