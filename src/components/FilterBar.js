@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Icon, Card } from 'react-native-elements';
 
 export default function FilterBar({ location, onPressFiler, onPressDate }) {
-
   return (
     <View style={styles.barContainer}>
       <Card containerStyle={{ margin: 0, padding: 10 }}>
@@ -64,10 +63,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#f7021a',
-    padding: 100
- },
- text: {
+    padding: 100,
+  },
+  text: {
     color: '#3f2949',
-    marginTop: 10
- }
+    marginTop: 10,
+  },
 });

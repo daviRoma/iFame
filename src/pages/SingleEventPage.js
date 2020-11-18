@@ -11,7 +11,6 @@ export default function SingleEventPage({ route, navigation }) {
   const dispatch = useDispatch();
   const { myEvents, loading, error } = useSelector((state) => state.myEvents);
   const event = myEvents.find((item) => item.id === id);
-  console.log(event);
   return (
     <>
       {event ? (

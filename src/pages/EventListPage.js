@@ -1,31 +1,25 @@
-import React, { useState } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import {
-  SafeAreaView,
-  View,
-  Text,
   ActivityIndicator,
-  StyleSheet,
-  Platform,
-  StatusBar,
   Dimensions,
+  Platform,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { Card, Overlay, Slider, Button } from 'react-native-elements';
+import CalendarPicker from 'react-native-calendar-picker';
+import { Button, Card, Overlay, Slider } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
-
-import * as Routes from '../routes';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { EventItem, FilterBar } from '../components';
-
 import {
   getAllEvents,
   selectAllEvents,
   selectEventLoading,
 } from '../features/events/eventSlice';
-import CalendarPicker from 'react-native-calendar-picker';
-
-import { reverseGeocoding } from '../features/google/googlePosition';
+import * as Routes from '../routes';
 import { dateFormat } from '../utils/index';
 
 const windowWidth = Dimensions.get('window').width;
@@ -60,12 +54,9 @@ export default function EventListPage({ navigation }) {
     dispatch(getAllEvents({ date: dateFormat(date) }));
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      dispatch(getAllEvents({ location: 'Roma' }));
-    }, [dispatch]),
-  );
-
+  useEffect(() => {
+    return dispatch(getAllEvents({ location: 'Roma' }));
+  }, []);
 
   if (isLoading || eventList === null) {
     return (
