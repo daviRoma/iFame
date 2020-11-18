@@ -11,20 +11,15 @@ export const cities = firestore().collection('cities');
 /**
  * Events Api
  */
-export function getUserEvents(userId) {
-  return (
-    events
-      // Filter results
-      .where('author', '==', userId)
-      .get()
-      .then((querySnapshot) => {
-        let data = [];
-        querySnapshot.forEach((documentSnapshot) =>
-          data.push({ ...documentSnapshot.data(), id: documentSnapshot.id }),
-        );
-        return data;
-      })
-  );
+export function getUserEvents(userId, onSuccess, onError) {
+  return events.where('author', '==', userId).onSnapshot({
+    next: (snapshot) => {
+      let data = [];
+      snapshot.forEach((doc) => data.push({ ...doc.data(), id: doc.id }));
+      onSuccess(data);
+    },
+    error: (e) => onError(e.message),
+  });
 }
 
 export function getEvents(params) {

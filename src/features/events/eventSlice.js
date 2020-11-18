@@ -2,11 +2,7 @@
  * Event slice - Redux
  */
 import { createSlice } from '@reduxjs/toolkit';
-import {
-  getEvents,
-  getUserEvents,
-  deleteEvent as deleteEventApi,
-} from '../../api/FirebaseApi';
+import { getEvents } from '../../api/FirebaseApi';
 import { logger } from 'react-native-logs';
 import * as Routes from '../../routes';
 
@@ -44,16 +40,6 @@ const eventSlice = createSlice({
     cleanErrors(state) {
       state.error = null;
     },
-    eventDeleteStart(state) {
-      state.loading = true;
-    },
-    eventDeleteSuccess(state) {
-      state.loading = false;
-    },
-    eventDeleteFail(state, { payload }) {
-      state.loading = false;
-      state.error = payload;
-    },
   },
 });
 
@@ -62,9 +48,6 @@ export const {
   eventGetSuccess,
   eventGetFail,
   cleanErrors,
-  eventDeleteSuccess,
-  eventDeleteStart,
-  eventDeleteFail,
 } = eventSlice.actions;
 
 export const getAllEvents = (params) => {
@@ -76,33 +59,6 @@ export const getAllEvents = (params) => {
       dispatch(eventGetSuccess(events));
     } catch (error) {
       handleError(error, dispatch);
-    }
-  };
-};
-
-export const getAllUserEvents = (userId) => {
-  log.info('[EventSlice]::[getAllUserEvents]');
-  return async (dispatch) => {
-    try {
-      dispatch(eventGet());
-      const events = await getUserEvents(userId);
-      dispatch(eventGetSuccess(events));
-    } catch (error) {
-      handleError(error, dispatch);
-    }
-  };
-};
-
-export const deleteEvent = (eventId, navigation) => {
-  log.info('[EventSlice]::[deleteEvent]');
-  return async (dispatch) => {
-    try {
-      dispatch(eventDeleteStart());
-      await deleteEventApi(eventId);
-      dispatch(eventDeleteSuccess());
-      navigation.navigate(Routes.MY_EVENTS);
-    } catch (error) {
-      handleError(error);
     }
   };
 };
