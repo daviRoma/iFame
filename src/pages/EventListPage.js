@@ -19,11 +19,15 @@ export default function EventListPage({ navigation }) {
   const isLoading = useSelector(selectEventLoading);
   const dispatch = useDispatch();
 
-  useFocusEffect(
-    React.useCallback(() => {
-      dispatch(getAllEvents({ location: 'Roma' }));
-    }, [dispatch]),
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     dispatch(getAllEvents({ location: 'Roma' }));
+  //   }, [dispatch]),
+  // );
+
+  useEffect(() => {
+    return dispatch(getAllEvents({ location: 'tokyo' }));
+  }, []);
 
   if (isLoading || eventList === null) {
     return (
