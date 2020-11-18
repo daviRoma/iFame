@@ -1,6 +1,6 @@
 import Geolocation from '@react-native-community/geolocation';
 
-const GoogleAPIKey = 'AIzaSyDsvkDAYilWk4_mDjQLfV4lwznVsJHeUZs';
+const GoogleAPIKey = 'AIzaSyC5ym4xWYvCczh74RGafSYgMaYqnhsLtJw';
 
 export function getMyPosition() {
   return Geolocation.getCurrentPosition((info) => info.coords);
