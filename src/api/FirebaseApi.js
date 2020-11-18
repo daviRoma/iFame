@@ -51,6 +51,10 @@ export async function createEvent(event) {
   await events.add(event);
 }
 
+export async function deleteEvent(id) {
+  await events.doc(id).delete();
+}
+
 /**
  * User api
  */

@@ -1,18 +1,20 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { Card, ListItem, Button, Icon, Avatar } from 'react-native-elements';
-
+import { StyleSheet, Text, View } from 'react-native';
+import { Button, Card, ListItem } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { DELETE_COLOR } from '../common/theme';
 import {
-  selectEventById,
   selectAllEvents,
+  deleteEvent,
+  selectEventLoading,
 } from '../features/events/eventSlice';
 
 export default function SingleEventPage({ route, navigation }) {
   const { id } = route.params;
-
-  const event = useSelector(selectAllEvents).find((id) => id == id);
+  const dispatch = useDispatch();
+  const event = useSelector(selectAllEvents).find((id) => id === id);
+  const loading = useSelector(selectEventLoading);
+  const error = useSelector(selectEventLoading);
 
   return (
     <View style={[styles.pageContainer, { paddingBottom: 10 }]}>
@@ -37,16 +39,27 @@ export default function SingleEventPage({ route, navigation }) {
             ))}
           </View>
         )}
+        <Button
+          title="Elimina evento"
+          onPress={() => {
+            dispatch(deleteEvent(id, navigation));
+          }}
+          buttonStyle={styles.deleteButton}
+          loading={loading}
+        />
       </Card>
     </View>
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
   },
   participantsContainer: {
     paddingTop: 10,
   },
-};
+  deleteButton: {
+    backgroundColor: DELETE_COLOR,
+  },
+});

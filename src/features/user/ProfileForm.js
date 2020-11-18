@@ -10,6 +10,7 @@ import FoodPrefsModal from '../foodCategories/FoodPrefsModal';
 import { updateUser } from './userSlice';
 import Spacer from '../../components/Spacer';
 import { logoutUser } from '../auth/authSlice';
+import { DELETE_COLOR } from '../../common/theme';
 
 export default function ProfileForm({ user }) {
   const dispatch = useDispatch();
@@ -99,10 +100,6 @@ export default function ProfileForm({ user }) {
       <View style={styles.buttonContainer}>
         <Button
           title="Aggiorna profilo"
-          type="clear"
-          titleStyle={{
-            color: 'green',
-          }}
           containerStyle={styles.buttonStyle}
           onPress={() => {
             if (emailError === '') {
@@ -120,7 +117,7 @@ export default function ProfileForm({ user }) {
           onPress={() => dispatch(logoutUser())}
           loading={loading}
           containerStyle={styles.buttonStyle}
-          buttonStyle={{ backgroundColor: 'red' }}
+          buttonStyle={{ backgroundColor: DELETE_COLOR }}
         />
       </View>
     </View>

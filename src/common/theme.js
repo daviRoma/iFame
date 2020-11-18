@@ -22,3 +22,5 @@ export default {
     },
   },
 };
+
+export const DELETE_COLOR = '#B22222';
