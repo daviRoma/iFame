@@ -52,14 +52,14 @@ export const {
 
 export const getAllEvents = (params) => {
   log.info('[EventSlice]::[getAllEvents]');
-  return async (dispatch) => {
-    try {
-      dispatch(eventGet());
-      const events = await getEvents(params);
-      dispatch(eventGetSuccess(events));
-    } catch (error) {
-      handleError(error, dispatch);
-    }
+  return (dispatch) => {
+    dispatch(eventGet());
+    const sub = getEvents(
+      params,
+      (events) => dispatch(eventGetSuccess(events)),
+      (error) => handleError(error, dispatch),
+    );
+    return sub;
   };
 };
 

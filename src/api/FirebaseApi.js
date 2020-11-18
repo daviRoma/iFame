@@ -22,23 +22,27 @@ export function getUserEvents(userId, onSuccess, onError) {
   });
 }
 
-export function getEvents(params) {
+export function getEvents(params, onSuccess, onError) {
+  let query = events;
   if (params && params.location) {
-    events.where('location', '==', params.location);
+    query = events.where('location', '==', params.location);
   } else {
     if (params && params.latitude && params.longitude) {
-      events
+      query = events
         .where('latitude', '==', params.latitude)
         .where('longitude', '==', params.longitude);
     }
   }
 
-  return events.get().then((querySnapshot) => {
-    let data = [];
-    querySnapshot.forEach((documentSnapshot) =>
-      data.push({ ...documentSnapshot.data(), id: documentSnapshot.id }),
-    );
-    return data;
+  return query.onSnapshot({
+    next: (snapshot) => {
+      let data = [];
+      snapshot.forEach((documentSnapshot) =>
+        data.push({ ...documentSnapshot.data(), id: documentSnapshot.id }),
+      );
+      onSuccess(data);
+    },
+    error: (error) => onError(error.message),
   });
 }
 
