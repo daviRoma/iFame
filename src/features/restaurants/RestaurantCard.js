@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Card, Image } from 'react-native-elements';
+import { StyleSheet, Text } from 'react-native';
+import { Card } from 'react-native-elements';
 
 const RestaurantCard = ({ item }) => {
   return (

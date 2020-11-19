@@ -13,6 +13,8 @@ import { useCities, useFoodCategories } from '../../hooks';
 import * as Routes from '../../routes';
 import { addInformations, selectState } from './eventCreationSlice';
 import moment from 'moment';
+import { dateFormat, timeFormat } from '../../utils';
+import emoji from 'emoji-dictionary';
 
 export default function NewEventFirstPage({ navigation }) {
   const state = useSelector(selectState);
@@ -38,10 +40,8 @@ export default function NewEventFirstPage({ navigation }) {
     dispatch(
       addInformations({
         title,
-        day: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
-        hour: `${(date.getHours() < 10 ? '0' : '') + date.getHours()}:${
-          (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
-        }`,
+        day: dateFormat(date),
+        hour: timeFormat(date),
         location,
         category,
         partecipants: numPart,
@@ -103,7 +103,11 @@ export default function NewEventFirstPage({ navigation }) {
                 {foodCategories.map((value) => {
                   return (
                     <Picker.Item
-                      label={value.title_it}
+                      label={
+                        value.title_it +
+                        ' ' +
+                        emoji.getUnicode(value.emoji_code)
+                      }
                       value={value.key}
                       key={value.key}
                     />
