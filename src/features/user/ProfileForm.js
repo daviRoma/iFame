@@ -4,13 +4,14 @@ import { StyleSheet, View } from 'react-native';
 import { Accessory, Avatar, Button, Input, Text } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
-import ErrorMessage from '../../components/ErrorMessage';
+import { ErrorMessage, Tag } from '../../components';
 import { emailValidator } from '../../utils';
 import FoodPrefsModal from '../foodCategories/FoodPrefsModal';
 import { updateUser } from './userSlice';
 import Spacer from '../../components/Spacer';
 import { logoutUser } from '../auth/authSlice';
 import { DELETE_COLOR } from '../../common/theme';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function ProfileForm({ user }) {
   const dispatch = useDispatch();
@@ -89,14 +90,23 @@ export default function ProfileForm({ user }) {
           foodPref={preferences}
           setFoodPref={setPreferencies}
         />
-        <Button
-          title="Preferenze di cibo"
-          type="clear"
-          onPress={() => {
-            setModalVisible(true);
-          }}
-        />
+        <Text>Preferenze di cibo:</Text>
+        <View style={styles.tagContainer}>
+          {preferences ? (
+            preferences.map((value, index) => (
+              <Tag emoji={value.emoji_code} key={index}>
+                {value.title_it}
+              </Tag>
+            ))
+          ) : (
+            <Text>Non hai ancora nessuna preferenza</Text>
+          )}
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Tag> Modifica </Tag>
+          </TouchableOpacity>
+        </View>
       </View>
+      <Spacer />
       <View style={styles.buttonContainer}>
         <Button
           title="Aggiorna profilo"
@@ -110,8 +120,6 @@ export default function ProfileForm({ user }) {
           }}
           loading={loading}
         />
-        {errors ? <ErrorMessage>{errors}</ErrorMessage> : null}
-        <Spacer />
         <Button
           title="Logout"
           onPress={() => dispatch(logoutUser())}
@@ -120,6 +128,7 @@ export default function ProfileForm({ user }) {
           buttonStyle={{ backgroundColor: DELETE_COLOR }}
         />
       </View>
+      {errors ? <ErrorMessage>{errors}</ErrorMessage> : null}
     </View>
   );
 }
@@ -152,7 +161,13 @@ const styles = StyleSheet.create({
     width: 100,
   },
   buttonContainer: {
-    flex: 1,
-    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  tagContainer: {
+    flexDirection: 'row',
+    marginVertical: 5,
+    alignItems: 'baseline',
+    flexWrap: 'wrap',
   },
 });
