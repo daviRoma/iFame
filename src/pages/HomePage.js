@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, Button, Text } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 import FoodPrefsModal from '../features/foodCategories/FoodPrefsModal';
 import * as Routes from '../routes';
 import { loadFoodPref } from '../features/user/userSlice';
-import FloatingButton from '../components/FloatingButton';
+import { FloatingButton } from '../components';
+import { Text } from 'react-native-elements';
 
 export default function HomePage({ navigation }) {
   const { loading, user } = useSelector((state) => state.loggedUser);
@@ -30,25 +31,7 @@ export default function HomePage({ navigation }) {
               setFoodPref={setPreferencies}
             />
           ) : null}
-          <Text>HomePage</Text>
-          <Button
-            title="Go to single event"
-            onPress={() => {
-              navigation.navigate(Routes.SINGLE_EVENT);
-            }}
-          />
-          <Button
-            title="Go to update event"
-            onPress={() => {
-              navigation.navigate(Routes.UPDATE_EVENT);
-            }}
-          />
-          <Button
-            title="Go to restaurant list"
-            onPress={() => {
-              navigation.navigate(Routes.NEW_EVENT_SECOND);
-            }}
-          />
+          <Text h2>Benvenuto in iFame!</Text>
           <FloatingButton
             clickHandler={() => {
               navigation.navigate(Routes.NEW_EVENT_FIRST);

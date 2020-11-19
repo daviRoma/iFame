@@ -12,7 +12,12 @@ export const emailValidator = (text, email, setEmail, setEmailError) => {
 };
 
 export const dateFormat = (dateString) => {
-  let date = new Date(dateString);
+  let date = null;
+  if (typeof dateString === 'string') {
+    date = new Date(dateString);
+  } else {
+    date = dateString;
+  }
 
   let year = date.getFullYear();
   let month = date.getMonth() + 1;
@@ -26,4 +31,10 @@ export const dateFormat = (dateString) => {
   }
 
   return day + '/' + month + '/' + year;
+};
+
+export const timeFormat = (date) => {
+  return `${(date.getHours() < 10 ? '0' : '') + date.getHours()}:${
+    (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
+  }`;
 };
