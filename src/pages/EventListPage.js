@@ -25,29 +25,48 @@ import {
 } from '../features/events/eventSlice';
 import CalendarPicker from 'react-native-calendar-picker';
 
-import { reverseGeocoding } from '../features/google/googlePosition';
+import {
+  getReverseGeocoding,
+  getMyPosition,
+  getDistances,
+} from '../features/google/googlePosition';
 import { dateFormat } from '../utils/index';
+import { selectState } from '../features/eventCreation/eventCreationSlice';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function EventListPage({ navigation }) {
+  const { user } = useSelector((state) => state.loggedUser);
+
+  const state = useSelector(selectState);
   const eventList = useSelector(selectAllEvents);
   const isLoading = useSelector(selectEventLoading);
   const dispatch = useDispatch();
-  const location = 'Roma';
 
   const [startDate, setStartDate] = useState(null);
   const [visible, setVisible] = useState(false);
   const [calendar, setCalendar] = useState(false);
-  const [rangeValue, setRangeValue] = useState(5);
+  const [rangeValue, setRangeValue] = useState(30);
+  const [rangeValueDisplayed, setRangeValueDisplayed] = useState(30);
+  const [location, setLocation] = useState(state.location);
+  const [preferences, setPreferencies] = useState(user.preferences);
 
   const toggleRangeOverlay = () => {
+    rangeValueChange(rangeValueDisplayed);
     setVisible(!visible);
   };
 
   const toggleCalendarOverlay = () => {
     setCalendar(!calendar);
+  };
+
+  const rangeConfirm = () => {
+    setRangeValueDisplayed(rangeValue);
+    toggleRangeOverlay();
+    setTimeout(() => {
+      dispatchEvents(startDate);
+    }, 400);
   };
 
   const rangeValueChange = (val) => {
@@ -57,15 +76,36 @@ export default function EventListPage({ navigation }) {
   const onDateChange = (date) => {
     toggleCalendarOverlay(false);
     setStartDate(date);
-    dispatch(getAllEvents({ date: dateFormat(date) }));
+    dispatchEvents(dateFormat(date));
+  };
+
+  const dispatchEvents = (date) => {
+    getReverseGeocoding().then((resp) => {
+      setLocation(resp.location);
+
+      getMyPosition().then((info) => {
+        let coordinates = getDistances(
+          rangeValueDisplayed,
+          info.coords.latitude,
+          info.coords.longitude,
+        );
+        dispatch(
+          getAllEvents({
+            coordinates,
+            date,
+            preferences: preferences.map((pref) => pref.title),
+          }),
+        );
+      });
+    });
   };
 
   useFocusEffect(
     React.useCallback(() => {
-      dispatch(getAllEvents({ location: 'Roma' }));
+      // Get location
+      dispatchEvents(null);
     }, [dispatch]),
   );
-
 
   if (isLoading || eventList === null) {
     return (
@@ -79,7 +119,7 @@ export default function EventListPage({ navigation }) {
   return (
     <SafeAreaView style={[styles.pageContainer, { paddingBottom: 10 }]}>
       <FilterBar
-        location={`${rangeValue}km da ${location}`}
+        location={`${rangeValueDisplayed}km da ${location}`}
         onPressFiler={toggleRangeOverlay}
         onPressDate={toggleCalendarOverlay}
       />
@@ -118,6 +158,7 @@ export default function EventListPage({ navigation }) {
           <Text style={styles.overlayHeader}>Cerca vicino a te</Text>
           <View style={styles.overlayContainer}>
             <Slider
+              style={{ flex: 0 }}
               value={rangeValue}
               maximumValue={30}
               minimumValue={5}
@@ -125,6 +166,8 @@ export default function EventListPage({ navigation }) {
               onValueChange={rangeValueChange}
               trackStyle={styles.trackStyle}
               thumbStyle={styles.thumbStyle}
+              minimumTrackTintColor={'#32a852'}
+              maximumTrackTintColor={'#D8D8D8'}
             />
             <Text
               style={{ textAlign: 'center', fontSize: 15, color: '#575757' }}>
@@ -132,7 +175,7 @@ export default function EventListPage({ navigation }) {
             </Text>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <Button title="Confirm" type="clear" onPress={toggleRangeOverlay} />
+            <Button title="Confirm" type="clear" onPress={rangeConfirm} />
           </View>
         </View>
       </Overlay>
@@ -153,6 +196,7 @@ const styles = StyleSheet.create({
   },
   sectionOne: {
     flex: 1,
+    marginTop: 0,
   },
   sectionTwo: {
     flex: 1,
@@ -195,14 +239,19 @@ const styles = StyleSheet.create({
     color: '#575757',
   },
   trackStyle: {
-    height: 12,
+    height: 4,
     borderRadius: 6,
-    backgroundColor: 'transparent',
+    backgroundColor: '#32a852',
   },
   thumbStyle: {
-    height: 25,
-    width: 25,
-    backgroundColor: '#0ecf04',
+    height: 16,
+    width: 16,
+    backgroundColor: '#dedede',
+    shadowOpacity: 0.1,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
   },
   map: {
     ...StyleSheet.absoluteFillObject,

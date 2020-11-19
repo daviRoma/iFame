@@ -24,25 +24,49 @@ export function getUserEvents(userId, onSuccess, onError) {
 
 export function getEvents(params, onSuccess, onError) {
   let collectionRef = events;
+  console.log('Params---> ', params);
+  if (params && params.preferences) {
+    collectionRef = events.where('category', 'in', params.preferences);
+  }
   if (params && params.location) {
-    collectionRef = events.where('location', '==', params.location);
+    collectionRef = collectionRef.where('location', '==', params.location);
   } else {
-    if (params && params.latitude && params.longitude) {
-      collectionRef = events
-        .where('latitude', '==', params.latitude)
-        .where('longitude', '==', params.longitude);
+    if (params && params.coordinates) {
+      // Only perform range comparisons (<, <=, >, >=) on a single field
+      collectionRef = collectionRef
+        .where(
+          'restaurant.coordinates.latitude',
+          '<=',
+          params.coordinates[0].latitude,
+        )
+        .where(
+          'restaurant.coordinates.latitude',
+          '>=',
+          params.coordinates[1].latitude,
+        );
     }
     if (params && params.date) {
-      collectionRef = events.where('day', '==', params.date);
+      collectionRef = collectionRef.where('day', '==', params.date);
     }
   }
 
   return collectionRef.onSnapshot({
     next: (snapshot) => {
       let data = [];
-      snapshot.forEach((documentSnapshot) =>
-        data.push({ ...documentSnapshot.data(), id: documentSnapshot.id }),
-      );
+      snapshot.forEach((documentSnapshot) => {
+        if (params && params.coordinates) {
+          if (
+            documentSnapshot.data().restaurant.coordinates.longitude <=
+              params.coordinates[0].longitude &&
+            documentSnapshot.data().restaurant.coordinates.longitude >=
+              params.coordinates[1].longitude
+          ) {
+            data.push({ ...documentSnapshot.data(), id: documentSnapshot.id });
+          }
+        } else {
+          data.push({ ...documentSnapshot.data(), id: documentSnapshot.id });
+        }
+      });
       onSuccess(data);
     },
     error: (error) => onError(error.message),
