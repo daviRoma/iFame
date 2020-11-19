@@ -6,7 +6,7 @@ import FoodPrefsModal from '../features/foodCategories/FoodPrefsModal';
 import * as Routes from '../routes';
 import { loadFoodPref } from '../features/user/userSlice';
 import { FloatingButton } from '../components';
-import { Text } from 'react-native-elements';
+import { Button, Text } from 'react-native-elements';
 
 export default function HomePage({ navigation }) {
   const { loading, user } = useSelector((state) => state.loggedUser);
@@ -32,6 +32,10 @@ export default function HomePage({ navigation }) {
             />
           ) : null}
           <Text h2>Benvenuto in iFame!</Text>
+          <Button
+            onPress={() => navigation.navigate(Routes.SINGLE_EVENT)}
+            title="vai a single event"
+          />
           <FloatingButton
             clickHandler={() => {
               navigation.navigate(Routes.NEW_EVENT_FIRST);

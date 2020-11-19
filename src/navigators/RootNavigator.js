@@ -1,41 +1,25 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
+import React from 'react';
 import LoginPage from '../pages/LoginPage';
 import NewEventFirstPage from '../features/eventCreation/NewEventFirstPage';
 import NewEventRestaurantPage from '../features/eventCreation/NewEventRestaurantPage';
 import SignInPage from '../pages/SignInPage';
-import SingleEventPage from '../pages/SingleEventPage';
 import UpdateEventPage from '../pages/UpdateEventPage';
 import * as Routes from '../routes';
 import TabPagesNavigator from './TabPagesNavigator';
-import { useDispatch, useSelector } from 'react-redux';
-import auth from '@react-native-firebase/auth';
-import { clearUserInfo, getUserInfo } from '../features/user/userSlice';
+import { useSelector } from 'react-redux';
 import CustomActivityIndicator from '../components/CustomActivityIndicator';
 import RestaurantDetail from '../features/restaurants/RestaurantDetail';
+import MyEventSinglePage from '../pages/MyEventSinglePage';
+import EventDetailPage from '../pages/EventDetailPage';
+import { useLogin } from '../hooks';
 
 const RootStack = createStackNavigator();
 
 const RootNavigator = () => {
   const { user, loading } = useSelector((state) => state.loggedUser);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    let firstCall = true;
-    const sub = auth().onIdTokenChanged((loggedUser) => {
-      if (!firstCall) {
-        if (loggedUser) {
-          const unsubscribe = dispatch(getUserInfo());
-          return unsubscribe;
-        } else {
-          dispatch(clearUserInfo());
-        }
-      }
-      firstCall = false;
-    });
-    return sub;
-  }, []);
+  useLogin();
 
   return (
     <NavigationContainer>
@@ -101,8 +85,17 @@ const RootNavigator = () => {
                 }}
               />
               <RootStack.Screen
+                name={Routes.MY_EVENT_SINGLE_PAGE}
+                component={MyEventSinglePage}
+                options={() => {
+                  return {
+                    title: 'Dettaglio Evento',
+                  };
+                }}
+              />
+              <RootStack.Screen
                 name={Routes.SINGLE_EVENT}
-                component={SingleEventPage}
+                component={EventDetailPage}
                 options={() => {
                   return {
                     title: 'Dettaglio Evento',
