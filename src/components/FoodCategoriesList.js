@@ -15,7 +15,7 @@ export default function FoodCategoriesList({
       renderItem={({ item }) => {
         return (
           <CheckBox
-            title={item.title}
+            title={item.title_it}
             checked={
               foodPref.filter((el) => el.title === item.title).length > 0
             }
