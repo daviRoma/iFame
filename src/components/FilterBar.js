@@ -37,6 +37,7 @@ export default function FilterBar({ location, onPressFiler, onPressDate }) {
 
 const styles = StyleSheet.create({
   barContainer: {
+    marginBottom: 0,
     height: 60,
   },
   cardContainer: {
