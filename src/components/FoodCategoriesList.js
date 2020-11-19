@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { CheckBox } from 'react-native-elements';
+import emoji from 'emoji-dictionary';
 
 export default function FoodCategoriesList({
   foodCategories,
@@ -15,7 +16,7 @@ export default function FoodCategoriesList({
       renderItem={({ item }) => {
         return (
           <CheckBox
-            title={item.title_it}
+            title={item.title_it + ' ' + emoji.getUnicode(item.emoji_code)}
             checked={
               foodPref.filter((el) => el.title === item.title).length > 0
             }
