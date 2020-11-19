@@ -45,7 +45,9 @@ export default function MyEventsPage({ navigation }) {
             <EventItem
               item={item}
               onPress={() => {
-                navigation.navigate(Routes.SINGLE_EVENT, { id: item.id });
+                navigation.navigate(Routes.MY_EVENT_SINGLE_PAGE, {
+                  id: item.id,
+                });
               }}
             />
           );
