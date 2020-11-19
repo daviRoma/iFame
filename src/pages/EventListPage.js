@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import * as Routes from '../routes';
+
 import {
   ActivityIndicator,
   Dimensions,
@@ -19,7 +22,6 @@ import {
   selectAllEvents,
   selectEventLoading,
 } from '../features/events/eventSlice';
-import CalendarPicker from 'react-native-calendar-picker';
 
 import {
   getReverseGeocoding,
