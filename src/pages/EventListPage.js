@@ -16,7 +16,7 @@ import CalendarPicker from 'react-native-calendar-picker';
 import { Button, Card, Overlay, Slider } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-import { EventItem, FilterBar } from '../components';
+import { CustomActivityIndicator, EventItem, FilterBar } from '../components';
 import {
   getAllEvents,
   selectAllEvents,
@@ -108,7 +108,7 @@ export default function EventListPage({ navigation }) {
   if (isLoading || eventList === null) {
     return (
       <SafeAreaView style={[styles.activityContainer, styles.horizontal]}>
-        <ActivityIndicator size="large" />
+        <CustomActivityIndicator />
       </SafeAreaView>
     );
   }

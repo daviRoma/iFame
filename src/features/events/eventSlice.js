@@ -75,7 +75,7 @@ const handleError = (error, dispatch) => {
       dispatch(eventGetFail('Server error'));
       break;
   }
-  log.error('[EventSlice]', error.message);
+  log.error('[EventSlice]', error);
 };
 
 export default eventSlice.reducer;
