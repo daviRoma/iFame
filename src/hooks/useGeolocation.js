@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
-import { Alert, PermissionsAndroid } from 'react-native';
+import { Alert, PermissionsAndroid, Platform } from 'react-native';
 import { getMyPosition } from '../features/google/googlePosition';
+import { logger } from 'react-native-logs';
+
+const log = logger.createLogger();
 
 const checkPermissions = async () => {
   let hasPermission = await PermissionsAndroid.check(
@@ -22,11 +25,17 @@ const checkPermissions = async () => {
 export const useGeolocation = (onSuccess, onError) => {
   useEffect(() => {
     async function getPosition() {
-      const hasPermission = await checkPermissions();
-      if (hasPermission) {
+      log.info('[iFame]::[useGeolocation]::[Platform]', Platform.OS);
+      
+      if (Platform.OS === 'ios') {
         getMyPosition(onSuccess, onError);
-      } else {
-        Alert.alert('Attenzione', "Abilita la posizione per usare l'app");
+      } else if (Platform.OS === 'android') {
+        const hasPermission = await checkPermissions();
+        if (hasPermission) {
+          getMyPosition(onSuccess, onError);
+        } else {
+          Alert.alert('Attenzione', "Abilita la posizione per usare l'app");
+        }
       }
     }
     getPosition();

@@ -24,7 +24,7 @@ export function getUserEvents(userId, onSuccess, onError) {
 
 export function getEvents(params, onSuccess, onError) {
   let collectionRef = events;
-  console.log('Params---> ', params);
+
   if (params && params.preferences) {
     collectionRef = events.where('category', 'in', params.preferences);
   }
