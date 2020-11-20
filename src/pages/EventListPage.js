@@ -37,7 +37,7 @@ export default function EventListPage({ navigation }) {
   const isLoading = useSelector(selectEventLoading);
   const dispatch = useDispatch();
 
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
   const [visible, setVisible] = useState(false);
   const [calendar, setCalendar] = useState(false);
   const [rangeValue, setRangeValue] = useState(30);
@@ -91,7 +91,7 @@ export default function EventListPage({ navigation }) {
   };
 
   useEffect(() => {
-    dispatchEvents(null);
+    dispatchEvents(startDate);
   }, []);
 
   if (isLoading || eventList === null) {
@@ -170,7 +170,7 @@ export default function EventListPage({ navigation }) {
       <DateTimePickerModal
         isVisible={calendar}
         mode="date"
-        date={startDate}
+        date={startDate || new Date()}
         onConfirm={onDateChange}
         onCancel={toggleCalendarOverlay}
       />
