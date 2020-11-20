@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
-import * as Routes from '../routes';
-
 import {
-  ActivityIndicator,
   Dimensions,
   Platform,
   SafeAreaView,
@@ -12,42 +8,41 @@ import {
   Text,
   View,
 } from 'react-native';
-import CalendarPicker from 'react-native-calendar-picker';
 import { Button, Card, Overlay, Slider } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomActivityIndicator, EventItem, FilterBar } from '../components';
+import { selectState } from '../features/eventCreation/eventCreationSlice';
 import {
   getAllEvents,
   selectAllEvents,
   selectEventLoading,
 } from '../features/events/eventSlice';
-
 import {
-  getReverseGeocoding,
-  getMyPosition,
   getDistances,
+  getReverseGeocoding,
 } from '../features/google/googlePosition';
+import * as Routes from '../routes';
 import { dateFormat } from '../utils/index';
-import { selectState } from '../features/eventCreation/eventCreationSlice';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function EventListPage({ navigation }) {
-  const { user } = useSelector((state) => state.loggedUser);
+  const { user, position } = useSelector((state) => state.loggedUser);
 
   const state = useSelector(selectState);
   const eventList = useSelector(selectAllEvents);
   const isLoading = useSelector(selectEventLoading);
   const dispatch = useDispatch();
 
-  const [startDate, setStartDate] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
   const [visible, setVisible] = useState(false);
   const [calendar, setCalendar] = useState(false);
   const [rangeValue, setRangeValue] = useState(30);
   const [rangeValueDisplayed, setRangeValueDisplayed] = useState(30);
-  const [location, setLocation] = useState(state.location);
+  const [location, setLocation] = useState(position);
   const [preferences, setPreferencies] = useState(user.preferences);
 
   const toggleRangeOverlay = () => {
@@ -63,7 +58,7 @@ export default function EventListPage({ navigation }) {
     setRangeValueDisplayed(rangeValue);
     toggleRangeOverlay();
     setTimeout(() => {
-      dispatchEvents(startDate);
+      dispatchEvents(dateFormat(startDate));
     }, 400);
   };
 
@@ -78,32 +73,26 @@ export default function EventListPage({ navigation }) {
   };
 
   const dispatchEvents = (date) => {
-    getReverseGeocoding().then((resp) => {
+    getReverseGeocoding(position).then((resp) => {
       setLocation(resp.location);
-
-      getMyPosition().then((info) => {
-        let coordinates = getDistances(
-          rangeValueDisplayed,
-          info.coords.latitude,
-          info.coords.longitude,
-        );
-        dispatch(
-          getAllEvents({
-            coordinates,
-            date,
-            preferences: preferences.map((pref) => pref.title),
-          }),
-        );
-      });
+      let coordinates = getDistances(
+        rangeValueDisplayed,
+        position.latitude,
+        position.longitude,
+      );
+      dispatch(
+        getAllEvents({
+          coordinates,
+          date,
+          preferences: preferences.map((pref) => pref.title),
+        }),
+      );
     });
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      // Get location
-      dispatchEvents(null);
-    }, [dispatch]),
-  );
+  useEffect(() => {
+    dispatchEvents(null);
+  }, []);
 
   if (isLoading || eventList === null) {
     return (
@@ -178,11 +167,13 @@ export default function EventListPage({ navigation }) {
         </View>
       </Overlay>
 
-      <Overlay isVisible={calendar} onBackdropPress={toggleCalendarOverlay}>
-        <View style={styles.overlayCalendarContainer}>
-          <CalendarPicker onDateChange={onDateChange} />
-        </View>
-      </Overlay>
+      <DateTimePickerModal
+        isVisible={calendar}
+        mode="date"
+        date={startDate}
+        onConfirm={onDateChange}
+        onCancel={toggleCalendarOverlay}
+      />
     </SafeAreaView>
   );
 }

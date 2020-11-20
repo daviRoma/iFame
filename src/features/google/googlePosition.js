@@ -2,37 +2,36 @@ import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 const GoogleAPIKey = 'AIzaSyC5ym4xWYvCczh74RGafSYgMaYqnhsLtJw';
 
-export async function getMyPosition() {
-  // notice, no then(), cause await would block and wait for the resolved result
-  const position = await getCoordinates();
-  return position;
+export function getMyPosition(onSuccess, onError) {
+  const id = Geolocation.getCurrentPosition(
+    (pos) => {
+      onSuccess(pos);
+    },
+    onError,
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 3000,
+    },
+  );
+  return id;
 }
 
-export async function getReverseGeocoding() {
-  const resp = await reverseGeocoding();
+export async function getReverseGeocoding(position) {
+  const resp = await reverseGeocoding(position);
   return resp;
 }
 
-async function reverseGeocoding() {
-  Geocoder.init(GoogleAPIKey); // use a valid API key
-
-  const resp = await getMyPosition().then((info) => {
-    return Geocoder.from(info.coords.latitude, info.coords.longitude)
-      .then((json) => {
-        return {
-          location: json.results[0].address_components[1].short_name,
-          address: json.results[0].address_components[0].short_name,
-        };
-      })
-      .catch((error) => console.warn(error));
-  });
-  return resp;
-}
-
-function getCoordinates() {
-  return new Promise((resolve, reject) => {
-    Geolocation.getCurrentPosition(resolve, reject);
-  });
+async function reverseGeocoding(position) {
+  Geocoder.init(GoogleAPIKey);
+  return Geocoder.from(position.latitude, position.longitude)
+    .then((json) => {
+      return {
+        location: json.results[0].address_components[1].short_name,
+        address: json.results[0].address_components[0].short_name,
+      };
+    })
+    .catch((error) => console.warn(error));
 }
 
 export function getDistances(value, lat, lon) {

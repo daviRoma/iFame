@@ -1,18 +1,34 @@
 import React, { useState } from 'react';
 import { ActivityIndicator } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector, useDispatch } from 'react-redux';
-import FoodPrefsModal from '../features/foodCategories/FoodPrefsModal';
-import * as Routes from '../routes';
-import { loadFoodPref } from '../features/user/userSlice';
-import { FloatingButton } from '../components';
 import { Button, Text } from 'react-native-elements';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { FloatingButton } from '../components';
+import FoodPrefsModal from '../features/foodCategories/FoodPrefsModal';
+import {
+  loadFoodPref,
+  storeInformationFail,
+  storeUserPosition,
+} from '../features/user/userSlice';
+import { useGeolocation } from '../hooks';
+import * as Routes from '../routes';
 
 export default function HomePage({ navigation }) {
   const { loading, user } = useSelector((state) => state.loggedUser);
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(true);
   const [preferences, setPreferencies] = useState([]);
+
+  useGeolocation(
+    (pos) =>
+      dispatch(
+        storeUserPosition({
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+        }),
+      ),
+    (error) => dispatch(storeInformationFail(error)),
+  );
 
   return (
     <>

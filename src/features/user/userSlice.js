@@ -1,16 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
 import auth from '@react-native-firebase/auth';
-import * as Routes from '../../routes';
+import { createSlice } from '@reduxjs/toolkit';
 import {
-  updateFoodPreferencies,
   getUser,
+  updateFoodPreferencies,
   updateUserInfo,
 } from '../../api/FirebaseApi';
+import * as Routes from '../../routes';
 
 const initialState = {
   user: null,
   loading: false,
   errors: null,
+  position: null,
 };
 
 const userSlice = createSlice({
@@ -36,6 +37,11 @@ const userSlice = createSlice({
     stopLoading(state) {
       state.loading = false;
     },
+    storeUserPosition(state, { payload }) {
+      state.errors = null;
+      state.loading = false;
+      state.position = payload;
+    },
   },
 });
 
@@ -45,6 +51,7 @@ export const {
   storeInformationFail,
   clearUserInfo,
   stopLoading,
+  storeUserPosition,
 } = userSlice.actions;
 
 export const getUserInfo = (navigator) => {
