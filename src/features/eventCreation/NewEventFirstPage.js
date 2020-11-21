@@ -72,6 +72,8 @@ export default function NewEventFirstPage({ navigation }) {
                 value={description}
                 onChangeText={setDescription}
               />
+            </View>
+            <View style={styles.rowContainer}>
               <Input
                 label="Numero di partecipanti"
                 keyboardType="numeric"
@@ -80,8 +82,6 @@ export default function NewEventFirstPage({ navigation }) {
                 containerStyle={styles.inputNumber}
                 placeholder="0"
               />
-            </View>
-            <View>
               <DateTimeSelector
                 buttonTitle="Seleziona una data"
                 mode="datetime"
@@ -165,5 +165,8 @@ const styles = StyleSheet.create({
   },
   select: {
     width: 200,
+  },
+  rowContainer: {
+    flexDirection: 'row',
   },
 });
