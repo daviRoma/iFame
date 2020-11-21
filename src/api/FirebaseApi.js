@@ -138,6 +138,11 @@ export async function getUser(id, onError, onSuccess) {
   return unsubscribe;
 }
 
+export async function getUserInfo(id) {
+  const user = (await users.doc(id).get()).data();
+  return user;
+}
+
 export async function updateUserInfo(id, userData) {
   await users.doc(id).update(userData);
 }
