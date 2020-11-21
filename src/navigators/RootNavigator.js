@@ -55,6 +55,7 @@ const RootNavigator = () => {
                 component={TabPagesNavigator}
                 options={{
                   headerShown: false,
+                  title: 'Main Page',
                 }}
               />
               <RootStack.Screen

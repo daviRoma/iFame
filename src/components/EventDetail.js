@@ -7,7 +7,6 @@ const EventDetail = ({ event }) => {
     <Card containerStyle={{ margin: 0 }}>
       <Card.Title>{event.title}</Card.Title>
       <Card.Divider />
-      <Text>{event.type}</Text>
       <Text>
         {event.day}, {event.hour}
       </Text>
@@ -16,12 +15,13 @@ const EventDetail = ({ event }) => {
       {event.currentPartecipants ? (
         <View style={styles.participantsContainer}>
           {event.currentPartecipants.map((p, i) => (
-            <ListItem key={i} bottomDivider>
-              {/* <Avatar source={{ uri: p.avatar_url }} /> */}
-              <ListItem.Content>
-                <ListItem.Title>{p.name}</ListItem.Title>
-              </ListItem.Content>
-            </ListItem>
+            // <ListItem key={i} bottomDivider>
+            //   {/* <Avatar source={{ uri: p.avatar_url }} /> */}
+            //   <ListItem.Content>
+            //     <ListItem.Title>{p.name}</ListItem.Title>
+            //   </ListItem.Content>
+            // </ListItem>
+            <Text>{p}</Text>
           ))}
         </View>
       ) : null}
