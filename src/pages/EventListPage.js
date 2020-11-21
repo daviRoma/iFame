@@ -58,7 +58,11 @@ export default function EventListPage({ navigation }) {
     setRangeValueDisplayed(rangeValue);
     toggleRangeOverlay();
     setTimeout(() => {
-      dispatchEvents(dateFormat(startDate));
+      if (startDate) {
+        dispatchEvents(dateFormat(startDate));
+      } else {
+        dispatchEvents(null);
+      }
     }, 400);
   };
 
@@ -84,7 +88,7 @@ export default function EventListPage({ navigation }) {
         getAllEvents({
           coordinates,
           date,
-          preferences: preferences.map((pref) => pref.title),
+          preferences: preferences.map((pref) => pref.key),
         }),
       );
     });

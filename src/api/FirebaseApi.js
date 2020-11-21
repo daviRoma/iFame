@@ -23,6 +23,7 @@ export function getUserEvents(userId, onSuccess, onError) {
 }
 
 export function getEvents(params, onSuccess, onError) {
+  console.log(params);
   let collectionRef = events;
 
   if (params && params.preferences) {
