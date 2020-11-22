@@ -1,12 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
+import { CustomActivityIndicator } from '../components';
 import { useEventPartecipants } from '../hooks';
 
 const EventDetail = ({ event }) => {
   const [partecipants, loading] = useEventPartecipants(event);
-
   const restaurant = event.restaurant;
+
+  if (loading) {
+    return <CustomActivityIndicator />;
+  }
   return (
     <Card containerStyle={{ margin: 0 }}>
       <Card.Image source={{ uri: restaurant.image_url }} />
@@ -15,7 +19,7 @@ const EventDetail = ({ event }) => {
       <Text>
         {event.day}, {event.hour}
       </Text>
-      <Text>{event.location}</Text>
+      <Text>{event.location.name_it}</Text>
       <Text>{event.partecipants}</Text>
       {partecipants && partecipants.length > 0 ? (
         <View style={styles.participantsContainer}>

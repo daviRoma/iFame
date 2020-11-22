@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { useDispatch } from 'react-redux';
 import {
@@ -24,7 +24,7 @@ const RestaurantDetail = ({ navigation, route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {!restaurant ? (
         <CustomActivityIndicator />
       ) : (
@@ -35,13 +35,12 @@ const RestaurantDetail = ({ navigation, route }) => {
             <View>
               <RestaurantDetailComponent restaurant={restaurant} />
               <Spacer />
-              <Spacer />
               <Button title="Crea evento" onPress={createEvent} />
             </View>
           )}
         </>
       )}
-    </View>
+    </ScrollView>
   );
 };
 

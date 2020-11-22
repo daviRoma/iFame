@@ -1,4 +1,5 @@
 import { Picker } from '@react-native-picker/picker';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
@@ -12,10 +13,8 @@ import {
 } from '../../components';
 import { useCities, useFoodCategories } from '../../hooks';
 import * as Routes from '../../routes';
-import { addInformations, selectState } from './eventCreationSlice';
-import moment from 'moment';
 import { dateFormat, timeFormat } from '../../utils';
-import emoji from 'emoji-dictionary';
+import { addInformations, selectState } from './eventCreationSlice';
 
 export default function NewEventFirstPage({ navigation }) {
   const state = useSelector(selectState);
@@ -93,23 +92,16 @@ export default function NewEventFirstPage({ navigation }) {
                 value={date}
               />
             </View>
-            <Text
-              style={{
-                margin: 10,
-                fontWeight: 'bold',
-                color: 'grey',
-              }}>
-              Cosa mangerete?
-            </Text>
+            <Text style={styles.label}>Cosa mangerete?</Text>
             <View style={styles.select}>
               {foodCategories.map((value) => (
                 <TouchableOpacity
                   onPress={() => {
                     setCategory(value.key);
-                  }}>
+                  }}
+                  key={value.key}>
                   <Tag
                     emoji={value.emoji_code}
-                    key={value.key}
                     selected={category === value.key}>
                     {value.title_it}
                   </Tag>
@@ -117,7 +109,7 @@ export default function NewEventFirstPage({ navigation }) {
               ))}
             </View>
             <View>
-              <Text>Seleziona una città:</Text>
+              <Text style={styles.label}>Seleziona una città:</Text>
               <Picker
                 selectedValue={location}
                 onValueChange={(value) => {
@@ -128,7 +120,7 @@ export default function NewEventFirstPage({ navigation }) {
                   return (
                     <Picker.Item
                       label={value.name_it}
-                      value={value.key}
+                      value={value}
                       key={value.key}
                     />
                   );
@@ -171,5 +163,10 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: 'row',
+  },
+  label: {
+    margin: 10,
+    fontWeight: 'bold',
+    color: 'grey',
   },
 });

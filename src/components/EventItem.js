@@ -14,7 +14,7 @@ export default function ({ item, onPress }) {
       <ListItem.Content>
         <ListItem.Title>{item.title}</ListItem.Title>
         <ListItem.Subtitle>{item.type}</ListItem.Subtitle>
-        <ListItem.Subtitle>{`${item.location}, ${item.day} at ${item.hour}`}</ListItem.Subtitle>
+        <ListItem.Subtitle>{`${item.location.name_it}, ${item.day} at ${item.hour}`}</ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Chevron />
     </ListItem>
