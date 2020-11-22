@@ -105,7 +105,7 @@ export default function ProfileForm({ user }) {
         <View style={styles.tagContainer}>
           {preferences ? (
             preferences.map((value, index) => (
-              <Tag emoji={value.emoji_code} key={index}>
+              <Tag emoji={value.emoji_code} key={index} selected>
                 {value.title_it}
               </Tag>
             ))

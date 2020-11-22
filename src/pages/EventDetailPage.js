@@ -20,7 +20,7 @@ const EventDetailPage = ({ route }) => {
   return (
     <>
       {event ? (
-        <View>
+        <View style={styles.container}>
           <EventDetail event={event} />
           {event.currentPartecipants ? (
             <>
@@ -66,4 +66,8 @@ const EventDetailPage = ({ route }) => {
 
 export default EventDetailPage;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
