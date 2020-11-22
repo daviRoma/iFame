@@ -6,10 +6,11 @@ platform :ios, '10.0'
 
 target 'iFame' do
   # React Native Maps dependencies
-  #rn_maps_path = '../node_modules/react-native-maps'
-  #pod 'react-native-google-maps', :path => rn_maps_path
-  #pod 'GoogleMaps'
-  #pod 'Google-Maps-iOS-Utils', :git => 'https://github.com/googlemaps/google-maps-ios-utils'
+  rn_path = '../node_modules/react-native'
+  rn_maps_path = '../node_modules/react-native-maps'
+  pod 'react-native-google-maps', :path => rn_maps_path
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils', :git => 'https://github.com/googlemaps/google-maps-ios-utils.git', :commit => 'd5ca417617170b9a0e4e83964e961bfaf9b26f1f'
 
   config = use_native_modules!
 

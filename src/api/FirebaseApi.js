@@ -53,7 +53,9 @@ export function getEvents(params, onSuccess, onError) {
   return collectionRef.onSnapshot({
     next: (snapshot) => {
       let data = [];
+      console.log('snapshot', snapshot.size);
       snapshot.forEach((documentSnapshot) => {
+        console.log('document', documentSnapshot);
         if (params && params.coordinates) {
           if (
             documentSnapshot.data().restaurant.coordinates.longitude <=

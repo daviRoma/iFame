@@ -12,7 +12,7 @@ import { Button, Card, Overlay, Slider } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomActivityIndicator, EventItem, FilterBar } from '../components';
-import { selectState } from '../features/eventCreation/eventCreationSlice';
+
 import {
   getAllEvents,
   selectAllEvents,
@@ -25,6 +25,8 @@ import {
 import * as Routes from '../routes';
 import { dateFormat } from '../utils/index';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -32,7 +34,6 @@ const windowHeight = Dimensions.get('window').height;
 export default function EventListPage({ navigation }) {
   const { user, position } = useSelector((state) => state.loggedUser);
 
-  const state = useSelector(selectState);
   const eventList = useSelector(selectAllEvents);
   const isLoading = useSelector(selectEventLoading);
   const dispatch = useDispatch();
@@ -44,6 +45,17 @@ export default function EventListPage({ navigation }) {
   const [rangeValueDisplayed, setRangeValueDisplayed] = useState(30);
   const [location, setLocation] = useState(position);
   const [preferences, setPreferencies] = useState(user.preferences);
+  const [region, setRegion] = useState(null);
+
+  const onLocationLoad = (loc, pos) => {
+    setLocation(loc);
+    setRegion({
+      latitude: pos.latitude,
+      longitude: pos.longitude,
+      latitudeDelta: 0.009,
+      longitudeDelta: 0.009,
+    });
+  };
 
   const toggleRangeOverlay = () => {
     rangeValueChange(rangeValueDisplayed);
@@ -58,8 +70,8 @@ export default function EventListPage({ navigation }) {
     setRangeValueDisplayed(rangeValue);
     toggleRangeOverlay();
     setTimeout(() => {
-      dispatchEvents(dateFormat(startDate));
-    }, 400);
+      dispatchEvents(startDate ? dateFormat(startDate) : null);
+    }, 300);
   };
 
   const rangeValueChange = (val) => {
@@ -74,7 +86,7 @@ export default function EventListPage({ navigation }) {
 
   const dispatchEvents = (date) => {
     getReverseGeocoding(position).then((resp) => {
-      setLocation(resp.location);
+      onLocationLoad(resp.location, position);
       let coordinates = getDistances(
         rangeValueDisplayed,
         position.latitude,
@@ -137,6 +149,29 @@ export default function EventListPage({ navigation }) {
         <Card containerStyle={{ margin: 0 }}>
           <Card.Title>MAP</Card.Title>
           <Card.Divider />
+          <View style={styles.mapContainer}>
+            {region ? (
+              <MapView
+                provider={PROVIDER_GOOGLE}
+                style={styles.mapViewComponent}
+                region={region}
+                zoomEnabled
+                zoomControlEnabled
+                showsScale={true}
+                onRegionChangeComplete={(reg) => setRegion(reg)}>
+                {eventList.map((marker, index) => (
+                  <Marker
+                    key={index}
+                    coordinate={marker.restaurant.coordinates}
+                    title={marker.title}
+                    description={marker.description}
+                  />
+                ))}
+              </MapView>
+            ) : (
+              <CustomActivityIndicator />
+            )}
+          </View>
         </Card>
       </View>
 
@@ -241,6 +276,14 @@ const styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
+  },
+  mapContainer: {
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+  },
+  mapViewComponent: {
+    width: windowWidth - 50,
+    height: 300,
   },
   map: {
     ...StyleSheet.absoluteFillObject,
