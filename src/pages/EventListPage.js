@@ -96,7 +96,7 @@ export default function EventListPage({ navigation }) {
         getAllEvents({
           coordinates,
           date,
-          preferences: preferences.map((pref) => pref.title),
+          preferences: preferences.map((pref) => pref.key),
         }),
       );
     });
