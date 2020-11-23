@@ -14,4 +14,4 @@ export { default as RestaurantDetailComponent } from './RestaurantDetailComponen
 export { default as Link } from './Link';
 export { default as FilterBar } from './FilterBar';
 export { default as Tag } from './Tag';
-export { default as EventDetail } from './EventDetail';
+export { default as UserItem } from './UserItem';

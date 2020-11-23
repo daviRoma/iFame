@@ -44,7 +44,7 @@ export default function EventListPage({ navigation }) {
   const [rangeValue, setRangeValue] = useState(30);
   const [rangeValueDisplayed, setRangeValueDisplayed] = useState(30);
   const [location, setLocation] = useState(position);
-  const [preferences, setPreferencies] = useState(user.preferences);
+  //const [preferences, setPreferencies] = useState(user.preferences);
   const [region, setRegion] = useState(null);
 
   const onLocationLoad = (loc, pos) => {
@@ -96,14 +96,16 @@ export default function EventListPage({ navigation }) {
         getAllEvents({
           coordinates,
           date,
-          preferences: preferences.map((pref) => pref.key),
+          preferences: user.preferences.map((pref) => pref.key),
         }),
       );
     });
   };
 
   useEffect(() => {
-    dispatchEvents(startDate);
+    if (user) {
+      dispatchEvents(startDate);
+    }
   }, []);
 
   if (isLoading || eventList === null) {

@@ -12,6 +12,7 @@ import Spacer from '../../components/Spacer';
 import { logoutUser } from '../auth/authSlice';
 import { DELETE_COLOR } from '../../common/theme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function ProfileForm({ user }) {
   const dispatch = useDispatch();
@@ -90,20 +91,27 @@ export default function ProfileForm({ user }) {
           foodPref={preferences}
           setFoodPref={setPreferencies}
         />
-        <Text>Preferenze di cibo:</Text>
+        <View style={styles.preferencesContainer}>
+          <Text style={styles.label}>Preferenze di cibo:</Text>
+          <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            style={{
+              flexDirection: 'row',
+            }}>
+            <Text style={styles.label}>Modifica </Text>
+            <FontAwesome name="pencil" size={20} style={styles.label} />
+          </TouchableOpacity>
+        </View>
         <View style={styles.tagContainer}>
           {preferences ? (
             preferences.map((value, index) => (
-              <Tag emoji={value.emoji_code} key={index}>
+              <Tag emoji={value.emoji_code} key={index} selected>
                 {value.title_it}
               </Tag>
             ))
           ) : (
             <Text>Non hai ancora nessuna preferenza</Text>
           )}
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <Tag> Modifica </Tag>
-          </TouchableOpacity>
         </View>
       </View>
       <Spacer />
@@ -154,7 +162,7 @@ const styles = StyleSheet.create({
   },
   modalButtonContainer: {
     marginBottom: 10,
-    alignItems: 'flex-start',
+    marginHorizontal: 10,
   },
   buttonStyle: {
     flex: 1,
@@ -169,5 +177,15 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     alignItems: 'baseline',
     flexWrap: 'wrap',
+  },
+  preferencesContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    flex: 1,
+  },
+  label: {
+    fontWeight: 'bold',
+    color: 'grey',
   },
 });

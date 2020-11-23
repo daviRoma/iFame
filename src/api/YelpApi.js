@@ -17,6 +17,7 @@ const basePath = axios.create({
 
 export const searchRestaurants = async (params) => {
   const url = setParams('/search?', params);
+  console.log(url);
   try {
     const result = await basePath.get(url);
     return result.data.businesses;

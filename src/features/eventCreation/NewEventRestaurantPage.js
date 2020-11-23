@@ -15,7 +15,7 @@ const NewEventRestaurantPage = ({ navigation }) => {
   const { category, location } = useSelector(selectState);
   const [search, setSearch] = useState('');
   const { loading, restaurants, error } = useRestaurants({
-    location,
+    location: location.key,
     categories: category,
   });
   const [restList, setRestList] = useState([]);

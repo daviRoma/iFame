@@ -3,7 +3,11 @@
  */
 import { createSlice } from '@reduxjs/toolkit';
 import { logger } from 'react-native-logs';
-import { getEvents } from '../../api/FirebaseApi';
+import {
+  getEvents,
+  joinEvent as joinEventApi,
+  unjoinEvent as unjoinEventApi,
+} from '../../api/FirebaseApi';
 
 const log = logger.createLogger();
 
@@ -39,6 +43,17 @@ const eventSlice = createSlice({
     cleanErrors(state) {
       state.error = null;
     },
+    joinEventsStart(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    joinEventSuccess(state) {
+      state.loading = false;
+    },
+    joinEventFail(state, { payload }) {
+      state.loading = false;
+      state.error = payload;
+    },
   },
 });
 
@@ -47,6 +62,9 @@ export const {
   eventGetSuccess,
   eventGetFail,
   cleanErrors,
+  joinEventsStart,
+  joinEventSuccess,
+  joinEventFail,
 } = eventSlice.actions;
 
 export const getAllEvents = (params) => {
@@ -59,6 +77,32 @@ export const getAllEvents = (params) => {
       (error) => handleError(error, dispatch),
     );
     return sub;
+  };
+};
+
+export const joinEvent = (id) => {
+  log.info('[EventSlice]::[joinEvent]');
+  return async (dispatch) => {
+    dispatch(joinEventsStart());
+    try {
+      await joinEventApi(id);
+      dispatch(joinEventSuccess());
+    } catch (error) {
+      handleError(error);
+    }
+  };
+};
+
+export const unjoinEvent = (id) => {
+  log.info('[EventSlice]::[joinEvent]');
+  return async (dispatch) => {
+    dispatch(joinEventsStart());
+    try {
+      unjoinEventApi(id);
+      dispatch(joinEventSuccess());
+    } catch (error) {
+      handleError(error);
+    }
   };
 };
 

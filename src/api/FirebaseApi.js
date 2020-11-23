@@ -1,4 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 /**
  * Collections
@@ -84,6 +85,39 @@ export async function deleteEvent(id) {
   await events.doc(id).delete();
 }
 
+export async function joinEvent(id) {
+  const eventRef = events.doc(id);
+  const user = auth().currentUser;
+  return firestore().runTransaction(async (transaction) => {
+    const event = await transaction.get(eventRef);
+    if (event) {
+      let partecipants = event.get('currentPartecipants');
+      if (!partecipants) {
+        partecipants = [];
+      }
+      partecipants.push(user.uid);
+      transaction.update(eventRef, {
+        currentPartecipants: partecipants,
+      });
+    }
+  });
+}
+
+export async function unjoinEvent(id) {
+  const eventRef = events.doc(id);
+  const user = auth().currentUser;
+  return firestore().runTransaction(async (transaction) => {
+    const event = await transaction.get(eventRef);
+    if (event) {
+      let partecipants = event.get('currentPartecipants');
+      if (partecipants && partecipants.includes(user.uid)) {
+        partecipants.splice(partecipants.indexOf(user.uid), 1);
+        transaction.update(eventRef, { currentPartecipants: partecipants });
+      }
+    }
+  });
+}
+
 /**
  * User api
  */
@@ -104,6 +138,11 @@ export async function getUser(id, onError, onSuccess) {
     },
   });
   return unsubscribe;
+}
+
+export async function getUserInfo(id) {
+  const user = (await users.doc(id).get()).data();
+  return user;
 }
 
 export async function updateUserInfo(id, userData) {
