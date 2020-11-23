@@ -1,6 +1,7 @@
 import { Picker } from '@react-native-picker/picker';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,13 +9,12 @@ import {
   CustomActivityIndicator,
   DateTimeSelector,
   Spacer,
+  Tag,
 } from '../../components';
 import { useCities, useFoodCategories } from '../../hooks';
 import * as Routes from '../../routes';
-import { addInformations, selectState } from './eventCreationSlice';
-import moment from 'moment';
 import { dateFormat, timeFormat } from '../../utils';
-import emoji from 'emoji-dictionary';
+import { addInformations, selectState } from './eventCreationSlice';
 
 export default function NewEventFirstPage({ navigation }) {
   const state = useSelector(selectState);
@@ -46,6 +46,7 @@ export default function NewEventFirstPage({ navigation }) {
         category,
         partecipants: numPart,
         description,
+        timestamp: date.valueOf(),
       }),
     );
     navigation.navigate(Routes.NEW_EVENT_SECOND);
@@ -72,6 +73,8 @@ export default function NewEventFirstPage({ navigation }) {
                 value={description}
                 onChangeText={setDescription}
               />
+            </View>
+            <View style={styles.rowContainer}>
               <Input
                 label="Numero di partecipanti"
                 keyboardType="numeric"
@@ -80,8 +83,6 @@ export default function NewEventFirstPage({ navigation }) {
                 containerStyle={styles.inputNumber}
                 placeholder="0"
               />
-            </View>
-            <View>
               <DateTimeSelector
                 buttonTitle="Seleziona una data"
                 mode="datetime"
@@ -92,31 +93,24 @@ export default function NewEventFirstPage({ navigation }) {
                 value={date}
               />
             </View>
+            <Text style={styles.label}>Cosa mangerete?</Text>
             <View style={styles.select}>
-              <Text>Seleziona cosa mangerete:</Text>
-              <Picker
-                selectedValue={category}
-                onValueChange={(value) => {
-                  setCategory(value);
-                }}>
-                <Picker.Item label="Categoria" value="" key="" color="grey" />
-                {foodCategories.map((value) => {
-                  return (
-                    <Picker.Item
-                      label={
-                        value.title_it +
-                        ' ' +
-                        emoji.getUnicode(value.emoji_code)
-                      }
-                      value={value.key}
-                      key={value.key}
-                    />
-                  );
-                })}
-              </Picker>
+              {foodCategories.map((value) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    setCategory(value.key);
+                  }}
+                  key={value.key}>
+                  <Tag
+                    emoji={value.emoji_code}
+                    selected={category === value.key}>
+                    {value.title_it}
+                  </Tag>
+                </TouchableOpacity>
+              ))}
             </View>
-            <View style={styles.select}>
-              <Text>Seleziona una città:</Text>
+            <View>
+              <Text style={styles.label}>Seleziona una città:</Text>
               <Picker
                 selectedValue={location}
                 onValueChange={(value) => {
@@ -127,7 +121,7 @@ export default function NewEventFirstPage({ navigation }) {
                   return (
                     <Picker.Item
                       label={value.name_it}
-                      value={value.key}
+                      value={value}
                       key={value.key}
                     />
                   );
@@ -164,6 +158,16 @@ const styles = StyleSheet.create({
     width: 200,
   },
   select: {
-    width: 200,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    margin: 10,
+  },
+  rowContainer: {
+    flexDirection: 'row',
+  },
+  label: {
+    margin: 10,
+    fontWeight: 'bold',
+    color: 'grey',
   },
 });

@@ -45,7 +45,7 @@ export default function EventListPage({ navigation }) {
   const [rangeValue, setRangeValue] = useState(30);
   const [rangeValueDisplayed, setRangeValueDisplayed] = useState(30);
   const [location, setLocation] = useState(position);
-  const [preferences, setPreferencies] = useState(user.preferences);
+  //const [preferences, setPreferencies] = useState(user.preferences);
   const [region, setRegion] = useState(null);
 
   const onLocationLoad = (loc, pos) => {
@@ -97,14 +97,16 @@ export default function EventListPage({ navigation }) {
         getAllEvents({
           coordinates,
           date,
-          preferences: preferences.map((pref) => pref.key),
+          preferences: user.preferences.map((pref) => pref.key),
         }),
       );
     });
   };
 
   useEffect(() => {
-    dispatchEvents(startDate);
+    if (user) {
+      dispatchEvents(startDate);
+    }
   }, []);
 
   if (isLoading || eventList === null) {
@@ -114,6 +116,37 @@ export default function EventListPage({ navigation }) {
       </SafeAreaView>
     );
   }
+
+  const listFooter = () => (
+    <Card containerStyle={{ margin: 0 }}>
+      <Card.Title>MAP</Card.Title>
+      <Card.Divider />
+      <View style={styles.mapContainer}>
+        {region ? (
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            style={styles.mapViewComponent}
+            region={region}
+            zoomEnabled
+            zoomControlEnabled
+            showsScale={true}
+            //onRegionChangeComplete={(reg) => setRegion(reg)}
+          >
+            {eventList.map((marker, index) => (
+              <Marker
+                key={index}
+                coordinate={marker.restaurant.coordinates}
+                title={marker.title}
+                description={marker.description}
+              />
+            ))}
+          </MapView>
+        ) : (
+          <CustomActivityIndicator />
+        )}
+      </View>
+    </Card>
+  );
 
   // if events found
   return (
@@ -142,40 +175,10 @@ export default function EventListPage({ navigation }) {
               );
             }}
             keyExtractor={(item) => item.id}
+            ListFooterComponent={listFooter}
           />
         </View>
       )}
-
-      <View style={styles.sectionTwo}>
-        <Card containerStyle={{ margin: 0 }}>
-          <Card.Title>MAP</Card.Title>
-          <Card.Divider />
-          <View style={styles.mapContainer}>
-            {region ? (
-              <MapView
-                provider={PROVIDER_GOOGLE}
-                style={styles.mapViewComponent}
-                region={region}
-                zoomEnabled
-                zoomControlEnabled
-                showsScale={true}
-                onRegionChangeComplete={(reg) => setRegion(reg)}>
-                {eventList.map((marker, index) => (
-                  <Marker
-                    key={index}
-                    coordinate={marker.restaurant.coordinates}
-                    title={marker.title}
-                    description={marker.description}
-                  />
-                ))}
-              </MapView>
-            ) : (
-              <CustomActivityIndicator />
-            )}
-          </View>
-        </Card>
-      </View>
-
       <Overlay isVisible={visible} onBackdropPress={toggleRangeOverlay}>
         <View>
           <Text style={styles.overlayHeader}>Cerca vicino a te</Text>

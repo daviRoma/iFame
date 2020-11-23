@@ -1,7 +1,8 @@
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { Image, Text } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import MapView, { Marker } from 'react-native-maps';
+import ImageWithOverlay from './ImageWithOverlay';
 import Link from './Link';
 
 const RestaurantDetailComponent = ({ restaurant }) => {
@@ -11,9 +12,7 @@ const RestaurantDetailComponent = ({ restaurant }) => {
       <FlatList
         data={restaurant.photos}
         keyExtractor={(item) => item}
-        renderItem={({ item }) => (
-          <Image style={styles.list} source={{ uri: item }} />
-        )}
+        renderItem={({ item }) => <ImageWithOverlay image_url={item} />}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
       />
@@ -53,6 +52,7 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: 'center',
+    justifyContent: 'center',
   },
   mapContainer: {
     flexDirection: 'row',
