@@ -186,7 +186,7 @@ export default function EventListPage({ navigation }) {
             <Slider
               style={{ flex: 0 }}
               value={rangeValue}
-              maximumValue={30}
+              maximumValue={50}
               minimumValue={5}
               step={5}
               onValueChange={rangeValueChange}

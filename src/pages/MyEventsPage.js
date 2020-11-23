@@ -24,8 +24,8 @@ export default function MyEventsPage({ navigation }) {
     return <CustomActivityIndicator />;
   } else if (!myEvents.length) {
     return (
-      <SafeAreaView style={styles.pageContainer}>
-        <Text style={styles.noElemContainer}>No event found</Text>
+      <SafeAreaView style={styles.noElemContainer}>
+        <Text style={styles.noElemText}>No event found</Text>
       </SafeAreaView>
     );
   }
@@ -62,10 +62,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   noElemContainer: {
+    flex: 1,
     textAlign: 'center',
-    fontSize: 20,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  noElemText: {
+    fontSize: 22,
+    marginVertical: 10,
+    padding: 10,
+    color: '#898989',
   },
   sectionOne: {
     flex: 1,
