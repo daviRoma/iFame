@@ -10,6 +10,7 @@ const initialState = {
   location: '',
   category: '',
   partecipants: '',
+  timestamp: '',
   restaurant: null,
   description: '',
   loading: false,
@@ -70,6 +71,7 @@ export function createEvent(navigation) {
       partecipants,
       description,
       restaurant,
+      timestamp,
     } = getState().eventCreation;
     try {
       await createEventApi({
@@ -83,6 +85,7 @@ export function createEvent(navigation) {
         restaurant,
         author: auth().currentUser.uid,
         isFull: false,
+        timestamp,
       });
       dispatch(createEventSuccess());
       navigation.navigate(Routes.MY_EVENTS);

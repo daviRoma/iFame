@@ -46,6 +46,7 @@ export default function NewEventFirstPage({ navigation }) {
         category,
         partecipants: numPart,
         description,
+        timestamp: date.valueOf(),
       }),
     );
     navigation.navigate(Routes.NEW_EVENT_SECOND);
