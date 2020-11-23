@@ -15,3 +15,4 @@ export { default as Link } from './Link';
 export { default as FilterBar } from './FilterBar';
 export { default as Tag } from './Tag';
 export { default as UserItem } from './UserItem';
+export { default as ImageWithOverlay } from './ImageWithOverlay';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FlatList,
   Modal,
@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native';
 import { Card, Overlay, Text } from 'react-native-elements';
 import Feather from 'react-native-vector-icons/Feather';
@@ -23,15 +24,28 @@ const EventDetail = ({ event }) => {
   const [user, userLoading] = useSingleUser(event.author);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalRestaurantVisible, setModalRestaurantVisible] = useState(false);
+  const [fullImageVisible, setFullImageVisible] = useState(false);
+  const [imageWidth, setImageWidth] = useState('');
+  const [imageHeigth, setImageHeight] = useState('');
   const restaurant = event.restaurant;
-  console.log(partecipants);
+
+  useEffect(() => {
+    Image.getSize(restaurant.image_url, (width, heigth) => {
+      setImageWidth(width);
+      setImageHeight(heigth);
+    });
+  }, [restaurant.image_url]);
+
   if (loading || userLoading) {
     return <CustomActivityIndicator />;
   }
   return (
     <ScrollView>
       <Card>
-        <Card.Image source={{ uri: restaurant.image_url }} />
+        <Card.Image
+          source={{ uri: restaurant.image_url }}
+          onPress={() => setFullImageVisible(true)}
+        />
         <Card.Divider />
         <Card.Title h3>{event.title}</Card.Title>
         <View style={styles.eventInfo}>
@@ -102,6 +116,15 @@ const EventDetail = ({ event }) => {
           isVisible={modalRestaurantVisible}
           onBackdropPress={() => setModalRestaurantVisible(false)}>
           <RestaurantDetailComponent restaurant={restaurant} />
+        </Overlay>
+        <Overlay
+          isVisible={fullImageVisible}
+          onBackdropPress={() => setFullImageVisible(false)}
+          animationType="slide">
+          <Image
+            source={{ uri: restaurant.image_url }}
+            style={{ width: imageWidth * 0.5, height: imageHeigth * 0.5 }}
+          />
         </Overlay>
       </Card>
     </ScrollView>
