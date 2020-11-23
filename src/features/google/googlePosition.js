@@ -1,6 +1,10 @@
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
+
 const GoogleAPIKey = 'AIzaSyC5ym4xWYvCczh74RGafSYgMaYqnhsLtJw';
+
+const BaseLat = 0.04509; // latitude at 5km
+const BaseLon = 0.05963; // longitude at 5km
 
 export function getMyPosition(onSuccess, onError) {
   const id = Geolocation.getCurrentPosition(
@@ -35,40 +39,13 @@ async function reverseGeocoding(position) {
 }
 
 export function getDistances(value, lat, lon) {
-  switch (value) {
-    case 30:
-      return [
-        { latitude: lat + 0.27112, longitude: lon + 0.35559 },
-        { latitude: lat - 0.27112, longitude: lon - 0.35559 },
-      ];
-    case 25:
-      return [
-        { latitude: lat + 0.22391, longitude: lon + 0.29667 },
-        { latitude: lat - 0.22391, longitude: lon - 0.29667 },
-      ];
-    case 20:
-      return [
-        { latitude: lat + 0.18061, longitude: lon + 0.2378 },
-        { latitude: lat - 0.18061, longitude: lon - 0.2378 },
-      ];
-    case 15:
-      return [
-        { latitude: lat + 0.13499, longitude: lon + 0.17813 },
-        { latitude: lat - 0.13499, longitude: lon - 0.17813 },
-      ];
-    case 10:
-      return [
-        { latitude: lat + 0.08995, longitude: lon + 0.11893 },
-        { latitude: lat - 0.08995, longitude: lon - 0.11893 },
-      ];
-    case 5:
-      return [
-        { latitude: lat + 0.04509, longitude: lon + 0.05963 },
-        { latitude: lat - 0.04509, longitude: lon - 0.05963 },
-      ];
-    default:
-      break;
-  }
+  const diffLat = (value / 5) * BaseLat;
+  const diffLon = (value / 5) * BaseLon;
+
+  return [
+    { latitude: lat + diffLat, longitude: lon + diffLon },
+    { latitude: lat - diffLat, longitude: lon - diffLon },
+  ];
 }
 
 /**

@@ -23,11 +23,13 @@ export function getUserEvents(userId, onSuccess, onError) {
 }
 
 export function getEvents(params, onSuccess, onError) {
-  console.log(params);
   let collectionRef = events;
 
   if (params && params.preferences) {
     collectionRef = events.where('category', 'in', params.preferences);
+  }
+  if (params && params.timestamp) {
+    collectionRef = collectionRef.where('timestamp', '>=', params.timestamp);
   }
   if (params && params.location) {
     collectionRef = collectionRef.where('location', '==', params.location);
@@ -54,9 +56,8 @@ export function getEvents(params, onSuccess, onError) {
   return collectionRef.onSnapshot({
     next: (snapshot) => {
       let data = [];
-      console.log('snapshot', snapshot.size);
+
       snapshot.forEach((documentSnapshot) => {
-        console.log('document', documentSnapshot);
         if (params && params.coordinates) {
           if (
             documentSnapshot.data().restaurant.coordinates.longitude <=
@@ -68,6 +69,48 @@ export function getEvents(params, onSuccess, onError) {
           }
         } else {
           data.push({ ...documentSnapshot.data(), id: documentSnapshot.id });
+        }
+      });
+      onSuccess(data);
+    },
+    error: (error) => onError(error.message),
+  });
+}
+
+export function getFilteredEvents(params, onSuccess, onError) {
+  let collectionRef = events;
+
+  if (params && params.timestamp) {
+    collectionRef = collectionRef.where('timestamp', '>=', params.timestamp);
+  }
+
+  return collectionRef.onSnapshot({
+    next: (snapshot) => {
+      let data = [];
+
+      snapshot.forEach((documentSnapshot) => {
+        if (params && params.coordinates) {
+          if (
+            documentSnapshot.data().restaurant.coordinates.latitude <=
+              params.coordinates[0].latitude &&
+            documentSnapshot.data().restaurant.coordinates.latitude >=
+              params.coordinates[1].latitude &&
+            documentSnapshot.data().restaurant.coordinates.longitude <=
+              params.coordinates[0].longitude &&
+            documentSnapshot.data().restaurant.coordinates.longitude >=
+              params.coordinates[1].longitude
+          ) {
+            if (
+              params.preferences.find(
+                (pref) => pref === documentSnapshot.data().category,
+              ) !== undefined
+            ) {
+              data.push({
+                ...documentSnapshot.data(),
+                id: documentSnapshot.id,
+              });
+            }
+          }
         }
       });
       onSuccess(data);

@@ -3,7 +3,7 @@
  */
 import { createSlice } from '@reduxjs/toolkit';
 import { logger } from 'react-native-logs';
-import { getEvents } from '../../api/FirebaseApi';
+import { getEvents, getFilteredEvents } from '../../api/FirebaseApi';
 
 const log = logger.createLogger();
 
@@ -54,6 +54,19 @@ export const getAllEvents = (params) => {
   return (dispatch) => {
     dispatch(eventGet());
     const sub = getEvents(
+      params,
+      (events) => dispatch(eventGetSuccess(events)),
+      (error) => handleError(error, dispatch),
+    );
+    return sub;
+  };
+};
+
+export const getHomeEvents = (params) => {
+  log.info('[EventSlice]::[getFilteredEvents]');
+  return (dispatch) => {
+    dispatch(eventGet());
+    const sub = getFilteredEvents(
       params,
       (events) => dispatch(eventGetSuccess(events)),
       (error) => handleError(error, dispatch),

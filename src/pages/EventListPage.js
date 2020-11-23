@@ -27,6 +27,7 @@ import { dateFormat } from '../utils/index';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
+import { useFocusEffect } from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

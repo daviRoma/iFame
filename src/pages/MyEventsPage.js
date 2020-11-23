@@ -18,7 +18,7 @@ export default function MyEventsPage({ navigation }) {
   useEffect(() => {
     const sub = dispatch(getAllUserEvents(auth().currentUser.uid));
     return sub;
-  }, []);
+  }, [dispatch]);
 
   if (loading || myEvents === null) {
     return <CustomActivityIndicator />;

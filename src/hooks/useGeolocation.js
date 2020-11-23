@@ -26,7 +26,7 @@ export const useGeolocation = (onSuccess, onError) => {
   useEffect(() => {
     async function getPosition() {
       log.info('[iFame]::[useGeolocation]::[Platform]', Platform.OS);
-      
+
       if (Platform.OS === 'ios') {
         getMyPosition(onSuccess, onError);
       } else if (Platform.OS === 'android') {
