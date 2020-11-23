@@ -4,8 +4,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_COLOR } from '../common/theme';
-import { ErrorMessage, EventDetail } from '../components';
+import { ErrorMessage } from '../components';
 import { joinEvent, unjoinEvent } from '../features/events/eventSlice';
+import EventDetail from '../features/events/EventDetail';
 
 const EventDetailPage = ({ route }) => {
   const id = route.params.id;

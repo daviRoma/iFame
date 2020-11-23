@@ -6,7 +6,13 @@ const RestaurantCard = ({ item }) => {
   return (
     <Card>
       <Card.Title style={styles.title}>{item.name}</Card.Title>
-      <Card.Image source={{ uri: item.image_url }} />
+      {item.image_url ? (
+        <Card.Image source={{ uri: item.image_url }} />
+      ) : (
+        <Card.Image
+          source={require('../../assets/restaurant-placeholder.jpg')}
+        />
+      )}
       <Card.Divider />
       <Text>Fascia di prezzo: {item.price}</Text>
       <Text>Rating: {item.rating} Stelle</Text>

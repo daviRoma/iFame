@@ -3,8 +3,9 @@ import { StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_COLOR } from '../common/theme';
-import { ErrorMessage, EventDetail } from '../components';
+import { ErrorMessage } from '../components';
 import { deleteEvent } from '../features/myEvents/myEventsSlice';
+import EventDetail from '../features/events/EventDetail';
 
 export default function MyEventSinglePage({ route, navigation }) {
   const { id } = route.params;

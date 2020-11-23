@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: 'center',
+    justifyContent: 'center',
   },
   mapContainer: {
     flexDirection: 'row',
