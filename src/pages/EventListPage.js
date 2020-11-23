@@ -116,6 +116,37 @@ export default function EventListPage({ navigation }) {
     );
   }
 
+  const listFooter = () => (
+    <Card containerStyle={{ margin: 0 }}>
+      <Card.Title>MAP</Card.Title>
+      <Card.Divider />
+      <View style={styles.mapContainer}>
+        {region ? (
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            style={styles.mapViewComponent}
+            region={region}
+            zoomEnabled
+            zoomControlEnabled
+            showsScale={true}
+            //onRegionChangeComplete={(reg) => setRegion(reg)}
+          >
+            {eventList.map((marker, index) => (
+              <Marker
+                key={index}
+                coordinate={marker.restaurant.coordinates}
+                title={marker.title}
+                description={marker.description}
+              />
+            ))}
+          </MapView>
+        ) : (
+          <CustomActivityIndicator />
+        )}
+      </View>
+    </Card>
+  );
+
   // if events found
   return (
     <SafeAreaView style={[styles.pageContainer, { paddingBottom: 10 }]}>
@@ -143,40 +174,10 @@ export default function EventListPage({ navigation }) {
               );
             }}
             keyExtractor={(item) => item.id}
+            ListFooterComponent={listFooter}
           />
         </View>
       )}
-
-      <View style={styles.sectionTwo}>
-        <Card containerStyle={{ margin: 0 }}>
-          <Card.Title>MAP</Card.Title>
-          <Card.Divider />
-          <View style={styles.mapContainer}>
-            {region ? (
-              <MapView
-                provider={PROVIDER_GOOGLE}
-                style={styles.mapViewComponent}
-                region={region}
-                zoomEnabled
-                zoomControlEnabled
-                showsScale={true}
-                onRegionChangeComplete={(reg) => setRegion(reg)}>
-                {eventList.map((marker, index) => (
-                  <Marker
-                    key={index}
-                    coordinate={marker.restaurant.coordinates}
-                    title={marker.title}
-                    description={marker.description}
-                  />
-                ))}
-              </MapView>
-            ) : (
-              <CustomActivityIndicator />
-            )}
-          </View>
-        </Card>
-      </View>
-
       <Overlay isVisible={visible} onBackdropPress={toggleRangeOverlay}>
         <View>
           <Text style={styles.overlayHeader}>Cerca vicino a te</Text>
