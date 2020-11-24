@@ -11,6 +11,7 @@ import {
 import { Card, Overlay, Text } from 'react-native-elements';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { CONTRAST_COLOR, PRIMARY_COLOR } from '../../common/theme';
 import {
   CustomActivityIndicator,
   RestaurantDetailComponent,
@@ -49,24 +50,24 @@ const EventDetail = ({ event }) => {
         <Card.Divider />
         <Card.Title h3>{event.title}</Card.Title>
         <View style={styles.eventInfo}>
-          <Feather name="clock" size={30} />
+          <Feather name="clock" size={30} color={PRIMARY_COLOR} />
           <Spacer margin={10} />
           <Text style={styles.text}>
             {event.day}, {event.hour}
           </Text>
         </View>
         <View style={styles.eventInfo}>
-          <Ionicons name="location" size={30} />
+          <Ionicons name="location" size={30} color={PRIMARY_COLOR} />
           <Spacer margin={10} />
           <Text style={styles.text}>{event.location.name_it}</Text>
         </View>
         <View style={styles.eventInfo}>
-          <Ionicons name="people" size={30} />
+          <Ionicons name="people" size={30} color={PRIMARY_COLOR} />
           <Spacer margin={10} />
           <Text>Numero partecipanti: {event.partecipants}</Text>
         </View>
         <View style={styles.eventInfo}>
-          <Ionicons name="people" size={30} />
+          <Ionicons name="people" size={30} color={PRIMARY_COLOR} />
           <Spacer margin={10} />
           <Text>Partecipanti correnti: </Text>
           <View>

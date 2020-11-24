@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { PRIMARY_COLOR } from '../common/theme';
+import { SECONDARY_COLOR } from '../common/theme';
 import AccessForm from '../features/auth/AccessForm';
 import { loginUser } from '../features/auth/authSlice';
 import * as Routes from '../routes';
@@ -33,7 +33,7 @@ export default function LoginPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: PRIMARY_COLOR,
+    backgroundColor: SECONDARY_COLOR,
     justifyContent: 'center',
     alignItems: 'center',
   },

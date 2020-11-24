@@ -10,7 +10,7 @@ import FoodPrefsModal from '../foodCategories/FoodPrefsModal';
 import { updateUser } from './userSlice';
 import Spacer from '../../components/Spacer';
 import { logoutUser } from '../auth/authSlice';
-import { DELETE_COLOR } from '../../common/theme';
+import { DELETE_COLOR, SECONDARY_COLOR } from '../../common/theme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -65,13 +65,19 @@ export default function ProfileForm({ user }) {
         )}
       </View>
       <View style={styles.formContainer}>
-        <Input label="Nome" value={name} onChangeText={setName} />
+        <Input
+          label="Nome"
+          value={name}
+          onChangeText={setName}
+          labelStyle={styles.label}
+        />
         <Input
           label="Username"
           value={username}
           onChangeText={setUsername}
           autoCapitalize="none"
           autoCorrect={false}
+          labelStyle={styles.label}
         />
         <Input
           label="Email"
@@ -82,6 +88,7 @@ export default function ProfileForm({ user }) {
           errorMessage={emailError}
           autoCapitalize="none"
           autoCorrect={false}
+          labelStyle={styles.label}
         />
       </View>
       <View style={styles.modalButtonContainer}>
@@ -156,9 +163,9 @@ const styles = StyleSheet.create({
   },
   avatarLabel: {
     fontWeight: 'bold',
-    color: 'grey',
-    fontSize: 15,
+    // fontSize: 15,
     textAlign: 'center',
+    color: SECONDARY_COLOR,
   },
   modalButtonContainer: {
     marginBottom: 10,
@@ -186,6 +193,6 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: 'bold',
-    color: 'grey',
+    color: SECONDARY_COLOR,
   },
 });

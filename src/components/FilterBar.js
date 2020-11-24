@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Icon, Card } from 'react-native-elements';
+import { CONTRAST_COLOR, PRIMARY_COLOR } from '../common/theme';
 
 export default function FilterBar({ location, onPressFiler, onPressDate }) {
   return (
@@ -8,7 +9,11 @@ export default function FilterBar({ location, onPressFiler, onPressDate }) {
       <Card containerStyle={{ margin: 0, padding: 10 }}>
         <View style={styles.cardContainer}>
           <View style={{ flexDirection: 'row' }}>
-            <Icon name="map-marker" type="font-awesome" color="#a11405" />
+            <Icon
+              name="map-marker"
+              type="font-awesome"
+              color={CONTRAST_COLOR}
+            />
             <Text style={styles.positionContainer}>{location}</Text>
           </View>
           <View style={styles.filterContainer}>
@@ -16,7 +21,7 @@ export default function FilterBar({ location, onPressFiler, onPressDate }) {
               style={styles.actionIcon}
               name="filter"
               type="font-awesome"
-              color="#282829"
+              color={PRIMARY_COLOR}
               size={18}
               onPress={onPressFiler}
             />
@@ -24,7 +29,7 @@ export default function FilterBar({ location, onPressFiler, onPressDate }) {
               style={styles.actionIcon}
               name="calendar"
               type="font-awesome"
-              color="#282829"
+              color={PRIMARY_COLOR}
               size={18}
               onPress={onPressDate}
             />

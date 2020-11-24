@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { Input } from 'react-native-elements';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { SECONDARY_COLOR } from '../common/theme';
 import { dateFormat, timeFormat } from '../utils';
 import ErrorMessage from './ErrorMessage';
 
@@ -15,6 +16,7 @@ const DateTimeSelector = ({ value, mode, onChange, error }) => {
           value={dateFormat(value) + ' ' + timeFormat(value)}
           disabled={true}
           label="Data"
+          labelStyle={{ color: SECONDARY_COLOR }}
         />
       </TouchableOpacity>
       <DateTimePickerModal

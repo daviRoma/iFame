@@ -1,16 +1,19 @@
-import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
-import { StyleSheet, StatusBar, Platform } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
-
+import React from 'react';
+import { Platform, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Feather from 'react-native-vector-icons/Feather';
-
-import HomePage from '../pages/HomePage';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {
+  CLEAR_COLOR,
+  CONTRAST_COLOR,
+  PRIMARY_COLOR,
+  SECONDARY_COLOR,
+} from '../common/theme';
 import EventListPage from '../pages/EventListPage';
+import HomePage from '../pages/HomePage';
 import MyEventsPage from '../pages/MyEventsPage';
 import ProfilePage from '../pages/ProfilePage';
 import * as Routes from '../routes';
@@ -23,7 +26,14 @@ const TabPagesNavigator = () => {
 
   return (
     <SafeAreaProvider style={styles.pageContainer}>
-      <TabNavigator.Navigator>
+      <TabNavigator.Navigator
+        barStyle={{
+          backgroundColor: SECONDARY_COLOR,
+        }}
+        tabBarOptions={{
+          activeTintColor: CONTRAST_COLOR,
+          inactiveTintColor: CLEAR_COLOR,
+        }}>
         <TabNavigator.Screen
           name={Routes.HOME}
           component={HomePage}

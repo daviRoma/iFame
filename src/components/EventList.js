@@ -2,7 +2,8 @@ import React from 'react';
 import { SafeAreaView, StyleSheet, View, Dimensions } from 'react-native';
 
 import { FlatList } from 'react-native-gesture-handler';
-import { CustomActivityIndicator, EventItem } from '../components';
+import CustomActivityIndicator from './CustomActivityIndicator';
+import EventItem from './EventItem';
 
 import * as Routes from '../routes';
 

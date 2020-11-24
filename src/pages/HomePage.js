@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActivityIndicator, StyleSheet, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -20,19 +20,19 @@ import {
   getDistances,
   getReverseGeocoding,
 } from '../features/google/googlePosition';
-import { useGeolocation } from '../hooks';
+import { useGeolocation, useFoodCategories } from '../hooks';
 import * as Routes from '../routes';
 
 export default function HomePage({ navigation }) {
   const { loading, user } = useSelector((state) => state.loggedUser);
-
+  useFoodCategories();
   const dispatch = useDispatch();
 
   const eventList = useSelector(selectAllEvents);
   const isLoading = useSelector(selectEventLoading);
 
   const [visible, setVisible] = useState(true);
-  const [preferences, setPreferencies] = useState(user.preferences);
+  const [preferences, setPreferencies] = useState([]);
 
   useGeolocation(
     (pos) => dispatchEvents(pos),
@@ -51,7 +51,7 @@ export default function HomePage({ navigation }) {
       dispatch(
         getHomeEvents({
           coordinates: getDistances(50, coords.latitude, coords.longitude),
-          preferences: preferences.map((pref) => pref.key),
+          preferences: user.preferences.map((pref) => pref.key),
           timestamp: Date.now(),
         }),
       );

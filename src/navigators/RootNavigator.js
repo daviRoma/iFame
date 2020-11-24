@@ -14,6 +14,7 @@ import RestaurantDetail from '../features/restaurants/RestaurantDetail';
 import MyEventSinglePage from '../pages/MyEventSinglePage';
 import EventDetailPage from '../pages/EventDetailPage';
 import { useLogin } from '../hooks';
+import { CLEAR_COLOR, SECONDARY_COLOR } from '../common/theme';
 
 const RootStack = createStackNavigator();
 
@@ -26,7 +27,13 @@ const RootNavigator = () => {
       {loading ? (
         <CustomActivityIndicator />
       ) : (
-        <RootStack.Navigator>
+        <RootStack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: SECONDARY_COLOR,
+            },
+            headerTintColor: CLEAR_COLOR,
+          }}>
           {!user ? (
             <>
               <RootStack.Screen
@@ -34,6 +41,7 @@ const RootNavigator = () => {
                 component={LoginPage}
                 options={() => {
                   return {
+                    headerShown: false,
                     title: 'Login',
                   };
                 }}
@@ -43,6 +51,7 @@ const RootNavigator = () => {
                 component={SignInPage}
                 options={() => {
                   return {
+                    headerShown: false,
                     title: 'Registrazione',
                   };
                 }}

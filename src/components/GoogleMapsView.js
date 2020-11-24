@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
-import { CustomActivityIndicator } from '.';
+import CustomActivityIndicator from './CustomActivityIndicator';
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
@@ -30,9 +30,7 @@ export default function GoogleMapsView({ region, events }) {
             />
           ))}
         </MapView>
-      ) : (
-        <CustomActivityIndicator />
-      )}
+      ) : null}
     </View>
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import em from 'emoji-dictionary';
+import { CLEAR_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../common/theme';
 
 const Tag = ({ children, emoji, selected }) => {
   return (
@@ -24,17 +25,17 @@ const styles = StyleSheet.create({
     margin: 3,
     padding: 8,
     shadowOpacity: 5,
-    // borderColor: 'black',
-    // borderWidth: 1,
+    borderColor: SECONDARY_COLOR,
+    borderWidth: 1,
   },
   tag: {
     fontSize: 16,
     fontWeight: '200',
   },
   noSelectedBackground: {
-    backgroundColor: '#d5d7db',
+    backgroundColor: CLEAR_COLOR,
   },
   selectedBackground: {
-    backgroundColor: '#bad1ff',
+    backgroundColor: TERTIARY_COLOR,
   },
 });

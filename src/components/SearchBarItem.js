@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { PRIMARY_COLOR } from '../common/theme';
 
 const SearchBarItem = ({ term, setTerm, onTermSubmit }) => {
   return (
     <View style={styles.background}>
-      <Icon name="search" style={styles.iconSize} />
+      <Icon name="search" style={styles.iconSize} color={PRIMARY_COLOR} />
       <TextInput
         placeholder="Search"
         style={styles.inputStyle}

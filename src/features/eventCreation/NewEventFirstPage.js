@@ -5,6 +5,7 @@ import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
+import { SECONDARY_COLOR } from '../../common/theme';
 import {
   CustomActivityIndicator,
   DateTimeSelector,
@@ -65,6 +66,7 @@ export default function NewEventFirstPage({ navigation }) {
                 placeholder="Nuovo evento"
                 value={title}
                 onChangeText={setTitle}
+                labelStyle={{ color: SECONDARY_COLOR }}
               />
               <Input
                 label="Descrizione (opzionale)"
@@ -72,6 +74,7 @@ export default function NewEventFirstPage({ navigation }) {
                 numberOfLines={2}
                 value={description}
                 onChangeText={setDescription}
+                labelStyle={{ color: SECONDARY_COLOR }}
               />
             </View>
             <View style={styles.rowContainer}>
@@ -85,6 +88,7 @@ export default function NewEventFirstPage({ navigation }) {
                   placeholder="0"
                   inputContainerStyle={{ width: 100 }}
                   inputStyle={{ width: 100 }}
+                  labelStyle={{ color: SECONDARY_COLOR }}
                 />
               </View>
               <DateTimeSelector
@@ -172,6 +176,6 @@ const styles = StyleSheet.create({
   label: {
     margin: 10,
     fontWeight: 'bold',
-    color: 'grey',
+    color: SECONDARY_COLOR,
   },
 });

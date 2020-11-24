@@ -10,7 +10,7 @@ export default function ProfilePage() {
   return (
     <>
       {user ? (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
           <ScrollView>
             <ProfileForm user={user} />
           </ScrollView>
