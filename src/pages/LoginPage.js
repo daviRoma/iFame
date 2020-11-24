@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-elements';
 import { useDispatch } from 'react-redux';
-import { SECONDARY_COLOR } from '../common/theme';
+import { CONTRAST_COLOR, SECONDARY_COLOR } from '../common/theme';
 import AccessForm from '../features/auth/AccessForm';
 import { loginUser } from '../features/auth/authSlice';
 import * as Routes from '../routes';
@@ -13,6 +14,9 @@ export default function LoginPage() {
 
   return (
     <View style={styles.container}>
+      <Text h1 h1Style={styles.title}>
+        iFame
+      </Text>
       <AccessForm
         formTitle="iFame"
         buttonTitle="Login"
@@ -36,5 +40,10 @@ const styles = StyleSheet.create({
     backgroundColor: SECONDARY_COLOR,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  title: {
+    color: CONTRAST_COLOR,
+    fontStyle: 'italic',
+    margin: 20,
   },
 });

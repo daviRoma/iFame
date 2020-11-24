@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
 import { CONTRAST_COLOR, PRIMARY_COLOR } from '../common/theme';
 import { useFoodCategories } from '../hooks/useFoodCategories';
+import Tag from './Tag';
 
 export default function ({ item, onPress }) {
   const { foodCategories, loading } = useFoodCategories();
@@ -22,8 +23,10 @@ export default function ({ item, onPress }) {
 
       <ListItem.Content>
         <ListItem.Title h4>{item.title}</ListItem.Title>
-        <ListItem.Subtitle style={styles.subtitle}>
-          {category.title_it}
+        <ListItem.Subtitle>
+          <Tag emoji={category.emoji_code} selected>
+            {category.title_it}
+          </Tag>
         </ListItem.Subtitle>
         <ListItem.Subtitle
           style={

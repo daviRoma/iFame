@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
     margin: 3,
-    padding: 8,
+    padding: 3,
     shadowOpacity: 5,
     borderColor: SECONDARY_COLOR,
     borderWidth: 1,
@@ -36,6 +36,6 @@ const styles = StyleSheet.create({
     backgroundColor: CLEAR_COLOR,
   },
   selectedBackground: {
-    backgroundColor: TERTIARY_COLOR,
+    backgroundColor: '#C1CEE1',
   },
 });

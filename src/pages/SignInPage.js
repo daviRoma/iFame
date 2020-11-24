@@ -4,7 +4,8 @@ import AccessForm from '../features/auth/AccessForm';
 import * as Routes from '../routes';
 import { useDispatch } from 'react-redux';
 import { signUpUser } from '../features/auth/authSlice';
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../common/theme';
+import { CONTRAST_COLOR, SECONDARY_COLOR } from '../common/theme';
+import { Text } from 'react-native-elements';
 
 export default function SignInPage({ navigation }) {
   const dispatch = useDispatch();
@@ -12,8 +13,10 @@ export default function SignInPage({ navigation }) {
   const [password, setPassword] = useState('');
   return (
     <View style={styles.container}>
+      <Text h1 h1Style={styles.title}>
+        Sign Up
+      </Text>
       <AccessForm
-        formTitle="Sign Up"
         buttonTitle="Sign Up"
         navigationTitle="Go to login page"
         navigationRoute={Routes.LOGIN}
@@ -35,5 +38,10 @@ const styles = StyleSheet.create({
     backgroundColor: SECONDARY_COLOR,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  title: {
+    color: CONTRAST_COLOR,
+    fontStyle: 'italic',
+    margin: 20,
   },
 });

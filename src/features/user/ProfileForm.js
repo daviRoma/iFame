@@ -141,6 +141,8 @@ export default function ProfileForm({ user }) {
           loading={loading}
           containerStyle={styles.buttonStyle}
           buttonStyle={{ backgroundColor: DELETE_COLOR }}
+          icon={{ name: 'exit-outline', type: 'ionicon', color: 'white' }}
+          iconRight={true}
         />
       </View>
       {errors ? <ErrorMessage>{errors}</ErrorMessage> : null}

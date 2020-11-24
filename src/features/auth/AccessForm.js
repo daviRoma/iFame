@@ -49,9 +49,6 @@ const AccessForm = ({
 
   return (
     <View style={styles.container}>
-      <Text h1 style={styles.title}>
-        {formTitle}
-      </Text>
       <View style={styles.formContainer}>
         <Input
           placeholder="Email"
