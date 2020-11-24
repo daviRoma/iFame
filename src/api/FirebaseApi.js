@@ -76,7 +76,20 @@ export function getEvents(params, onSuccess, onError) {
             documentSnapshot.data().restaurant.coordinates.longitude >=
               params.coordinates[1].longitude
           ) {
-            data.push({ ...documentSnapshot.data(), id: documentSnapshot.id });
+            // take events from today date
+            if (!params.date) {
+              if (documentSnapshot.data().timestamp >= Date.now()) {
+                data.push({
+                  ...documentSnapshot.data(),
+                  id: documentSnapshot.id,
+                });
+              }
+            } else {
+              data.push({
+                ...documentSnapshot.data(),
+                id: documentSnapshot.id,
+              });
+            }
           }
         } else {
           data.push({ ...documentSnapshot.data(), id: documentSnapshot.id });

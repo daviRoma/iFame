@@ -53,8 +53,8 @@ export default function EventListPage({ navigation }) {
     setRegion({
       latitude: pos.latitude,
       longitude: pos.longitude,
-      latitudeDelta: 0.009,
-      longitudeDelta: 0.009,
+      latitudeDelta: 0.00522,
+      longitudeDelta: (windowWidth / windowHeight) * 0.00522,
     });
   };
 
@@ -82,7 +82,7 @@ export default function EventListPage({ navigation }) {
   const onDateChange = (date) => {
     toggleCalendarOverlay(false);
     setStartDate(date);
-    dispatchEvents(dateFormat(date));
+    dispatchEvents(rangeValueDisplayed, dateFormat(date));
   };
 
   const dispatchEvents = (rangeVal, date) => {
