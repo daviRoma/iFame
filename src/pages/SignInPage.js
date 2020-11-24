@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import AccessForm from '../features/auth/AccessForm';
 import * as Routes from '../routes';
 import { useDispatch } from 'react-redux';
 import { signUpUser } from '../features/auth/authSlice';
+import { PRIMARY_COLOR } from '../common/theme';
 
 export default function SignInPage({ navigation }) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <AccessForm
         formTitle="Sign Up"
         buttonTitle="Sign Up"
@@ -27,3 +28,12 @@ export default function SignInPage({ navigation }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: PRIMARY_COLOR,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

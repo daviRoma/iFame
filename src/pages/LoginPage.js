@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { PRIMARY_COLOR } from '../common/theme';
 import AccessForm from '../features/auth/AccessForm';
 import { loginUser } from '../features/auth/authSlice';
 import * as Routes from '../routes';
@@ -9,22 +10,9 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  // const { isRegistered } = useSelector((state) => state.auth);
-
-  // if (isRegistered) {
-  //   Alert.alert('Registration Success', 'You have correctly been registered', [
-  //     {
-  //       text: 'Ok',
-  //       onPress: () => {
-  //         dispatch(clearRegistrationMessage());
-  //       },
-  //       style: 'cancel',
-  //     },
-  //   ]);
-  // }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <AccessForm
         formTitle="iFame"
         buttonTitle="Login"
@@ -42,4 +30,11 @@ export default function LoginPage() {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: PRIMARY_COLOR,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

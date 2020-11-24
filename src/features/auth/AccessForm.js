@@ -99,9 +99,11 @@ const styles = StyleSheet.create({
     width: 300,
   },
   container: {
-    flex: 1,
+    padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'rgb(248, 248, 248)',
+    borderRadius: 50,
   },
 });
 

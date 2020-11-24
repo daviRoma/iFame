@@ -75,14 +75,18 @@ export default function NewEventFirstPage({ navigation }) {
               />
             </View>
             <View style={styles.rowContainer}>
-              <Input
-                label="Numero di partecipanti"
-                keyboardType="numeric"
-                value={numPart}
-                onChangeText={setNumPart}
-                containerStyle={styles.inputNumber}
-                placeholder="0"
-              />
+              <View style={{ width: 150 }}>
+                <Input
+                  label="Partecipanti"
+                  keyboardType="numeric"
+                  value={numPart}
+                  onChangeText={setNumPart}
+                  containerStyle={styles.inputNumber}
+                  placeholder="0"
+                  inputContainerStyle={{ width: 100 }}
+                  inputStyle={{ width: 100 }}
+                />
+              </View>
               <DateTimeSelector
                 buttonTitle="Seleziona una data"
                 mode="datetime"
