@@ -1,3 +1,4 @@
+import auth from '@react-native-firebase/auth';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActivityIndicator, StyleSheet, View, Text } from 'react-native';
@@ -20,7 +21,7 @@ import {
   getDistances,
   getReverseGeocoding,
 } from '../features/google/googlePosition';
-import { useGeolocation } from '../hooks';
+import { useEventParticipation, useGeolocation } from '../hooks';
 import * as Routes from '../routes';
 
 export default function HomePage({ navigation }) {
@@ -31,6 +32,10 @@ export default function HomePage({ navigation }) {
   const eventList = useSelector(selectAllEvents);
   const isLoading = useSelector(selectEventLoading);
 
+  const [eventsParticipation, loadEvents] = useEventParticipation({
+    participation: auth().currentUser.uid,
+    timestamp: Date.now(),
+  });
   const [visible, setVisible] = useState(true);
   const [preferences, setPreferencies] = useState(user.preferences);
 
@@ -76,8 +81,8 @@ export default function HomePage({ navigation }) {
             />
           ) : null}
           <EventList
-            loading={isLoading}
-            events={eventList}
+            loading={loadEvents}
+            events={eventsParticipation}
             navigation={navigation}
           />
           <View style={styles.sectionTwo}>

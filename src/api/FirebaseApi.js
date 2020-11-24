@@ -10,7 +10,14 @@ export const events = firestore().collection('events');
 export const cities = firestore().collection('cities');
 
 /**
- * Events Api
+ * Events API
+ */
+
+/**
+ * Get events created by user.
+ * @param {String} userId
+ * @param {Function} onSuccess
+ * @param {Function} onError
  */
 export function getUserEvents(userId, onSuccess, onError) {
   return events.where('author', '==', userId).onSnapshot({
@@ -23,14 +30,17 @@ export function getUserEvents(userId, onSuccess, onError) {
   });
 }
 
+/**
+ * Get all events filtered by params
+ * @param {Object} params
+ * @param {Function} onSuccess
+ * @param {Function} onError
+ */
 export function getEvents(params, onSuccess, onError) {
   let collectionRef = events;
 
   if (params && params.preferences) {
     collectionRef = events.where('category', 'in', params.preferences);
-  }
-  if (params && params.timestamp) {
-    collectionRef = collectionRef.where('timestamp', '>=', params.timestamp);
   }
   if (params && params.location) {
     collectionRef = collectionRef.where('location', '==', params.location);
@@ -78,6 +88,12 @@ export function getEvents(params, onSuccess, onError) {
   });
 }
 
+/**
+ * Get filtered events by date, location and user preferences
+ * @param {Object} params
+ * @param {Function} onSuccess
+ * @param {Function} onError
+ */
 export function getFilteredEvents(params, onSuccess, onError) {
   let collectionRef = events;
 
@@ -118,6 +134,29 @@ export function getFilteredEvents(params, onSuccess, onError) {
     },
     error: (error) => onError(error.message),
   });
+}
+
+/**
+ * Get filtered events by date, and in which the current user participates.
+ * @param {Object} params
+ */
+export async function getHookFilteredEvents(params) {
+  let collectionRef = events;
+
+  if (params && params.participation) {
+    collectionRef = collectionRef.where(
+      'currentParticipants',
+      'array-contains',
+      params.participation,
+    );
+  }
+
+  if (params && params.timestamp) {
+    collectionRef = collectionRef.where('timestamp', '>=', params.timestamp);
+  }
+
+  const eventList = await collectionRef.get();
+  return eventList;
 }
 
 export async function createEvent(event) {
