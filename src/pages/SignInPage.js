@@ -4,7 +4,7 @@ import AccessForm from '../features/auth/AccessForm';
 import * as Routes from '../routes';
 import { useDispatch } from 'react-redux';
 import { signUpUser } from '../features/auth/authSlice';
-import { PRIMARY_COLOR } from '../common/theme';
+import { PRIMARY_COLOR, SECONDARY_COLOR } from '../common/theme';
 
 export default function SignInPage({ navigation }) {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ export default function SignInPage({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: PRIMARY_COLOR,
+    backgroundColor: SECONDARY_COLOR,
     justifyContent: 'center',
     alignItems: 'center',
   },
