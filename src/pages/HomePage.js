@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActivityIndicator, StyleSheet, Platform, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Card } from 'react-native-elements';
+import { Card, Icon } from 'react-native-elements';
 
-import { FlatList } from 'react-native-gesture-handler';
-import {
-  FloatingButton,
-  EventItem,
-  CustomActivityIndicator,
-} from '../components';
+import { FloatingButton, EventList } from '../components';
 import FoodPrefsModal from '../features/foodCategories/FoodPrefsModal';
 import {
   loadFoodPref,
@@ -29,7 +24,7 @@ import { useGeolocation } from '../hooks';
 import * as Routes from '../routes';
 
 export default function HomePage({ navigation }) {
-  const { loading, user, position } = useSelector((state) => state.loggedUser);
+  const { loading, user } = useSelector((state) => state.loggedUser);
 
   const dispatch = useDispatch();
 
@@ -80,61 +75,32 @@ export default function HomePage({ navigation }) {
               setFoodPref={setPreferencies}
             />
           ) : null}
-          <View style={styles.sectionOne}>
-            {isLoading || eventList === null ? (
-              <SafeAreaView
-                style={[styles.activityContainer, styles.horizontal]}>
-                <CustomActivityIndicator />
-              </SafeAreaView>
-            ) : (
-              <FlatList
-                data={eventList}
-                renderItem={({ item }) => {
-                  return (
-                    <EventItem
-                      item={item}
-                      onPress={() => {
-                        navigation.navigate(Routes.SINGLE_EVENT, {
-                          id: item.id,
-                        });
-                      }}
-                    />
-                  );
-                }}
-                keyExtractor={(item) => item.id}
-              />
-            )}
-          </View>
+          <EventList
+            loading={isLoading}
+            events={eventList}
+            navigation={navigation}
+          />
           <View style={styles.sectionTwo}>
             <Card containerStyle={{ margin: 0 }}>
-              <Card.Title>For You</Card.Title>
-              <Card.Divider />
-              {isLoading || eventList === null ? (
-                <SafeAreaView
-                  style={[styles.activityContainer, styles.horizontal]}>
-                  <CustomActivityIndicator />
-                </SafeAreaView>
-              ) : (
-                <FlatList
-                  data={eventList.filter(
-                    (evt) =>
-                      preferences.find((pref) => pref.key === evt.category) !== undefined,
-                  )}
-                  renderItem={({ item }) => {
-                    return (
-                      <EventItem
-                        item={item}
-                        onPress={() => {
-                          navigation.navigate(Routes.SINGLE_EVENT, {
-                            id: item.id,
-                          });
-                        }}
-                      />
-                    );
-                  }}
-                  keyExtractor={(item) => item.id}
+              <Card.Title style={styles.cardTitle}>
+                <Text>For You</Text>
+                <Icon
+                  style={{ marginLeft: 10 }}
+                  name="star"
+                  type="font-awesome"
+                  color="#ffcc00"
                 />
-              )}
+              </Card.Title>
+              <Card.Divider />
+              <EventList
+                loading={isLoading}
+                events={eventList.filter(
+                  (evt) =>
+                    preferences.find((pref) => pref.key === evt.category) !==
+                    undefined,
+                )}
+                navigation={navigation}
+              />
             </Card>
           </View>
           <FloatingButton
@@ -155,5 +121,11 @@ const styles = StyleSheet.create({
   },
   sectionTwo: {
     flex: 1,
+  },
+  cardTitle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    lineHeight: 27,
   },
 });

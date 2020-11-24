@@ -9,9 +9,13 @@ import {
   View,
 } from 'react-native';
 import { Button, Card, Overlay, Slider } from 'react-native-elements';
-import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-import { CustomActivityIndicator, EventItem, FilterBar } from '../components';
+import {
+  CustomActivityIndicator,
+  EventList,
+  FilterBar,
+  GoogleMapsView,
+} from '../components';
 
 import {
   getAllEvents,
@@ -22,12 +26,9 @@ import {
   getDistances,
   getReverseGeocoding,
 } from '../features/google/googlePosition';
-import * as Routes from '../routes';
+
 import { dateFormat } from '../utils/index';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { Marker } from 'react-native-maps';
-import { useFocusEffect } from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -117,37 +118,6 @@ export default function EventListPage({ navigation }) {
     );
   }
 
-  const listFooter = () => (
-    <Card containerStyle={{ margin: 0 }}>
-      <Card.Title>MAP</Card.Title>
-      <Card.Divider />
-      <View style={styles.mapContainer}>
-        {region ? (
-          <MapView
-            provider={PROVIDER_GOOGLE}
-            style={styles.mapViewComponent}
-            region={region}
-            zoomEnabled
-            zoomControlEnabled
-            showsScale={true}
-            //onRegionChangeComplete={(reg) => setRegion(reg)}
-          >
-            {eventList.map((marker, index) => (
-              <Marker
-                key={index}
-                coordinate={marker.restaurant.coordinates}
-                title={marker.title}
-                description={marker.description}
-              />
-            ))}
-          </MapView>
-        ) : (
-          <CustomActivityIndicator />
-        )}
-      </View>
-    </Card>
-  );
-
   // if events found
   return (
     <SafeAreaView style={[styles.pageContainer, { paddingBottom: 10 }]}>
@@ -156,29 +126,16 @@ export default function EventListPage({ navigation }) {
         onPressFiler={toggleRangeOverlay}
         onPressDate={toggleCalendarOverlay}
       />
-      {eventList != null && !eventList.length ? (
-        <View style={styles.noElemContainer}>
-          <Text style={styles.noElemText}>No event found</Text>
-        </View>
-      ) : (
-        <View style={styles.sectionOne}>
-          <FlatList
-            data={eventList}
-            renderItem={({ item }) => {
-              return (
-                <EventItem
-                  item={item}
-                  onPress={() => {
-                    navigation.navigate(Routes.SINGLE_EVENT, { id: item.id });
-                  }}
-                />
-              );
-            }}
-            keyExtractor={(item) => item.id}
-            ListFooterComponent={listFooter}
-          />
-        </View>
-      )}
+      <EventList
+        loading={isLoading}
+        events={eventList}
+        navigation={navigation}
+      />
+      <Card containerStyle={{ margin: 0 }}>
+        <Card.Title>MAP</Card.Title>
+        <Card.Divider />
+        <GoogleMapsView region={region} events={eventList} />
+      </Card>
       <Overlay isVisible={visible} onBackdropPress={toggleRangeOverlay}>
         <View>
           <Text style={styles.overlayHeader}>Cerca vicino a te</Text>
