@@ -11,7 +11,7 @@ import {
 import { Card, Overlay, Text } from 'react-native-elements';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { CONTRAST_COLOR, PRIMARY_COLOR } from '../../common/theme';
+import { PRIMARY_COLOR } from '../../common/theme';
 import {
   CustomActivityIndicator,
   RestaurantDetailComponent,
