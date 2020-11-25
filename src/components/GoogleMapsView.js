@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
-import CustomActivityIndicator from './CustomActivityIndicator';
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
@@ -9,6 +8,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function GoogleMapsView({ region, events }) {
+  console.log(region);
   return (
     <View style={styles.mapContainer}>
       {region ? (
@@ -18,9 +18,16 @@ export default function GoogleMapsView({ region, events }) {
           region={region}
           zoomEnabled
           zoomControlEnabled
-          showsScale={true}
-          //onRegionChangeComplete={(reg) => setRegion(reg)}
-        >
+          showsScale={true}>
+          <Marker
+            coordinate={{
+              latitude: region.latitude,
+              longitude: region.longitude,
+            }}
+            title="Tu sei qui"
+            description="La tua posizione"
+            pinColor={'blue'}
+          />
           {events.map((marker, index) => (
             <Marker
               key={index}

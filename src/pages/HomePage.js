@@ -27,7 +27,6 @@ import * as Routes from '../routes';
 export default function HomePage({ navigation }) {
   const { loading, user } = useSelector((state) => state.loggedUser);
   const dispatch = useDispatch();
-
   const eventList = useSelector(selectAllEvents);
   const isLoading = useSelector(selectEventLoading);
 
@@ -79,21 +78,21 @@ export default function HomePage({ navigation }) {
               setFoodPref={setPreferencies}
             />
           ) : null}
-          <EventList
-            loading={loadEvents}
-            events={eventsParticipation}
-            navigation={navigation}
-          />
+          <View style={styles.sectionOne}>
+            <Card containerStyle={{ margin: 0 }}>
+              <Card.Title h2>Eventi a cui partecipi</Card.Title>
+              <Card.Divider />
+              <EventList
+                loading={loadEvents}
+                events={eventsParticipation}
+                navigation={navigation}
+              />
+            </Card>
+          </View>
           <View style={styles.sectionTwo}>
             <Card containerStyle={{ margin: 0 }}>
-              <Card.Title style={styles.cardTitle}>
-                <Text>For You</Text>
-                <Icon
-                  style={{ marginLeft: 10 }}
-                  name="star"
-                  type="font-awesome"
-                  color="#ffcc00"
-                />
+              <Card.Title h2 style={styles.cardTitle}>
+                <Text>Scelti per te</Text>
               </Card.Title>
               <Card.Divider />
               <EventList
@@ -125,11 +124,11 @@ const styles = StyleSheet.create({
   },
   sectionTwo: {
     flex: 1,
+    marginTop: 0,
   },
   cardTitle: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    lineHeight: 27,
   },
 });

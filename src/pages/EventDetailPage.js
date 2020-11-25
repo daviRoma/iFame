@@ -23,9 +23,9 @@ const EventDetailPage = ({ route }) => {
       {event ? (
         <View style={styles.container}>
           <EventDetail event={event} />
-          {event.currentPartecipants ? (
+          {event.currentParticipants ? (
             <>
-              {event.currentPartecipants.includes(auth().currentUser.uid) ? (
+              {event.currentParticipants.includes(auth().currentUser.uid) ? (
                 <Button
                   title="Esci dall'evento"
                   onPress={() => {
@@ -36,7 +36,7 @@ const EventDetailPage = ({ route }) => {
                 />
               ) : (
                 <>
-                  {event.currentPartecipants.length >= event.partecipants ? (
+                  {event.currentParticipants.length >= event.partecipants ? (
                     <Button title="Evento pieno" disabled />
                   ) : (
                     <Button

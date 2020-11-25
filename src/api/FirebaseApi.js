@@ -153,9 +153,8 @@ export function getFilteredEvents(params, onSuccess, onError) {
  * Get filtered events by date, and in which the current user participates.
  * @param {Object} params
  */
-export async function getHookFilteredEvents(params) {
+export function getHookFilteredEvents(params, onSuccess) {
   let collectionRef = events;
-
   if (params && params.participation) {
     collectionRef = collectionRef.where(
       'currentParticipants',
@@ -168,8 +167,17 @@ export async function getHookFilteredEvents(params) {
     collectionRef = collectionRef.where('timestamp', '>=', params.timestamp);
   }
 
-  const eventList = await collectionRef.get();
-  return eventList;
+  return collectionRef.onSnapshot({
+    next: (snapshot) => {
+      let data = [];
+      snapshot.forEach((doc) => {
+        console.log(doc.data());
+        data.push({ ...doc.data(), id: doc.id });
+      });
+      onSuccess(data);
+    },
+    error: (error) => console.log(error),
+  });
 }
 
 export async function createEvent(event) {
@@ -186,13 +194,13 @@ export async function joinEvent(id) {
   return firestore().runTransaction(async (transaction) => {
     const event = await transaction.get(eventRef);
     if (event) {
-      let partecipants = event.get('currentPartecipants');
+      let partecipants = event.get('currentParticipants');
       if (!partecipants) {
         partecipants = [];
       }
       partecipants.push(user.uid);
       transaction.update(eventRef, {
-        currentPartecipants: partecipants,
+        currentParticipants: partecipants,
       });
     }
   });
@@ -204,10 +212,10 @@ export async function unjoinEvent(id) {
   return firestore().runTransaction(async (transaction) => {
     const event = await transaction.get(eventRef);
     if (event) {
-      let partecipants = event.get('currentPartecipants');
+      let partecipants = event.get('currentParticipants');
       if (partecipants && partecipants.includes(user.uid)) {
         partecipants.splice(partecipants.indexOf(user.uid), 1);
-        transaction.update(eventRef, { currentPartecipants: partecipants });
+        transaction.update(eventRef, { currentParticipants: partecipants });
       }
     }
   });

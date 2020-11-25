@@ -21,8 +21,8 @@ export const useEventPartecipants = (event) => {
   };
 
   useEffect(() => {
-    getPartecipants(event.currentPartecipants);
-  }, [event.currentPartecipants]);
+    getPartecipants(event.currentParticipants);
+  }, [event.currentParticipants]);
 
   return [partecipants, loading];
 };

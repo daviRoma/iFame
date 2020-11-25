@@ -74,7 +74,7 @@ const EventDetail = ({ event }) => {
             {partecipants && partecipants.length > 0 ? (
               <TouchableOpacity onPress={() => setModalVisible(true)}>
                 <Text style={styles.link}>
-                  {event.currentPartecipants.length} partecipanti
+                  {event.currentParticipants.length} partecipanti
                 </Text>
               </TouchableOpacity>
             ) : (

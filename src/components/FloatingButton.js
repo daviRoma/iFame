@@ -23,12 +23,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     right: 30,
-    bottom: 30,
+    bottom: 25,
+    zIndex: 1000,
+    elevation: 3000,
   },
   floatingButtonStyle: {
     resizeMode: 'contain',
     width: 50,
     height: 50,
-    //backgroundColor:'black'
   },
 });

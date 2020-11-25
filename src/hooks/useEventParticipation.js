@@ -7,15 +7,12 @@ export const useEventParticipation = (params) => {
 
   useEffect(() => {
     if (params && params.participation) {
-      setLoadEvents(true);
-      getHookFilteredEvents(params).then((querySnapshot) => {
-        let data = [];
-        querySnapshot.forEach((doc) => {
-          data.push({ ...doc.data(), id: doc.id });
-        });
-        setEventsParticipation(data);
-        setLoadEvents(false);
-      });
+      // setLoadEvents(true);
+      const sub = getHookFilteredEvents(params, (data) =>
+        setEventsParticipation(data),
+      );
+      // setLoadEvents(false);
+      return sub;
     } else {
       setEventsParticipation([]);
     }
