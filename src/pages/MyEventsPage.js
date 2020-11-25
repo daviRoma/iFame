@@ -7,6 +7,7 @@ import {
   CustomActivityIndicator,
   ErrorMessage,
   EventItem,
+  FloatingButton,
 } from '../components';
 import { getAllUserEvents } from '../features/myEvents/myEventsSlice';
 import * as Routes from '../routes';
@@ -51,6 +52,11 @@ export default function MyEventsPage({ navigation }) {
               }}
             />
           );
+        }}
+      />
+      <FloatingButton
+        clickHandler={() => {
+          navigation.navigate(Routes.NEW_EVENT_FIRST);
         }}
       />
     </SafeAreaView>

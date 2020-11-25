@@ -1,4 +1,3 @@
-import { Picker } from '@react-native-picker/picker';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -119,22 +118,19 @@ export default function NewEventFirstPage({ navigation }) {
             </View>
             <View>
               <Text style={styles.label}>Seleziona una città:</Text>
-              <Picker
-                selectedValue={location}
-                onValueChange={(value) => {
-                  setLocation(value);
-                }}>
-                <Picker.Item label="Città" value="" key="" color="grey" />
-                {cities.map((value) => {
-                  return (
-                    <Picker.Item
-                      label={value.name_it}
-                      value={value}
-                      key={value.key}
-                    />
-                  );
-                })}
-              </Picker>
+              <View style={styles.select}>
+                {cities.map((value) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setLocation(value);
+                    }}
+                    key={value.key}>
+                    <Tag selected={location.key === value.key}>
+                      {value.name_it}
+                    </Tag>
+                  </TouchableOpacity>
+                ))}
+              </View>
             </View>
             <Spacer />
             <View>

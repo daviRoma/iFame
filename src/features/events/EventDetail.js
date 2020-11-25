@@ -134,7 +134,10 @@ const EventDetail = ({ event }) => {
             <SafeAreaView style={styles.overlayContainer}>
               <RestaurantDetailComponent restaurant={restaurant} />
               {Platform.OS === 'ios' ? (
-                <Button title="Close" onPress={() => setModalRestaurantVisible(false)} />
+                <Button
+                  title="Close"
+                  onPress={() => setModalRestaurantVisible(false)}
+                />
               ) : null}
             </SafeAreaView>
           </Overlay>
@@ -166,7 +169,7 @@ const styles = StyleSheet.create({
   participantsText: {
     color: SECONDARY_COLOR,
     fontSize: 18,
-    fontWeight: "700",
+    fontWeight: '700',
     textAlign: 'center',
   },
   eventInfo: {

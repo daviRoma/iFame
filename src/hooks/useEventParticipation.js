@@ -7,11 +7,9 @@ export const useEventParticipation = (params) => {
 
   useEffect(() => {
     if (params && params.participation) {
-      // setLoadEvents(true);
       const sub = getHookFilteredEvents(params, (data) =>
         setEventsParticipation(data),
       );
-      // setLoadEvents(false);
       return sub;
     } else {
       setEventsParticipation([]);
