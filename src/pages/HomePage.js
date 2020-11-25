@@ -20,7 +20,7 @@ import {
   getDistances,
   getReverseGeocoding,
 } from '../features/google/googlePosition';
-import { useGeolocation, useFoodCategories } from '../hooks';
+import { useGeolocation, useFoodCategories, useEventParticipation } from '../hooks';
 import * as Routes from '../routes';
 
 export default function HomePage({ navigation }) {
@@ -31,6 +31,10 @@ export default function HomePage({ navigation }) {
   const eventList = useSelector(selectAllEvents);
   const isLoading = useSelector(selectEventLoading);
 
+  const [eventsParticipation, loadEvents] = useEventParticipation({
+    participation: auth().currentUser.uid,
+    timestamp: Date.now(),
+  });
   const [visible, setVisible] = useState(true);
   const [preferences, setPreferencies] = useState([]);
 
@@ -76,8 +80,8 @@ export default function HomePage({ navigation }) {
             />
           ) : null}
           <EventList
-            loading={isLoading}
-            events={eventList}
+            loading={loadEvents}
+            events={eventsParticipation}
             navigation={navigation}
           />
           <View style={styles.sectionTwo}>

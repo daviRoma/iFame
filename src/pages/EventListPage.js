@@ -46,7 +46,6 @@ export default function EventListPage({ navigation }) {
   const [rangeValue, setRangeValue] = useState(30);
   const [rangeValueDisplayed, setRangeValueDisplayed] = useState(30);
   const [location, setLocation] = useState(position);
-  //const [preferences, setPreferencies] = useState(user.preferences);
   const [region, setRegion] = useState(null);
 
   const onLocationLoad = (loc, pos) => {
@@ -54,8 +53,8 @@ export default function EventListPage({ navigation }) {
     setRegion({
       latitude: pos.latitude,
       longitude: pos.longitude,
-      latitudeDelta: 0.009,
-      longitudeDelta: 0.009,
+      latitudeDelta: 0.00522,
+      longitudeDelta: (windowWidth / windowHeight) * 0.00522,
     });
   };
 
@@ -72,7 +71,7 @@ export default function EventListPage({ navigation }) {
     setRangeValueDisplayed(rangeValue);
     toggleRangeOverlay();
     setTimeout(() => {
-      dispatchEvents(startDate ? dateFormat(startDate) : null);
+      dispatchEvents(rangeValue, startDate ? dateFormat(startDate) : null);
     }, 300);
   };
 
@@ -83,14 +82,14 @@ export default function EventListPage({ navigation }) {
   const onDateChange = (date) => {
     toggleCalendarOverlay(false);
     setStartDate(date);
-    dispatchEvents(dateFormat(date));
+    dispatchEvents(rangeValueDisplayed, dateFormat(date));
   };
 
-  const dispatchEvents = (date) => {
+  const dispatchEvents = (rangeVal, date) => {
     getReverseGeocoding(position).then((resp) => {
       onLocationLoad(resp.location, position);
       let coordinates = getDistances(
-        rangeValueDisplayed,
+        rangeVal,
         position.latitude,
         position.longitude,
       );
@@ -106,7 +105,7 @@ export default function EventListPage({ navigation }) {
 
   useEffect(() => {
     if (user) {
-      dispatchEvents(startDate);
+      dispatchEvents(rangeValue, startDate);
     }
   }, []);
 
