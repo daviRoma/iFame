@@ -1,3 +1,4 @@
+import auth from '@react-native-firebase/auth';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActivityIndicator, StyleSheet, View, Text } from 'react-native';
@@ -20,23 +21,22 @@ import {
   getDistances,
   getReverseGeocoding,
 } from '../features/google/googlePosition';
-import { useGeolocation, useFoodCategories, useEventParticipation } from '../hooks';
+import { useGeolocation, useEventParticipation } from '../hooks';
 import * as Routes from '../routes';
 
 export default function HomePage({ navigation }) {
   const { loading, user } = useSelector((state) => state.loggedUser);
-  useFoodCategories();
   const dispatch = useDispatch();
 
   const eventList = useSelector(selectAllEvents);
   const isLoading = useSelector(selectEventLoading);
 
   const [eventsParticipation, loadEvents] = useEventParticipation({
-    participation: auth().currentUser.uid,
+    participation: auth().currentUser ? auth().currentUser.uid : null,
     timestamp: Date.now(),
   });
   const [visible, setVisible] = useState(true);
-  const [preferences, setPreferencies] = useState([]);
+  const [preferences, setPreferencies] = useState(user ? user.preferences : []);
 
   useGeolocation(
     (pos) => dispatchEvents(pos),

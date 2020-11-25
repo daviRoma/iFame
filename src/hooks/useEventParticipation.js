@@ -6,7 +6,7 @@ export const useEventParticipation = (params) => {
   const [loadEvents, setLoadEvents] = useState(false);
 
   useEffect(() => {
-    if (params) {
+    if (params && params.participation) {
       setLoadEvents(true);
       getHookFilteredEvents(params).then((querySnapshot) => {
         let data = [];
