@@ -1,5 +1,12 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Platform,
+  StatusBar,
+  SafeAreaView,
+} from 'react-native';
 import { Button } from 'react-native-elements';
 import { useDispatch } from 'react-redux';
 import {
@@ -48,7 +55,6 @@ export default RestaurantDetail;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     margin: 10,
   },
 });

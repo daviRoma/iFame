@@ -8,7 +8,6 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function GoogleMapsView({ region, events }) {
-  console.log(region);
   return (
     <View style={styles.mapContainer}>
       {region ? (

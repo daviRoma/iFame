@@ -23,7 +23,7 @@ export default function ({ item, onPress }) {
 
       <ListItem.Content>
         <ListItem.Title h4>{item.title}</ListItem.Title>
-        <ListItem.Subtitle>
+        <ListItem.Subtitle style={{ marginVertical: 5 }}>
           <Tag emoji={category.emoji_code} selected>
             {category.title_it}
           </Tag>

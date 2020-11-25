@@ -157,7 +157,7 @@ export default function EventListPage({ navigation }) {
             </Text>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <Button title="Confirm" type="clear" onPress={rangeConfirm} />
+            <Button title="Confirm"  onPress={rangeConfirm} />
           </View>
         </View>
       </Overlay>
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   overlayContainer: {
     alignItems: 'stretch',
     justifyContent: 'center',
-    height: 180,
+    height: windowHeight / 4,
     width: windowWidth / 2 + 30,
     paddingHorizontal: 15,
   },

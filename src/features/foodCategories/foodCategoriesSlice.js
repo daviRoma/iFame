@@ -1,5 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getFoodCat } from '../../api/FirebaseApi';
+import { logger } from 'react-native-logs';
+
+const log = logger.createLogger();
 
 const initialState = {
   foodCategories: null,
@@ -39,7 +42,7 @@ export const loadCategories = () => {
       const foodCats = await getFoodCat();
       dispatch(storeCategoriesSuccess(foodCats));
     } catch (error) {
-      console.log(error);
+      log.error('[foodCategoriesSlice]::[loadCategories]', error);
       dispatch(storeCategoriesFail('Error'));
     }
   };

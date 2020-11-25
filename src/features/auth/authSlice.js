@@ -1,6 +1,9 @@
 import auth from '@react-native-firebase/auth';
 import { createSlice } from '@reduxjs/toolkit';
 import { createUserDoc } from '../../api/FirebaseApi';
+import { logger } from 'react-native-logs';
+
+const log = logger.createLogger();
 
 const initialState = {
   isLogged: false,
@@ -114,7 +117,7 @@ const handleError = (error, dispatch) => {
       dispatch(loginFail('Wrong credentials'));
       break;
   }
-  console.log(error.message);
+  log.error('[authSlice]::[error]', error.message);
 };
 
 export default authSlice.reducer;

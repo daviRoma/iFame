@@ -31,8 +31,10 @@ const TabPagesNavigator = () => {
           backgroundColor: SECONDARY_COLOR,
         }}
         tabBarOptions={{
-          activeTintColor: CONTRAST_COLOR,
+          style: { backgroundColor: SECONDARY_COLOR },
+          activeTintColor: CLEAR_COLOR,
           inactiveTintColor: CLEAR_COLOR,
+          indicatorStyle: { backgroundColor: CONTRAST_COLOR },
         }}>
         <TabNavigator.Screen
           name={Routes.HOME}

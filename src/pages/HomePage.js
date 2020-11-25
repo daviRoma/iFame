@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActivityIndicator, StyleSheet, View, Text } from 'react-native';
+import { ActivityIndicator, StyleSheet, View, Text, Platform, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Card, Icon } from 'react-native-elements';
 
@@ -23,6 +23,7 @@ import {
 } from '../features/google/googlePosition';
 import { useGeolocation, useEventParticipation } from '../hooks';
 import * as Routes from '../routes';
+import { CONTRAST_COLOR } from '../common/theme';
 
 export default function HomePage({ navigation }) {
   const { loading, user } = useSelector((state) => state.loggedUser);
@@ -66,7 +67,7 @@ export default function HomePage({ navigation }) {
       {loading ? (
         <ActivityIndicator size={30} />
       ) : (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={styles.pageContainer}>
           {user && !user.preferences.length ? (
             <FoodPrefsModal
               visible={visible}
@@ -80,7 +81,7 @@ export default function HomePage({ navigation }) {
           ) : null}
           <View style={styles.sectionOne}>
             <Card containerStyle={{ margin: 0 }}>
-              <Card.Title h2>Eventi a cui partecipi</Card.Title>
+              <Card.Title h4>Eventi a cui partecipi</Card.Title>
               <Card.Divider />
               <EventList
                 loading={loadEvents}
@@ -91,8 +92,9 @@ export default function HomePage({ navigation }) {
           </View>
           <View style={styles.sectionTwo}>
             <Card containerStyle={{ margin: 0 }}>
-              <Card.Title h2 style={styles.cardTitle}>
+              <Card.Title h4 style={styles.cardTitle}>
                 <Text>Scelti per te</Text>
+                <Icon style={{marginLeft:9}} name="star" type="font-awesome" color={CONTRAST_COLOR} />
               </Card.Title>
               <Card.Divider />
               <EventList
@@ -118,12 +120,14 @@ export default function HomePage({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  sectionOne: {
+  pageContainer: {
     flex: 1,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
+  sectionOne: {
     marginTop: 0,
   },
   sectionTwo: {
-    flex: 1,
     marginTop: 0,
   },
   cardTitle: {

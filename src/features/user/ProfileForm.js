@@ -112,9 +112,11 @@ export default function ProfileForm({ user }) {
         <View style={styles.tagContainer}>
           {preferences ? (
             preferences.map((value, index) => (
-              <Tag emoji={value.emoji_code} key={index} selected>
-                {value.title_it}
-              </Tag>
+              <Spacer margin={3} key={index}>
+                <Tag emoji={value.emoji_code} selected>
+                  {value.title_it}
+                </Tag>
+              </Spacer>
             ))
           ) : (
             <Text>Non hai ancora nessuna preferenza</Text>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View, SafeAreaView } from 'react-native';
 import { Text } from 'react-native-elements';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import ImageWithOverlay from './ImageWithOverlay';
@@ -7,7 +7,7 @@ import Link from './Link';
 
 const RestaurantDetailComponent = ({ restaurant }) => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text h3>{restaurant.name}</Text>
       <FlatList
         data={restaurant.photos}
@@ -39,18 +39,13 @@ const RestaurantDetailComponent = ({ restaurant }) => {
           <Marker coordinate={restaurant.coordinates} title={restaurant.name} />
         </MapView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default RestaurantDetailComponent;
 
 const styles = StyleSheet.create({
-  list: {
-    height: 150,
-    width: 250,
-    margin: 10,
-  },
   container: {
     alignItems: 'center',
     justifyContent: 'center',

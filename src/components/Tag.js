@@ -22,15 +22,12 @@ export default Tag;
 const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
-    margin: 3,
-    padding: 3,
-    shadowOpacity: 5,
+    padding: 2,
     borderColor: SECONDARY_COLOR,
     borderWidth: 1,
   },
   tag: {
     fontSize: 16,
-    fontWeight: '200',
   },
   noSelectedBackground: {
     backgroundColor: CLEAR_COLOR,

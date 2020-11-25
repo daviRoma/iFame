@@ -171,7 +171,6 @@ export function getHookFilteredEvents(params, onSuccess) {
     next: (snapshot) => {
       let data = [];
       snapshot.forEach((doc) => {
-        console.log(doc.data());
         data.push({ ...doc.data(), id: doc.id });
       });
       onSuccess(data);
