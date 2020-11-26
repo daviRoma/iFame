@@ -16,7 +16,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* iFameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* iFameTests.m */; };
 		600AA7F5255F2CC00027FE89 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 600AA7F4255F2CBF0027FE89 /* fonts */; };
-		60BCCA61256F003A00D1B725 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60BCCA60256F003A00D1B725 /* SplashScreen.storyboard */; };
+		60BCCA63256F029000D1B725 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60BCCA62256F029000D1B725 /* SplashScreen.storyboard */; };
 		60D233B12564674E001F3A4F /* geo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D233B02564674E001F3A4F /* geo.swift */; };
 		60F0B323255C9CF30097B0E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60F0B322255C9CF30097B0E7 /* GoogleService-Info.plist */; };
 		6B8AF7466B9674B2A7D3668E /* libPods-iFame-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 469B7B42FC6CBC9D05B2C21A /* libPods-iFame-tvOS.a */; };
@@ -62,7 +62,7 @@
 		469B7B42FC6CBC9D05B2C21A /* libPods-iFame-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iFame-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5014E6BDAD61FE779DBFFF0F /* Pods-iFame-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iFame-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-iFame-tvOSTests/Pods-iFame-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		600AA7F4255F2CBF0027FE89 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
-		60BCCA60256F003A00D1B725 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
+		60BCCA62256F029000D1B725 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		60D233AF2564674E001F3A4F /* iFame-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iFame-Bridging-Header.h"; sourceTree = "<group>"; };
 		60D233B02564674E001F3A4F /* geo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = geo.swift; sourceTree = "<group>"; };
 		60F0B322255C9CF30097B0E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				60BCCA60256F003A00D1B725 /* SplashScreen.storyboard */,
+				60BCCA62256F029000D1B725 /* SplashScreen.storyboard */,
 				60D233B02564674E001F3A4F /* geo.swift */,
 				600AA7F4255F2CBF0027FE89 /* fonts */,
 				60F0B322255C9CF30097B0E7 /* GoogleService-Info.plist */,
@@ -357,7 +357,7 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				60F0B323255C9CF30097B0E7 /* GoogleService-Info.plist in Resources */,
-				60BCCA61256F003A00D1B725 /* SplashScreen.storyboard in Resources */,
+				60BCCA63256F029000D1B725 /* SplashScreen.storyboard in Resources */,
 				600AA7F5255F2CC00027FE89 /* fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

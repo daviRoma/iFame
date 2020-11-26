@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Button, Card, Overlay, Slider } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {
   CustomActivityIndicator,
   EventList,
@@ -23,30 +24,48 @@ import {
   selectEventLoading,
 } from '../features/events/eventSlice';
 import {
+  storeInformationFail,
+  storeUserPosition,
+} from '../features/user/userSlice';
+import {
   getDistances,
   getReverseGeocoding,
 } from '../features/google/googlePosition';
-
+import { useGeolocation } from '../hooks';
 import { dateFormat } from '../utils/index';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function EventListPage({ navigation }) {
-  const { user, position } = useSelector((state) => state.loggedUser);
+  const { user, position, loading } = useSelector((state) => state.loggedUser);
 
   const eventList = useSelector(selectAllEvents);
   const isLoading = useSelector(selectEventLoading);
   const dispatch = useDispatch();
 
+  const [userPosition, setUserPosition] = useState(position);
   const [startDate, setStartDate] = useState(null);
   const [visible, setVisible] = useState(false);
   const [calendar, setCalendar] = useState(false);
   const [rangeValue, setRangeValue] = useState(30);
   const [rangeValueDisplayed, setRangeValueDisplayed] = useState(30);
-  const [location, setLocation] = useState(position);
+  const [location, setLocation] = useState('');
   const [region, setRegion] = useState(null);
+
+  useGeolocation(
+    (pos) => {
+      if (!position) {
+        let coords = {
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+        };
+        dispatch(storeUserPosition(coords));
+        setUserPosition(coords);
+      }
+    },
+    (error) => dispatch(storeInformationFail(error)),
+  );
 
   const onLocationLoad = (loc, pos) => {
     setLocation(loc);
@@ -86,12 +105,12 @@ export default function EventListPage({ navigation }) {
   };
 
   const dispatchEvents = (rangeVal, date) => {
-    getReverseGeocoding(position).then((resp) => {
-      onLocationLoad(resp.location, position);
+    getReverseGeocoding(userPosition).then((resp) => {
+      onLocationLoad(resp.location, userPosition);
       let coordinates = getDistances(
         rangeVal,
-        position.latitude,
-        position.longitude,
+        userPosition.latitude,
+        userPosition.longitude,
       );
       dispatch(
         getAllEvents({
@@ -104,10 +123,10 @@ export default function EventListPage({ navigation }) {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user && userPosition) {
       dispatchEvents(rangeValue, startDate);
     }
-  }, []);
+  }, [userPosition]);
 
   if (isLoading || eventList === null) {
     return (
@@ -157,7 +176,7 @@ export default function EventListPage({ navigation }) {
             </Text>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <Button title="Confirm"  onPress={rangeConfirm} />
+            <Button title="Confirm" onPress={rangeConfirm} />
           </View>
         </View>
       </Overlay>

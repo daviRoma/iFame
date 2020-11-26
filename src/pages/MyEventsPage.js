@@ -1,6 +1,6 @@
 import auth from '@react-native-firebase/auth';
 import React, { useEffect } from 'react';
-import { Text, View, SafeAreaView, StyleSheet } from 'react-native';
+import { Text, SafeAreaView, StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -17,7 +17,9 @@ export default function MyEventsPage({ navigation }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const sub = dispatch(getAllUserEvents(auth().currentUser.uid));
+    const sub = dispatch(
+      getAllUserEvents(auth().currentUser ? auth().currentUser.uid : null),
+    );
     return sub;
   }, [dispatch]);
 
