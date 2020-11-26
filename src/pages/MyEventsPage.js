@@ -29,6 +29,11 @@ export default function MyEventsPage({ navigation }) {
     return (
       <SafeAreaView style={styles.noElemContainer}>
         <Text style={styles.noElemText}>No event found</Text>
+        <FloatingButton
+          clickHandler={() => {
+            navigation.navigate(Routes.NEW_EVENT_FIRST);
+          }}
+        />
       </SafeAreaView>
     );
   }
