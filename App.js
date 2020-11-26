@@ -5,15 +5,17 @@
  * @format
  * @flow strict-local
  */
+
 import 'react-native-gesture-handler';
 import 'react-native-paper';
 import React, { useEffect } from 'react';
-import RootNavigator from './src/navigators/RootNavigator';
+import { StatusBar } from 'react-native';
+import { ThemeProvider } from 'react-native-elements';
+import SplashScreen from 'react-native-splash-screen';
 import { Provider } from 'react-redux';
 import store from './src/app/store';
-import { ThemeProvider } from 'react-native-elements';
-import theme from './src/common/theme';
-import SplashScreen from 'react-native-splash-screen';
+import theme, { SECONDARY_COLOR } from './src/common/theme';
+import RootNavigator from './src/navigators/RootNavigator';
 
 const App = () => {
   useEffect(() => {
@@ -23,6 +25,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
+        <StatusBar backgroundColor={SECONDARY_COLOR} />
         <RootNavigator />
       </ThemeProvider>
     </Provider>

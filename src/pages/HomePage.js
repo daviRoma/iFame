@@ -1,29 +1,35 @@
 import auth from '@react-native-firebase/auth';
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { ActivityIndicator, StyleSheet, View, Text, Platform, StatusBar } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Card, Icon } from 'react-native-elements';
-
-import { FloatingButton, EventList } from '../components';
-import FoodPrefsModal from '../features/foodCategories/FoodPrefsModal';
+import React, { useState } from 'react';
 import {
-  loadFoodPref,
-  storeInformationFail,
-  storeUserPosition,
-} from '../features/user/userSlice';
+  ActivityIndicator,
+  Platform,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { Card, Icon } from 'react-native-elements';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { CONTRAST_COLOR } from '../common/theme';
+import { EventList, FloatingButton } from '../components';
 import {
   getHomeEvents,
   selectAllEvents,
   selectEventLoading,
 } from '../features/events/eventSlice';
+import FoodPrefsModal from '../features/foodCategories/FoodPrefsModal';
 import {
   getDistances,
   getReverseGeocoding,
 } from '../features/google/googlePosition';
-import { useGeolocation, useEventParticipation } from '../hooks';
+import {
+  loadFoodPref,
+  storeInformationFail,
+  storeUserPosition,
+} from '../features/user/userSlice';
+import { useEventParticipation, useGeolocation } from '../hooks';
 import * as Routes from '../routes';
-import { CONTRAST_COLOR } from '../common/theme';
 
 export default function HomePage({ navigation }) {
   const { loading, user } = useSelector((state) => state.loggedUser);
@@ -94,7 +100,12 @@ export default function HomePage({ navigation }) {
             <Card containerStyle={{ margin: 0 }}>
               <Card.Title h4 style={styles.cardTitle}>
                 <Text>Scelti per te</Text>
-                <Icon style={{marginLeft:9}} name="star" type="font-awesome" color={CONTRAST_COLOR} />
+                <Icon
+                  style={{ marginLeft: 9 }}
+                  name="star"
+                  type="font-awesome"
+                  color={CONTRAST_COLOR}
+                />
               </Card.Title>
               <Card.Divider />
               <EventList
