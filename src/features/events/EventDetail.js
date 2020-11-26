@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Button,
   FlatList,
+  Image,
   Modal,
+  Platform,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   View,
-  Image,
-  SafeAreaView,
-  Button,
-  Dimensions,
-  Platform,
 } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Card, Overlay, Text } from 'react-native-elements';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../common/theme';
@@ -24,9 +23,6 @@ import {
   UserItem,
 } from '../../components';
 import { useEventPartecipants, useSingleUser } from '../../hooks';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const EventDetail = ({ event }) => {
   const [partecipants, loading] = useEventPartecipants(event);

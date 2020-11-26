@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
-import { CONTRAST_COLOR, PRIMARY_COLOR } from '../common/theme';
-import { useFoodCategories } from '../hooks/useFoodCategories';
-import Tag from './Tag';
+import { CONTRAST_COLOR, PRIMARY_COLOR } from '../../common/theme';
+import { useFoodCategories } from '../../hooks/useFoodCategories';
+import { Tag } from '../../components';
 
 export default function ({ item, onPress }) {
   const { foodCategories, loading } = useFoodCategories();

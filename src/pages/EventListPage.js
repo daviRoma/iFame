@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {
   CustomActivityIndicator,
-  EventList,
   FilterBar,
   GoogleMapsView,
 } from '../components';
@@ -23,6 +22,7 @@ import {
   selectAllEvents,
   selectEventLoading,
 } from '../features/events/eventSlice';
+import EventList from '../features/events/EventList';
 import {
   storeInformationFail,
   storeUserPosition,
@@ -38,7 +38,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function EventListPage({ navigation }) {
-  const { user, position, loading } = useSelector((state) => state.loggedUser);
+  const { user, position } = useSelector((state) => state.loggedUser);
 
   const eventList = useSelector(selectAllEvents);
   const isLoading = useSelector(selectEventLoading);

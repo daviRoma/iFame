@@ -33,7 +33,9 @@ export const useGeolocation = (onSuccess, onError) => {
         if (hasPermission) {
           getMyPosition(onSuccess, onError);
         } else {
-          Alert.alert('Attenzione', "Abilita la posizione per usare l'app");
+          Alert.alert('Attenzione', "Abilita la posizione per usare l'app", [
+            { text: 'Ok', onPress: () => checkPermissions() },
+          ]);
         }
       }
     }

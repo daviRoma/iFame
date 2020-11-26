@@ -12,13 +12,14 @@ import { Card, Icon } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { CONTRAST_COLOR } from '../common/theme';
-import { EventList, FloatingButton } from '../components';
+import { FloatingButton } from '../components';
 import {
   getHomeEvents,
   selectAllEvents,
   selectEventLoading,
 } from '../features/events/eventSlice';
 import FoodPrefsModal from '../features/foodCategories/FoodPrefsModal';
+import EventList from '../features/events/EventList';
 import {
   getDistances,
   getReverseGeocoding,

@@ -6,11 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   CustomActivityIndicator,
   ErrorMessage,
-  EventItem,
   FloatingButton,
 } from '../components';
 import { getAllUserEvents } from '../features/myEvents/myEventsSlice';
 import * as Routes from '../routes';
+import EventItem from '../features/events/EventItem';
 
 export default function MyEventsPage({ navigation }) {
   const { myEvents, loading, error } = useSelector((state) => state.myEvents);

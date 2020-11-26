@@ -1,11 +1,16 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, View, Dimensions } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Dimensions,
+  FlatList,
+} from 'react-native';
 
-import { FlatList } from 'react-native-gesture-handler';
-import CustomActivityIndicator from './CustomActivityIndicator';
+import { CustomActivityIndicator } from '../../components';
 import EventItem from './EventItem';
 
-import * as Routes from '../routes';
+import * as Routes from '../../routes';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
