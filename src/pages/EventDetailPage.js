@@ -7,6 +7,7 @@ import { DELETE_COLOR } from '../common/theme';
 import { ErrorMessage } from '../components';
 import { joinEvent, unjoinEvent } from '../features/events/eventSlice';
 import EventDetail from '../features/events/EventDetail';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const EventDetailPage = ({ route }) => {
   const id = route.params.id;
@@ -21,7 +22,7 @@ const EventDetailPage = ({ route }) => {
   return (
     <>
       {event ? (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
           <EventDetail event={event} />
           {event.currentParticipants ? (
             <>
@@ -59,7 +60,7 @@ const EventDetailPage = ({ route }) => {
               loading={loading}
             />
           )}
-        </View>
+        </ScrollView>
       ) : null}
     </>
   );
