@@ -6,6 +6,7 @@ import { DELETE_COLOR } from '../common/theme';
 import { ErrorMessage } from '../components';
 import { deleteEvent } from '../features/myEvents/myEventsSlice';
 import EventDetail from '../features/events/EventDetail';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function MyEventSinglePage({ route, navigation }) {
   const { id } = route.params;
@@ -15,7 +16,7 @@ export default function MyEventSinglePage({ route, navigation }) {
   return (
     <>
       {event ? (
-        <View style={[styles.pageContainer, { paddingBottom: 10 }]}>
+        <ScrollView style={[styles.pageContainer, { paddingBottom: 10 }]}>
           <EventDetail event={event} />
           <Button
             title="Elimina evento"
@@ -25,7 +26,7 @@ export default function MyEventSinglePage({ route, navigation }) {
             buttonStyle={styles.deleteButton}
             loading={loading}
           />
-        </View>
+        </ScrollView>
       ) : (
         <>{error ? <ErrorMessage>{error}</ErrorMessage> : null}</>
       )}
