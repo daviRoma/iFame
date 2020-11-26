@@ -1,0 +1,13 @@
+export const LOGIN = 'LOGIN';
+export const SIGNIN = 'SIGNIG';
+export const HOME = 'HOME';
+export const LIST = 'LIST';
+export const MY_EVENTS = 'MY_EVENTS';
+export const PROFILE = 'PROFILE';
+export const NEW_EVENT_FIRST = 'NEW_EVENT_FIRST';
+export const NEW_EVENT_SECOND = 'NEW_EVENT_SECOND';
+export const SINGLE_EVENT = 'SINGLE_EVENT';
+export const TAB_PAGES = 'TAB_PAGES';
+export const UPDATE_EVENT = 'UPDATE_EVENT';
+export const RESTAURANT_DETAIL = 'RESTAURANT_DETAIL';
+export const MY_EVENT_SINGLE_PAGE = 'MY_EVENT_SINGLE_PAGE';

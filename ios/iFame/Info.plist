@@ -39,8 +39,22 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string></string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string></string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>fonts/Feather.ttf</string>
+		<string>fonts/FontAwesome.ttf</string>
+		<string>fonts/FontAwesome5_Brands.ttf</string>
+		<string>fonts/Ionicons.ttf</string>
+		<string>fonts/Foundation.ttf</string>
+		<string>fonts/MaterialCommunityIcons.ttf</string>
+		<string>fonts/MaterialIcons.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>SplashScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
